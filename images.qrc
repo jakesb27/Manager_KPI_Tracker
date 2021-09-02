@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="images">
+    <file>Meduit_logo.ico</file>
+    <file>Meduit Email.png</file>
+  </qresource>
+</RCC>

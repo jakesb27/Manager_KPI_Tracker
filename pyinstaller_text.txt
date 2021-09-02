@@ -1,0 +1,1 @@
+pyinstaller --onefile --windowed --icon="Meduit_logo.ico" --name="Manager KPI Tracker" main.py
