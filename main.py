@@ -3,8 +3,10 @@ import time
 import getpass
 
 from datetime import datetime, timedelta, date
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QVBoxLayout
+from PyQt5.Qt import Qt
+from PyQt5.QtChart import QChart, QChartView, QValueAxis, QBarCategoryAxis, QBarSet, QBarSeries
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
 
 import kpidb as cmredb
@@ -23,47 +25,46 @@ class Worker(QObject):
 
     # Create signals to be passed to main thread
     finished = pyqtSignal()
-    refresh = pyqtSignal()
-    send_update = pyqtSignal(str, str)
+    refresh_main = pyqtSignal()
+    updt_main_stsbar = pyqtSignal(str, str)
     close_app = pyqtSignal()
 
-    def run(self):
+    # Stop time used to kill loop at 5:40 PM
+    stop_time = datetime.strptime(f'{date.today()} 17:40:00', '%Y-%m-%d %H:%M:%S')
+
+    def start_main_loop(self):
         """Function used to start loop to refresh app every 5 minutes"""
 
-        # Get today's date
-        start_date = date.today()
-        # Stop time used to kill loop at 5:40 PM
-        stop_time = datetime.strptime(f'{start_date} 17:40:00', '%Y-%m-%d %H:%M:%S')
-        while True:
+        business_hours = True
+        while business_hours:
             curr_time = datetime.now()
-            # Adds 5 minutes to calculate next refresh time
-            next_time = datetime.now() + timedelta(minutes=5)
-            # Time remaining until next update
-            count_down = str(next_time - curr_time)
-
-            # Sends signal to main thread's slot connected to 'update_status' function
-            self.send_update.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
-            # Sends signal to main thread's slot connected 'update_users' function
-            self.refresh.emit()
+            next_update = datetime.now() + timedelta(minutes=5)
+            count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > stop_time:
+            if datetime.now() > self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
-                self.send_update.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
-                time.sleep(5)
+                self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
+                self.close_app.emit()
+                time.sleep(10)
                 app.quit()
-
-            # Starts nested loop to countdown number of minutes until next update
-            x = 300
-            while x != 0:
-                time.sleep(1)
-                lapse_time = datetime.now()
-                # Calculates time remaining using 'next_time' defined in outer loop minus current time
-                count_down = str(next_time - lapse_time)
+            else:
                 # Sends signal to main thread's slot connected to 'update_status' function
-                self.send_update.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
-                x -= 1
+                self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
+                # Sends signal to main thread's slot connected 'update_users' function which builds the model
+                self.refresh_main.emit()
+
+                # Starts nested loop to countdown number of minutes until next update
+                x = 300
+                while x != 0:
+                    time.sleep(1)
+                    lapse_time = datetime.now()
+                    # Calculates time remaining using 'next_time' defined in outer loop minus current time
+                    count_down = str(next_update - lapse_time)
+                    # Sends signal to main thread's slot connected to 'update_status' function
+                    self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
+                    x -= 1
 
 
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
@@ -222,24 +223,22 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         # Initialize class attributes
         self.setupUi(self)
 
-        # Adds 0 index placeholder and employees to combobox
-        self.employeeSelect.addItem('- Select Employee -')
         self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in window.all_users])
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
 
         # Triggers the currentIndexChanged event when initializing with the index
         # that matches the employee selected from the main window.
         index = self.employeeSelect.findText(coll)
-        if index >= 0:
+        if index == 0:
+            self.update_info()
+        else:
             self.employeeSelect.setCurrentIndex(index)
-
-        # Removes the 0 index placeholder
-        self.employeeSelect.removeItem(0)
 
     def update_info(self):
         coll = self.employeeSelect.currentText().split(' - ')
         user_id = coll[0]
         self.coll_info(user_id)
+        self.build_mrpcs_graph(user_id)
 
     def coll_info(self, collector):
         # Obtain agent details by calling function in kpidb.py
@@ -293,6 +292,44 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             QLineEdit{
                 background-color: rgb(223, 223, 223);
             }""")
+
+    def build_mrpcs_graph(self, user_id):
+
+        kpi_date = []
+        mrpcs = QBarSet("")
+        data = cmredb.monthly_rpcs(user_id)
+        y_range = 0
+        for item in data:
+            if item[1] > y_range:
+                y_range = item[1]
+            kpi_date.append(f'{item[0][5:7]} - {item[0][:4]}')
+            mrpcs.append(item[1])
+
+        mrpc_series = QBarSeries()
+        mrpc_series.append(mrpcs)
+
+        chart = QChart()
+        chart.addSeries(mrpc_series)
+        chart.setTitle("RPC's Per Month")
+        chart.setAnimationOptions(QChart.SeriesAnimations)
+
+        axisX = QBarCategoryAxis()
+        axisX.append(kpi_date)
+
+        axisY = QValueAxis()
+        axisY.setRange(0, (y_range * 1.2))
+
+        chart.setAxisX(axisX)
+        chart.setAxisY(axisY)
+        mrpc_series.attachAxis(axisX)
+        mrpc_series.attachAxis(axisY)
+
+        chart.legend().setVisible(False)
+
+        chartview = QChartView(chart)
+        layout = QHBoxLayout()
+        layout.addWidget(chartview)
+        self.monthRPCbox.setLayout(layout)
 
 
 class Window(QMainWindow, Ui_managerMain):
@@ -359,14 +396,15 @@ class Window(QMainWindow, Ui_managerMain):
         # Pass worker to thread for handling
         self.worker.moveToThread(self.thread)
         # Connect default signals and slots
-        self.thread.started.connect(self.worker.run)
+        self.thread.started.connect(self.worker.start_main_loop)
         self.worker.finished.connect(self.thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
 
         # Connect app specific signals and slots
-        self.worker.refresh.connect(self.update_users)
-        self.worker.send_update.connect(self.update_status)
+        self.worker.refresh_main.connect(self.update_users)
+        self.worker.updt_main_stsbar.connect(self.update_status)
+        self.worker.close_app.connect(self.closing_time)
 
         # Start the thread
         self.thread.start()
@@ -485,6 +523,19 @@ class Window(QMainWindow, Ui_managerMain):
 
         emp_main = EmployeeMaintenance(self.all_users)
         emp_main.exec_()
+
+    def closing_time(self):
+        msg = QMessageBox()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/images/Meduit_logo.ico"), QIcon.Normal, QIcon.Off)
+        msg.setWindowIcon(icon)
+        msg.setIcon(QMessageBox.Question)
+        msg.setText("It's now 5:40 and time to stop working.\nDon't you agree?")
+        msg.setWindowTitle("Closing Time")
+        msg.setStandardButtons(QMessageBox.Ok)
+        return_value = msg.exec()
+        if return_value == QMessageBox.Ok:
+            app.quit()
 
 
 if __name__ == "__main__":
