@@ -36,13 +36,6 @@ class EmployeeGraph:
         self.layout = QHBoxLayout()
         self.layout.addWidget(self.chartview)
 
-    def bar_hover(self, active, index):
-        if active:
-            value = self.bar_values.at(index)
-            self.chart.setToolTip(str(value))
-        else:
-            self.chart.setToolTip("")
-
 
 class Worker(QObject):
     """Worker class that is threaded using QThread."""
@@ -327,12 +320,19 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
     def build_mrpcs_graph(self, user_id):
 
+        def bar_hover(active, index):
+            if active:
+                value = bar_values.at(index)
+                self.month_rpc_gp.chart.setToolTip(str(value))
+            else:
+                self.month_rpc_gp.chart.setToolTip("")
+
         self.month_rpc_gp.chart.removeAllSeries()
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisY)
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisX)
 
         bar_values = QtChart.QBarSet("")
-        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
+        bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.monthly_rpcs(user_id)
@@ -360,12 +360,19 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
     def build_wrpcs_graph(self, user_id):
 
+        def bar_hover(active, index):
+            if active:
+                value = bar_values.at(index)
+                self.week_rpc_gp.chart.setToolTip(str(value))
+            else:
+                self.week_rpc_gp.chart.setToolTip("")
+
         self.week_rpc_gp.chart.removeAllSeries()
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisY)
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisX)
 
         bar_values = QtChart.QBarSet("")
-        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
+        bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.weekly_rpcs(user_id)
@@ -392,12 +399,19 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
     def build_mconv_graph(self, user_id):
 
+        def bar_hover(active, index):
+            if active:
+                value = bar_values.at(index)
+                self.month_conv_gp.chart.setToolTip('{0:.0f}%'.format(value))
+            else:
+                self.month_conv_gp.chart.setToolTip("")
+
         self.month_conv_gp.chart.removeAllSeries()
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisY)
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisX)
 
         bar_values = QtChart.QBarSet("")
-        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
+        bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.monthly_conv(user_id)
@@ -414,7 +428,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.month_conv_gp.chart.addSeries(series)
         self.month_conv_gp.axisX.append(x_values)
         self.month_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
-        self.month_conv_gp.axisY.setLabelFormat("%0.1f %%")
+        self.month_conv_gp.axisY.setLabelFormat("%0.0f %%")
 
         self.month_conv_gp.chart.setAxisX(self.month_conv_gp.axisX)
         self.month_conv_gp.chart.setAxisY(self.month_conv_gp.axisY)
@@ -425,12 +439,19 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
     
     def build_wconv_graph(self, user_id):
 
+        def bar_hover(active, index):
+            if active:
+                value = bar_values.at(index)
+                self.week_conv_gp.chart.setToolTip('{0:.0f}%'.format(value))
+            else:
+                self.week_conv_gp.chart.setToolTip("")
+
         self.week_conv_gp.chart.removeAllSeries()
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisY)
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisX)
 
         bar_values = QtChart.QBarSet("")
-        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
+        bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.weekly_conv(user_id)
@@ -447,7 +468,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.week_conv_gp.chart.addSeries(series)
         self.week_conv_gp.axisX.append(x_values)
         self.week_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
-        self.week_conv_gp.axisY.setLabelFormat("%0.1f %%")
+        self.week_conv_gp.axisY.setLabelFormat("%0.0f %%")
 
         self.week_conv_gp.chart.setAxisX(self.week_conv_gp.axisX)
         self.week_conv_gp.chart.setAxisY(self.week_conv_gp.axisY)
