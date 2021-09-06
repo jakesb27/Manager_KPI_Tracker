@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_agentDetailsMain(object):
     def setupUi(self, agentDetailsMain):
         agentDetailsMain.setObjectName("agentDetailsMain")
-        agentDetailsMain.resize(714, 841)
+        agentDetailsMain.resize(920, 841)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentDetailsMain.setWindowIcon(icon)
@@ -238,21 +238,117 @@ class Ui_agentDetailsMain(object):
         self.gridLayout_5 = QtWidgets.QGridLayout()
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.weekRPCbox = QtWidgets.QGroupBox(agentDetailsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.weekRPCbox.sizePolicy().hasHeightForWidth())
+        self.weekRPCbox.setSizePolicy(sizePolicy)
+        self.weekRPCbox.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
+        self.weekRPCbox.setTitle("")
         self.weekRPCbox.setObjectName("weekRPCbox")
         self.gridLayout_5.addWidget(self.weekRPCbox, 0, 1, 1, 1)
-        self.weekConvBox = QtWidgets.QGroupBox(agentDetailsMain)
-        self.weekConvBox.setObjectName("weekConvBox")
-        self.gridLayout_5.addWidget(self.weekConvBox, 1, 1, 1, 1)
         self.monthConvBox = QtWidgets.QGroupBox(agentDetailsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.monthConvBox.sizePolicy().hasHeightForWidth())
+        self.monthConvBox.setSizePolicy(sizePolicy)
+        self.monthConvBox.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
+        self.monthConvBox.setTitle("")
         self.monthConvBox.setObjectName("monthConvBox")
         self.gridLayout_5.addWidget(self.monthConvBox, 1, 0, 1, 1)
+        self.weekConvBox = QtWidgets.QGroupBox(agentDetailsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.weekConvBox.sizePolicy().hasHeightForWidth())
+        self.weekConvBox.setSizePolicy(sizePolicy)
+        self.weekConvBox.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
+        self.weekConvBox.setTitle("")
+        self.weekConvBox.setObjectName("weekConvBox")
+        self.gridLayout_5.addWidget(self.weekConvBox, 1, 1, 1, 1)
         self.monthRPCbox = QtWidgets.QGroupBox(agentDetailsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.monthRPCbox.sizePolicy().hasHeightForWidth())
+        self.monthRPCbox.setSizePolicy(sizePolicy)
+        self.monthRPCbox.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
         self.monthRPCbox.setTitle("")
         self.monthRPCbox.setObjectName("monthRPCbox")
         self.gridLayout_5.addWidget(self.monthRPCbox, 0, 0, 1, 1)
-        self.totalsBox = QtWidgets.QGroupBox(agentDetailsMain)
-        self.totalsBox.setObjectName("totalsBox")
-        self.gridLayout_5.addWidget(self.totalsBox, 2, 0, 1, 2)
         self.gridLayout_2.addLayout(self.gridLayout_5, 2, 0, 1, 2)
         self.groupBox = QtWidgets.QGroupBox(agentDetailsMain)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
@@ -479,10 +575,6 @@ class Ui_agentDetailsMain(object):
         self.label_5.setText(_translate("agentDetailsMain", "MTD Interest:"))
         self.label_2.setText(_translate("agentDetailsMain", "Desk:"))
         self.label_3.setText(_translate("agentDetailsMain", "Goal:"))
-        self.weekRPCbox.setTitle(_translate("agentDetailsMain", "Weekly RPC\'s"))
-        self.weekConvBox.setTitle(_translate("agentDetailsMain", "Weekly Conv%"))
-        self.monthConvBox.setTitle(_translate("agentDetailsMain", "Monthly Conv%"))
-        self.totalsBox.setTitle(_translate("agentDetailsMain", "Desk Totals"))
         self.groupBox.setTitle(_translate("agentDetailsMain", "KPI Goals"))
         self.label_14.setText(_translate("agentDetailsMain", "Base Value:"))
         self.label_16.setText(_translate("agentDetailsMain", "Base Value:"))

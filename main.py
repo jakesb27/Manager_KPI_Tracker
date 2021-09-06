@@ -1,11 +1,12 @@
 import sys
 import time
 import getpass
+import math
 
 from datetime import datetime, timedelta, date
 from PyQt5.Qt import Qt
 from PyQt5.QtChart import QChart, QChartView, QValueAxis, QBarCategoryAxis, QBarSet, QBarSeries
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
 
@@ -18,6 +19,32 @@ from agent_maintenance import Ui_agentMaintenance
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
 managers = cmredb.managers()
+
+
+class EmployeeGraph:
+
+    def __init__(self, title):
+        self.chart = QChart()
+        self.chart.setTitle(title)
+        self.title_font = QFont("MS Shell Dig 2", 12, 1)
+        self.chart.setTitleFont(self.title_font)
+        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+        self.chart.legend().setVisible(False)
+        self.bar_values = QBarSet("")
+        self.axisY = QValueAxis()
+        self.axisX = QBarCategoryAxis()
+        self.chartview = QChartView(self.chart)
+        self.layout = QHBoxLayout()
+        self.layout.addWidget(self.chartview)
+
+        self.bar_values.hovered.connect(self.bar_hover)
+
+    def bar_hover(self, active, index):
+        if active:
+            value = self.bar_values.at(index)
+            self.chart.setToolTip(str(value))
+        else:
+            self.chart.setToolTip("")
 
 
 class Worker(QObject):
@@ -42,7 +69,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() < self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -216,12 +243,17 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
 
 
 class AgentDetails(QDialog, Ui_agentDetailsMain):
-    """Class the displays an agents details not shown in the MainWindow."""
+    """Class that displays an agents details not shown in the MainWindow."""
 
     def __init__(self, coll):
         super().__init__()
         # Initialize class attributes
         self.setupUi(self)
+
+        self.month_rpc_gp = EmployeeGraph("Monthly RPC's")
+        self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
+        self.month_conv_gp = EmployeeGraph("Monthly Conv. Rate")
+        self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
 
         self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in window.all_users])
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
@@ -239,6 +271,9 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         user_id = coll[0]
         self.coll_info(user_id)
         self.build_mrpcs_graph(user_id)
+        self.build_wrpcs_graph(user_id)
+        self.build_mconv_graph(user_id)
+        self.build_wconv_graph(user_id)
 
     def coll_info(self, collector):
         # Obtain agent details by calling function in kpidb.py
@@ -295,42 +330,125 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
     def build_mrpcs_graph(self, user_id):
 
-        kpi_date = []
-        mrpcs = QBarSet("")
+        self.month_rpc_gp.chart.removeAllSeries()
+        self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisY)
+        self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisX)
+
+        x_values = []
+        y_max = 0
         data = cmredb.monthly_rpcs(user_id)
-        y_range = 0
         for item in data:
-            if item[1] > y_range:
-                y_range = item[1]
-            kpi_date.append(f'{item[0][5:7]} - {item[0][:4]}')
-            mrpcs.append(item[1])
+            if item[1] > y_max:
+                y_max = item[1]
+            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
+            x_values.append(frmt_date)
+            self.month_rpc_gp.bar_values.append(item[1])
 
-        mrpc_series = QBarSeries()
-        mrpc_series.append(mrpcs)
+        series = QBarSeries()
+        series.append(self.month_rpc_gp.bar_values)
 
-        chart = QChart()
-        chart.addSeries(mrpc_series)
-        chart.setTitle("RPC's Per Month")
-        chart.setAnimationOptions(QChart.SeriesAnimations)
+        self.month_rpc_gp.chart.addSeries(series)
+        self.month_rpc_gp.axisX.append(x_values)
+        self.month_rpc_gp.axisY.setRange(0, math.ceil(y_max) + 1)
+        self.month_rpc_gp.axisY.setTickCount(1)
 
-        axisX = QBarCategoryAxis()
-        axisX.append(kpi_date)
+        self.month_rpc_gp.chart.setAxisX(self.month_rpc_gp.axisX)
+        self.month_rpc_gp.chart.setAxisY(self.month_rpc_gp.axisY)
+        series.attachAxis(self.month_rpc_gp.axisX)
+        series.attachAxis(self.month_rpc_gp.axisY)
 
-        axisY = QValueAxis()
-        axisY.setRange(0, (y_range * 1.2))
+        self.monthRPCbox.setLayout(self.month_rpc_gp.layout)
 
-        chart.setAxisX(axisX)
-        chart.setAxisY(axisY)
-        mrpc_series.attachAxis(axisX)
-        mrpc_series.attachAxis(axisY)
+    def build_wrpcs_graph(self, user_id):
 
-        chart.legend().setVisible(False)
+        self.week_rpc_gp.chart.removeAllSeries()
+        self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisY)
+        self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisX)
 
-        chartview = QChartView(chart)
-        layout = QHBoxLayout()
-        layout.addWidget(chartview)
-        self.monthRPCbox.setLayout(layout)
+        x_values = []
+        y_max = 0
+        data = cmredb.weekly_rpcs(user_id)
+        for item in data:
+            if item[1] > y_max:
+                y_max = item[1]
+            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
+            x_values.append(frmt_date)
+            self.week_rpc_gp.bar_values.append(item[1])
 
+        series = QBarSeries()
+        series.append(self.week_rpc_gp.bar_values)
+
+        self.week_rpc_gp.chart.addSeries(series)
+        self.week_rpc_gp.axisX.append(x_values)
+        self.week_rpc_gp.axisY.setRange(0, math.ceil(y_max) + 1)
+
+        self.week_rpc_gp.chart.setAxisX(self.week_rpc_gp.axisX)
+        self.week_rpc_gp.chart.setAxisY(self.week_rpc_gp.axisY)
+        series.attachAxis(self.week_rpc_gp.axisX)
+        series.attachAxis(self.week_rpc_gp.axisY)
+
+        self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
+
+    def build_mconv_graph(self, user_id):
+        self.month_conv_gp.chart.removeAllSeries()
+        self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisY)
+        self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisX)
+
+        x_values = []
+        y_max = 0
+        data = cmredb.monthly_conv(user_id)
+        for item in data:
+            if item[1] > y_max:
+                y_max = item[1]
+            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
+            x_values.append(frmt_date)
+            self.month_conv_gp.bar_values.append(item[1] * 100)
+
+        series = QBarSeries()
+        series.append(self.month_conv_gp.bar_values)
+
+        self.month_conv_gp.chart.addSeries(series)
+        self.month_conv_gp.axisX.append(x_values)
+        self.month_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
+        self.month_conv_gp.axisY.setLabelFormat("%0.1f %%")
+
+        self.month_conv_gp.chart.setAxisX(self.month_conv_gp.axisX)
+        self.month_conv_gp.chart.setAxisY(self.month_conv_gp.axisY)
+        series.attachAxis(self.month_conv_gp.axisX)
+        series.attachAxis(self.month_conv_gp.axisY)
+
+        self.monthConvBox.setLayout(self.month_conv_gp.layout)
+    
+    def build_wconv_graph(self, user_id):
+        self.week_conv_gp.chart.removeAllSeries()
+        self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisY)
+        self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisX)
+
+        x_values = []
+        y_max = 0
+        data = cmredb.weekly_conv(user_id)
+        for item in data:
+            if item[1] > y_max:
+                y_max = item[1]
+            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
+            x_values.append(frmt_date)
+            self.week_conv_gp.bar_values.append(item[1] * 100)
+
+        series = QBarSeries()
+        series.append(self.week_conv_gp.bar_values)
+
+        self.week_conv_gp.chart.addSeries(series)
+        self.week_conv_gp.axisX.append(x_values)
+        self.week_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
+        self.week_conv_gp.axisY.setLabelFormat("%0.1f %%")
+
+        self.week_conv_gp.chart.setAxisX(self.week_conv_gp.axisX)
+        self.week_conv_gp.chart.setAxisY(self.week_conv_gp.axisY)
+        series.attachAxis(self.week_conv_gp.axisX)
+        series.attachAxis(self.week_conv_gp.axisY)
+
+        self.weekConvBox.setLayout(self.week_conv_gp.layout)
+        
 
 class Window(QMainWindow, Ui_managerMain):
     """Main tracker window that Managers use to track Agent's current KPI's"""

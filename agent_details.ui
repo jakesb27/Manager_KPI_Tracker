@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>714</width>
+    <width>920</width>
     <height>841</height>
    </rect>
   </property>
@@ -341,36 +341,137 @@ p, li { white-space: pre-wrap; }
     <layout class="QGridLayout" name="gridLayout_5">
      <item row="0" column="1">
       <widget class="QGroupBox" name="weekRPCbox">
-       <property name="title">
-        <string>Weekly RPC's</string>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QGroupBox" name="weekConvBox">
-       <property name="title">
-        <string>Weekly Conv%</string>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
        </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QGroupBox" name="monthConvBox">
-       <property name="title">
-        <string>Monthly Conv%</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QGroupBox" name="monthRPCbox">
        <property name="title">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" colspan="2">
-      <widget class="QGroupBox" name="totalsBox">
+     <item row="1" column="0">
+      <widget class="QGroupBox" name="monthConvBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+       </property>
        <property name="title">
-        <string>Desk Totals</string>
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QGroupBox" name="weekConvBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+       </property>
+       <property name="title">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QGroupBox" name="monthRPCbox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+       </property>
+       <property name="title">
+        <string/>
        </property>
       </widget>
      </item>

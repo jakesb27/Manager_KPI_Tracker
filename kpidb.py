@@ -102,6 +102,43 @@ ORDER BY
     WEEK_DATE ASC
 """
 
+monthly_conv_sql = """
+SELECT *
+FROM(
+    SELECT
+        KPI_DATE,
+        CONV_RATE
+    FROM
+        MONTHLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        KPI_DATE DESC
+    LIMIT 6
+    )
+ORDER BY
+    KPI_DATE ASC
+"""
+
+
+weekly_conv_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        CONV_RATE
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -187,6 +224,24 @@ def weekly_rpcs(collector):
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(weekly_rpcs_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def monthly_conv(collector):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(monthly_conv_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def weekly_conv(collector):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_conv_sql, (collector, ))
     rows = cur.fetchall()
     conn.close()
     return rows
