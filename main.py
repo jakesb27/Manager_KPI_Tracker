@@ -30,14 +30,11 @@ class EmployeeGraph:
         self.chart.setTitleFont(self.title_font)
         self.chart.setAnimationOptions(QtChart.QChart.SeriesAnimations)
         self.chart.legend().setVisible(False)
-        self.bar_values = QtChart.QBarSet("")
         self.axisY = QtChart.QValueAxis()
         self.axisX = QtChart.QBarCategoryAxis()
         self.chartview = QtChart.QChartView(self.chart)
         self.layout = QHBoxLayout()
         self.layout.addWidget(self.chartview)
-
-        self.bar_values.hovered.connect(self.bar_hover)
 
     def bar_hover(self, active, index):
         if active:
@@ -334,6 +331,8 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisY)
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisX)
 
+        bar_values = QtChart.QBarSet("")
+        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.monthly_rpcs(user_id)
@@ -342,10 +341,10 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
                 y_max = item[1]
             frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
             x_values.append(frmt_date)
-            self.month_rpc_gp.bar_values.append(item[1])
+            bar_values.append(item[1])
 
         series = QtChart.QBarSeries()
-        series.append(self.month_rpc_gp.bar_values)
+        series.append(bar_values)
 
         self.month_rpc_gp.chart.addSeries(series)
         self.month_rpc_gp.axisX.append(x_values)
@@ -365,6 +364,8 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisY)
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisX)
 
+        bar_values = QtChart.QBarSet("")
+        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.weekly_rpcs(user_id)
@@ -373,10 +374,10 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
                 y_max = item[1]
             frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
             x_values.append(frmt_date)
-            self.week_rpc_gp.bar_values.append(item[1])
+            bar_values.append(item[1])
 
         series = QtChart.QBarSeries()
-        series.append(self.week_rpc_gp.bar_values)
+        series.append(bar_values)
 
         self.week_rpc_gp.chart.addSeries(series)
         self.week_rpc_gp.axisX.append(x_values)
@@ -390,10 +391,13 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
 
     def build_mconv_graph(self, user_id):
+
         self.month_conv_gp.chart.removeAllSeries()
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisY)
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisX)
 
+        bar_values = QtChart.QBarSet("")
+        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.monthly_conv(user_id)
@@ -402,10 +406,10 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
                 y_max = item[1]
             frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
             x_values.append(frmt_date)
-            self.month_conv_gp.bar_values.append(item[1] * 100)
+            bar_values.append(item[1] * 100)
 
         series = QtChart.QBarSeries()
-        series.append(self.month_conv_gp.bar_values)
+        series.append(bar_values)
 
         self.month_conv_gp.chart.addSeries(series)
         self.month_conv_gp.axisX.append(x_values)
@@ -420,10 +424,13 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.monthConvBox.setLayout(self.month_conv_gp.layout)
     
     def build_wconv_graph(self, user_id):
+
         self.week_conv_gp.chart.removeAllSeries()
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisY)
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisX)
 
+        bar_values = QtChart.QBarSet("")
+        # bar_values.hovered.connect(self.month_rpc_gp.bar_hover)
         x_values = []
         y_max = 0
         data = cmredb.weekly_conv(user_id)
@@ -432,10 +439,10 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
                 y_max = item[1]
             frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
             x_values.append(frmt_date)
-            self.week_conv_gp.bar_values.append(item[1] * 100)
+            bar_values.append(item[1] * 100)
 
         series = QtChart.QBarSeries()
-        series.append(self.week_conv_gp.bar_values)
+        series.append(bar_values)
 
         self.week_conv_gp.chart.addSeries(series)
         self.week_conv_gp.axisX.append(x_values)
