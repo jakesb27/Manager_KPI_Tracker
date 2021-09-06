@@ -3,9 +3,9 @@ import time
 import getpass
 import math
 
+from PyQt5 import QtChart
 from datetime import datetime, timedelta, date
 from PyQt5.Qt import Qt
-from PyQt5.QtChart import QChart, QChartView, QValueAxis, QBarCategoryAxis, QBarSet, QBarSeries
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
@@ -24,16 +24,16 @@ managers = cmredb.managers()
 class EmployeeGraph:
 
     def __init__(self, title):
-        self.chart = QChart()
+        self.chart = QtChart.QChart()
         self.chart.setTitle(title)
         self.title_font = QFont("MS Shell Dig 2", 12, 1)
         self.chart.setTitleFont(self.title_font)
-        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+        self.chart.setAnimationOptions(QtChart.QChart.SeriesAnimations)
         self.chart.legend().setVisible(False)
-        self.bar_values = QBarSet("")
-        self.axisY = QValueAxis()
-        self.axisX = QBarCategoryAxis()
-        self.chartview = QChartView(self.chart)
+        self.bar_values = QtChart.QBarSet("")
+        self.axisY = QtChart.QValueAxis()
+        self.axisX = QtChart.QBarCategoryAxis()
+        self.chartview = QtChart.QChartView(self.chart)
         self.layout = QHBoxLayout()
         self.layout.addWidget(self.chartview)
 
@@ -69,7 +69,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() < self.stop_time:
+            if datetime.now() > self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -344,7 +344,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             self.month_rpc_gp.bar_values.append(item[1])
 
-        series = QBarSeries()
+        series = QtChart.QBarSeries()
         series.append(self.month_rpc_gp.bar_values)
 
         self.month_rpc_gp.chart.addSeries(series)
@@ -375,7 +375,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             self.week_rpc_gp.bar_values.append(item[1])
 
-        series = QBarSeries()
+        series = QtChart.QBarSeries()
         series.append(self.week_rpc_gp.bar_values)
 
         self.week_rpc_gp.chart.addSeries(series)
@@ -404,7 +404,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             self.month_conv_gp.bar_values.append(item[1] * 100)
 
-        series = QBarSeries()
+        series = QtChart.QBarSeries()
         series.append(self.month_conv_gp.bar_values)
 
         self.month_conv_gp.chart.addSeries(series)
@@ -434,7 +434,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             self.week_conv_gp.bar_values.append(item[1] * 100)
 
-        series = QBarSeries()
+        series = QtChart.QBarSeries()
         series.append(self.week_conv_gp.bar_values)
 
         self.week_conv_gp.chart.addSeries(series)
