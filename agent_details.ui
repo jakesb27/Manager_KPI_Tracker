@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>Meduit_logo.ico</normaloff>Meduit_logo.ico</iconset>
+    <normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QDialog{
