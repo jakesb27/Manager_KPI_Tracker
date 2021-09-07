@@ -126,7 +126,6 @@ class Ui_managerMain(object):
         self.label_3.setText(_translate("managerMain", "Double Click user to see additional details."))
         self.menuFile.setTitle(_translate("managerMain", "File"))
         self.actionEmployee_Maintenance.setText(_translate("managerMain", "Employee Maintenance"))
-import images_rc
 
 
 if __name__ == "__main__":
