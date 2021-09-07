@@ -1,11 +1,11 @@
 import sys
 import time
 import getpass
-import math
 
-from PyQt5 import QtChart
+
 from datetime import datetime, timedelta, date
-from PyQt5.Qt import Qt
+from math import ceil
+from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis, QBarCategoryAxis
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
@@ -19,22 +19,6 @@ from agent_maintenance import Ui_agentMaintenance
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
 managers = cmredb.managers()
-
-
-class EmployeeGraph:
-
-    def __init__(self, title):
-        self.chart = QtChart.QChart()
-        self.chart.setTitle(title)
-        self.title_font = QFont("MS Shell Dig 2", 12, 1)
-        self.chart.setTitleFont(self.title_font)
-        self.chart.setAnimationOptions(QtChart.QChart.SeriesAnimations)
-        self.chart.legend().setVisible(False)
-        self.axisY = QtChart.QValueAxis()
-        self.axisX = QtChart.QBarCategoryAxis()
-        self.chartview = QtChart.QChartView(self.chart)
-        self.layout = QHBoxLayout()
-        self.layout.addWidget(self.chartview)
 
 
 class Worker(QObject):
@@ -59,7 +43,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() < self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -85,7 +69,7 @@ class Worker(QObject):
 
 
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
-
+    """Employee Maintenance screen used to update and change employee information."""
     def __init__(self, users):
         super().__init__()
         self.setupUi(self)
@@ -232,6 +216,23 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.close()
 
 
+class EmployeeGraph:
+    """Class used to create a graph template for the Employee Details."""
+
+    def __init__(self, title):
+        self.chart = QChart()
+        self.chart.setTitle(title)
+        self.title_font = QFont("MS Shell Dig 2", 12, 1)
+        self.chart.setTitleFont(self.title_font)
+        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+        self.chart.legend().setVisible(False)
+        self.axisY = QValueAxis()
+        self.axisX = QBarCategoryAxis()
+        self.chartview = QChartView(self.chart)
+        self.layout = QHBoxLayout()
+        self.layout.addWidget(self.chartview)
+
+
 class AgentDetails(QDialog, Ui_agentDetailsMain):
     """Class that displays an agents details not shown in the MainWindow."""
 
@@ -331,7 +332,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisY)
         self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisX)
 
-        bar_values = QtChart.QBarSet("")
+        bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
@@ -343,12 +344,12 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             bar_values.append(item[1])
 
-        series = QtChart.QBarSeries()
+        series = QBarSeries()
         series.append(bar_values)
 
         self.month_rpc_gp.chart.addSeries(series)
         self.month_rpc_gp.axisX.append(x_values)
-        self.month_rpc_gp.axisY.setRange(0, math.ceil(y_max) + 1)
+        self.month_rpc_gp.axisY.setRange(0, ceil(y_max) + 1)
         self.month_rpc_gp.axisY.setTickCount(1)
 
         self.month_rpc_gp.chart.setAxisX(self.month_rpc_gp.axisX)
@@ -371,7 +372,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisY)
         self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisX)
 
-        bar_values = QtChart.QBarSet("")
+        bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
@@ -383,12 +384,12 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             bar_values.append(item[1])
 
-        series = QtChart.QBarSeries()
+        series = QBarSeries()
         series.append(bar_values)
 
         self.week_rpc_gp.chart.addSeries(series)
         self.week_rpc_gp.axisX.append(x_values)
-        self.week_rpc_gp.axisY.setRange(0, math.ceil(y_max) + 1)
+        self.week_rpc_gp.axisY.setRange(0, ceil(y_max) + 1)
 
         self.week_rpc_gp.chart.setAxisX(self.week_rpc_gp.axisX)
         self.week_rpc_gp.chart.setAxisY(self.week_rpc_gp.axisY)
@@ -410,7 +411,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisY)
         self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisX)
 
-        bar_values = QtChart.QBarSet("")
+        bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
@@ -422,7 +423,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             bar_values.append(item[1] * 100)
 
-        series = QtChart.QBarSeries()
+        series = QBarSeries()
         series.append(bar_values)
 
         self.month_conv_gp.chart.addSeries(series)
@@ -450,7 +451,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisY)
         self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisX)
 
-        bar_values = QtChart.QBarSet("")
+        bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
         x_values = []
         y_max = 0
@@ -462,7 +463,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             x_values.append(frmt_date)
             bar_values.append(item[1] * 100)
 
-        series = QtChart.QBarSeries()
+        series = QBarSeries()
         series.append(bar_values)
 
         self.week_conv_gp.chart.addSeries(series)
@@ -694,7 +695,7 @@ if __name__ == "__main__":
         app = QApplication(sys.argv)
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
-        msg.setText("You do not have access to this application.")
+        msg.setText("You do not have access to this application.\n To gain access, please reach out Jake Boden x104.")
         msg.setWindowTitle("Access Denied")
         msg.show()
         sys.exit(app.exec_())
