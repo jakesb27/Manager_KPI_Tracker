@@ -252,6 +252,7 @@ class EmployeeGraph:
 
         # Resets the axes and series of the graph
         self.chart.removeAllSeries()
+        self.axisX.clear()
         self.chart.removeAxis(self.axisY)
         self.chart.removeAxis(self.axisX)
 
