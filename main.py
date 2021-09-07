@@ -33,7 +33,7 @@ class Worker(QObject):
     # Stop time used to kill loop at 5:40 PM
     stop_time = datetime.strptime(f'{date.today()} 17:40:00', '%Y-%m-%d %H:%M:%S')
 
-    def start_main_loop(self):
+    def start_worker_loop(self):
         """Function used to start loop to refresh app every 5 minutes"""
 
         business_hours = True
@@ -226,11 +226,82 @@ class EmployeeGraph:
         self.chart.setTitleFont(self.title_font)
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
         self.chart.legend().setVisible(False)
+        self.chartview = QChartView(self.chart)
+
         self.axisY = QValueAxis()
         self.axisX = QBarCategoryAxis()
-        self.chartview = QChartView(self.chart)
+
         self.layout = QHBoxLayout()
         self.layout.addWidget(self.chartview)
+
+    def build_graph(self, user_id, month, rpc):
+
+        def bar_hover(active, index):
+            if active:
+                value = bar_values.at(index)
+                if rpc == "yes":
+                    self.chart.setToolTip(str(value))
+                if rpc == "no":
+                    self.chart.setToolTip('{0:.0f}%'.format(value))
+            else:
+                self.chart.setToolTip("")
+
+        self.chart.removeAllSeries()
+        self.chart.removeAxis(self.axisY)
+        self.chart.removeAxis(self.axisX)
+
+        x_values = []
+        y_max = 0
+        coll_data = None
+
+        bar_values = QBarSet("")
+        bar_values.hovered.connect(bar_hover)
+
+        if month == "yes" and rpc == "yes":
+            coll_data = cmredb.monthly_rpcs(user_id)
+
+        elif month == "no" and rpc == "yes":
+            coll_data = cmredb.weekly_rpcs(user_id)
+
+        elif month == "yes" and rpc == "no":
+            coll_data = cmredb.monthly_conv(user_id)
+
+        elif month == "no" and rpc == "no":
+            coll_data = cmredb.weekly_conv(user_id)
+
+        for item in coll_data:
+            if item[1] > y_max:
+                y_max = item[1]
+
+            if month == "yes":
+                frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
+                x_values.append(frmt_date)
+            elif month == "no":
+                frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
+                x_values.append(frmt_date)
+
+            if rpc == "yes":
+                bar_values.append(item[1])
+            if rpc == "no":
+                bar_values.append(item[1] * 100)
+
+        series = QBarSeries()
+        series.append(bar_values)
+
+        self.chart.addSeries(series)
+        self.axisX.append(x_values)
+
+        if rpc == "yes":
+            self.axisY.setRange(0, ceil(y_max) + 1)
+            self.axisY.setTickCount(1)
+        elif rpc == "no":
+            self.axisY.setRange(0, (y_max + .1) * 100)
+            self.axisY.setLabelFormat("%0.0f %%")
+
+        self.chart.setAxisX(self.axisX)
+        self.chart.setAxisY(self.axisY)
+        series.attachAxis(self.axisX)
+        series.attachAxis(self.axisY)
 
 
 class AgentDetails(QDialog, Ui_agentDetailsMain):
@@ -240,11 +311,16 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         super().__init__()
         # Initialize class attributes
         self.setupUi(self)
+        self.user_id = ""
 
         self.month_rpc_gp = EmployeeGraph("Monthly RPC's")
+        self.monthRPCbox.setLayout(self.month_rpc_gp.layout)
         self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
+        self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
         self.month_conv_gp = EmployeeGraph("Monthly Conv. Rate")
+        self.monthConvBox.setLayout(self.month_conv_gp.layout)
         self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
+        self.weekConvBox.setLayout(self.week_conv_gp.layout)
 
         self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in window.all_users])
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
@@ -259,18 +335,18 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
     def update_info(self):
         coll = self.employeeSelect.currentText().split(' - ')
-        user_id = coll[0]
-        self.coll_info(user_id)
-        self.build_mrpcs_graph(user_id)
-        self.build_wrpcs_graph(user_id)
-        self.build_mconv_graph(user_id)
-        self.build_wconv_graph(user_id)
+        self.user_id = coll[0]
+        self.coll_info()
+        self.month_rpc_gp.build_graph(self.user_id, month="yes", rpc="yes")
+        self.week_rpc_gp.build_graph(self.user_id, month="no", rpc="yes")
+        self.month_conv_gp.build_graph(self.user_id, month="yes", rpc="no")
+        self.week_conv_gp.build_graph(self.user_id, month="no", rpc="no")
 
-    def coll_info(self, collector):
+    def coll_info(self):
         # Obtain agent details by calling function in kpidb.py
-        details = cmredb.coll_details(collector)
+        details = cmredb.coll_details(self.user_id)
         # Obtain agent's current KPI's
-        curr_kpis = cmredb.daily_kpis(collector)
+        curr_kpis = cmredb.daily_kpis(self.user_id)
         # Converts results from a tuple to a list
         coll_details = list(details)
         # Obtain desk details from Oracle DB
@@ -318,165 +394,6 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             QLineEdit{
                 background-color: rgb(223, 223, 223);
             }""")
-
-    def build_mrpcs_graph(self, user_id):
-
-        def bar_hover(active, index):
-            if active:
-                value = bar_values.at(index)
-                self.month_rpc_gp.chart.setToolTip(str(value))
-            else:
-                self.month_rpc_gp.chart.setToolTip("")
-
-        self.month_rpc_gp.chart.removeAllSeries()
-        self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisY)
-        self.month_rpc_gp.chart.removeAxis(self.month_rpc_gp.axisX)
-
-        bar_values = QBarSet("")
-        bar_values.hovered.connect(bar_hover)
-        x_values = []
-        y_max = 0
-        data = cmredb.monthly_rpcs(user_id)
-        for item in data:
-            if item[1] > y_max:
-                y_max = item[1]
-            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
-            x_values.append(frmt_date)
-            bar_values.append(item[1])
-
-        series = QBarSeries()
-        series.append(bar_values)
-
-        self.month_rpc_gp.chart.addSeries(series)
-        self.month_rpc_gp.axisX.append(x_values)
-        self.month_rpc_gp.axisY.setRange(0, ceil(y_max) + 1)
-        self.month_rpc_gp.axisY.setTickCount(1)
-
-        self.month_rpc_gp.chart.setAxisX(self.month_rpc_gp.axisX)
-        self.month_rpc_gp.chart.setAxisY(self.month_rpc_gp.axisY)
-        series.attachAxis(self.month_rpc_gp.axisX)
-        series.attachAxis(self.month_rpc_gp.axisY)
-
-        self.monthRPCbox.setLayout(self.month_rpc_gp.layout)
-
-    def build_wrpcs_graph(self, user_id):
-
-        def bar_hover(active, index):
-            if active:
-                value = bar_values.at(index)
-                self.week_rpc_gp.chart.setToolTip(str(value))
-            else:
-                self.week_rpc_gp.chart.setToolTip("")
-
-        self.week_rpc_gp.chart.removeAllSeries()
-        self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisY)
-        self.week_rpc_gp.chart.removeAxis(self.week_rpc_gp.axisX)
-
-        bar_values = QBarSet("")
-        bar_values.hovered.connect(bar_hover)
-        x_values = []
-        y_max = 0
-        data = cmredb.weekly_rpcs(user_id)
-        for item in data:
-            if item[1] > y_max:
-                y_max = item[1]
-            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
-            x_values.append(frmt_date)
-            bar_values.append(item[1])
-
-        series = QBarSeries()
-        series.append(bar_values)
-
-        self.week_rpc_gp.chart.addSeries(series)
-        self.week_rpc_gp.axisX.append(x_values)
-        self.week_rpc_gp.axisY.setRange(0, ceil(y_max) + 1)
-
-        self.week_rpc_gp.chart.setAxisX(self.week_rpc_gp.axisX)
-        self.week_rpc_gp.chart.setAxisY(self.week_rpc_gp.axisY)
-        series.attachAxis(self.week_rpc_gp.axisX)
-        series.attachAxis(self.week_rpc_gp.axisY)
-
-        self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
-
-    def build_mconv_graph(self, user_id):
-
-        def bar_hover(active, index):
-            if active:
-                value = bar_values.at(index)
-                self.month_conv_gp.chart.setToolTip('{0:.0f}%'.format(value))
-            else:
-                self.month_conv_gp.chart.setToolTip("")
-
-        self.month_conv_gp.chart.removeAllSeries()
-        self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisY)
-        self.month_conv_gp.chart.removeAxis(self.month_conv_gp.axisX)
-
-        bar_values = QBarSet("")
-        bar_values.hovered.connect(bar_hover)
-        x_values = []
-        y_max = 0
-        data = cmredb.monthly_conv(user_id)
-        for item in data:
-            if item[1] > y_max:
-                y_max = item[1]
-            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
-            x_values.append(frmt_date)
-            bar_values.append(item[1] * 100)
-
-        series = QBarSeries()
-        series.append(bar_values)
-
-        self.month_conv_gp.chart.addSeries(series)
-        self.month_conv_gp.axisX.append(x_values)
-        self.month_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
-        self.month_conv_gp.axisY.setLabelFormat("%0.0f %%")
-
-        self.month_conv_gp.chart.setAxisX(self.month_conv_gp.axisX)
-        self.month_conv_gp.chart.setAxisY(self.month_conv_gp.axisY)
-        series.attachAxis(self.month_conv_gp.axisX)
-        series.attachAxis(self.month_conv_gp.axisY)
-
-        self.monthConvBox.setLayout(self.month_conv_gp.layout)
-    
-    def build_wconv_graph(self, user_id):
-
-        def bar_hover(active, index):
-            if active:
-                value = bar_values.at(index)
-                self.week_conv_gp.chart.setToolTip('{0:.0f}%'.format(value))
-            else:
-                self.week_conv_gp.chart.setToolTip("")
-
-        self.week_conv_gp.chart.removeAllSeries()
-        self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisY)
-        self.week_conv_gp.chart.removeAxis(self.week_conv_gp.axisX)
-
-        bar_values = QBarSet("")
-        bar_values.hovered.connect(bar_hover)
-        x_values = []
-        y_max = 0
-        data = cmredb.weekly_conv(user_id)
-        for item in data:
-            if item[1] > y_max:
-                y_max = item[1]
-            frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
-            x_values.append(frmt_date)
-            bar_values.append(item[1] * 100)
-
-        series = QBarSeries()
-        series.append(bar_values)
-
-        self.week_conv_gp.chart.addSeries(series)
-        self.week_conv_gp.axisX.append(x_values)
-        self.week_conv_gp.axisY.setRange(0, (y_max + .1) * 100)
-        self.week_conv_gp.axisY.setLabelFormat("%0.0f %%")
-
-        self.week_conv_gp.chart.setAxisX(self.week_conv_gp.axisX)
-        self.week_conv_gp.chart.setAxisY(self.week_conv_gp.axisY)
-        series.attachAxis(self.week_conv_gp.axisX)
-        series.attachAxis(self.week_conv_gp.axisY)
-
-        self.weekConvBox.setLayout(self.week_conv_gp.layout)
         
 
 class Window(QMainWindow, Ui_managerMain):
@@ -543,7 +460,7 @@ class Window(QMainWindow, Ui_managerMain):
         # Pass worker to thread for handling
         self.worker.moveToThread(self.thread)
         # Connect default signals and slots
-        self.thread.started.connect(self.worker.start_main_loop)
+        self.thread.started.connect(self.worker.start_worker_loop)
         self.worker.finished.connect(self.thread.quit)
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
