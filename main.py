@@ -2,7 +2,6 @@ import sys
 import time
 import getpass
 
-
 from datetime import datetime, timedelta, date
 from math import ceil
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis, QBarCategoryAxis
@@ -220,6 +219,7 @@ class EmployeeGraph:
     """Class used to create a graph template for the Employee Details."""
 
     def __init__(self, title):
+        """Initialize the graph object and add it to the Employee Details GUI."""
         self.chart = QChart()
         self.chart.setTitle(title)
         self.title_font = QFont("MS Shell Dig 2", 12, 1)
@@ -235,10 +235,14 @@ class EmployeeGraph:
         self.layout.addWidget(self.chartview)
 
     def build_graph(self, user_id, month, rpc):
+        """Builds the graph axes and series with the employee's data."""
 
         def bar_hover(active, index):
+            """Slot for the mouse hover signal on the QBarSet."""
+            # If mouse is hovering over the bar, active is "True"
             if active:
                 value = bar_values.at(index)
+                # Determines the correct formatting for rpc or conv graph
                 if rpc == "yes":
                     self.chart.setToolTip(str(value))
                 if rpc == "no":
@@ -246,58 +250,59 @@ class EmployeeGraph:
             else:
                 self.chart.setToolTip("")
 
+        # Resets the axes and series of the graph
         self.chart.removeAllSeries()
         self.chart.removeAxis(self.axisY)
         self.chart.removeAxis(self.axisX)
 
+        # Global variables
         x_values = []
         y_max = 0
         coll_data = None
 
+        # Creates QBarSet and connects the hover signal to the slot
         bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
 
+        # Determines the type of graph and fetches the correct data from the CMREDB
         if month == "yes" and rpc == "yes":
             coll_data = cmredb.monthly_rpcs(user_id)
-
         elif month == "no" and rpc == "yes":
             coll_data = cmredb.weekly_rpcs(user_id)
-
         elif month == "yes" and rpc == "no":
             coll_data = cmredb.monthly_conv(user_id)
-
         elif month == "no" and rpc == "no":
             coll_data = cmredb.weekly_conv(user_id)
 
+        # Iterate over results and update variables with correctly formatted data
         for item in coll_data:
             if item[1] > y_max:
                 y_max = item[1]
-
+            # Determines the correct date format; monthly or weekly
             if month == "yes":
                 frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
                 x_values.append(frmt_date)
             elif month == "no":
                 frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
                 x_values.append(frmt_date)
-
+            # Determines the correct graph type; RPC or Conversions
             if rpc == "yes":
                 bar_values.append(item[1])
             if rpc == "no":
                 bar_values.append(item[1] * 100)
 
+        # Create series object and set axes to series and chart
         series = QBarSeries()
         series.append(bar_values)
-
         self.chart.addSeries(series)
         self.axisX.append(x_values)
-
+        # Determines the correct graph type; RPC or Conversions and applies correct format
         if rpc == "yes":
             self.axisY.setRange(0, ceil(y_max) + 1)
             self.axisY.setTickCount(1)
         elif rpc == "no":
             self.axisY.setRange(0, (y_max + .1) * 100)
             self.axisY.setLabelFormat("%0.0f %%")
-
         self.chart.setAxisX(self.axisX)
         self.chart.setAxisY(self.axisY)
         series.attachAxis(self.axisX)
@@ -313,6 +318,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.setupUi(self)
         self.user_id = ""
 
+        # Build graph objects
         self.month_rpc_gp = EmployeeGraph("Monthly RPC's")
         self.monthRPCbox.setLayout(self.month_rpc_gp.layout)
         self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
@@ -334,6 +340,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
             self.employeeSelect.setCurrentIndex(index)
 
     def update_info(self):
+        """Updates the GUI with the newly selected employee's information."""
         coll = self.employeeSelect.currentText().split(' - ')
         self.user_id = coll[0]
         self.coll_info()
@@ -398,7 +405,6 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
 class Window(QMainWindow, Ui_managerMain):
     """Main tracker window that Managers use to track Agent's current KPI's"""
-    # TODO Add column for first action code and last update from agent KPI.
 
     def __init__(self):
         super().__init__()
@@ -584,14 +590,17 @@ class Window(QMainWindow, Ui_managerMain):
         agent_window.exec_()
 
     def employee_maintenance(self):
-
+        """Function used to initialize the employee maintenance window"""
         emp_main = EmployeeMaintenance(self.all_users)
         emp_main.exec_()
 
     def closing_time(self):
+        """Function is called when user tries to run app after 5:40 pm. Will
+        also force close the app if left open overnight."""
         msg = QMessageBox()
         icon = QIcon()
-        icon.addPixmap(QPixmap(":/images/Meduit_logo.ico"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"),
+                       QIcon.Normal, QIcon.Off)
         msg.setWindowIcon(icon)
         msg.setIcon(QMessageBox.Question)
         msg.setText("It's now 5:40 and time to stop working.\nDon't you agree?")
