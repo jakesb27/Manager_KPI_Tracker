@@ -25,6 +25,19 @@ WHERE
     DSK.DSK_CODE=:desk
 """
 
+# SQL statement to get active desks
+act_desks_sql = """
+SELECT
+    DSK.DSK_CODE,
+    USR.USR_CODE
+FROM CDS.DSK DSK
+    JOIN CDS.USR USR ON USR.USR_DEF_MOT_DESK=DSK.DSK_CODE
+WHERE
+    DSK.DSK_DESK_GROUP IN ('ANC', 'SHC', 'CSA', 'CSI', 'CSU')
+ORDER BY
+    DSK.DSK_CODE
+"""
+
 
 def cds_password():
     """Function used open encrypted file with Oracle DB password."""
@@ -53,6 +66,28 @@ def get_desk_totals(desk):
                 except cx_Oracle.Error as error:
                     # Saves error to error file for debugging
                     with open(r'Desk Totals Oracle Query Errors.txt', 'w') as file:
+                        file.write(f"Desk Totals query execution error: ** {error} **")
+    except cx_Oracle.Error as error:
+        # Saves error to error file for debugging
+        with open(r'Oracle Connection Errors.txt', 'w') as file:
+            file.write(f"Oracle connection error: ** {error} **")
+
+
+def get_act_desks():
+    """Function used to update CMRE database with collector's desk and goal."""
+    try:
+        # Connect to oracle database
+        with cx_Oracle.connect(user="CDS", password=cds_password(), dsn=dsn_tns) as connection:
+            with connection.cursor() as cursor:
+                try:
+                    # Execute query
+                    cursor.execute(act_desks_sql)
+                    results = cursor.fetchall()
+                    # Returns results of query
+                    return results
+                except cx_Oracle.Error as error:
+                    # Saves error to error file for debugging
+                    with open(r'Update CMRE DB Oracle Query Errors.txt', 'w') as file:
                         file.write(f"Desk Totals query execution error: ** {error} **")
     except cx_Oracle.Error as error:
         # Saves error to error file for debugging

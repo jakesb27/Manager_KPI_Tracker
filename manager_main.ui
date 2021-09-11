@@ -171,16 +171,34 @@ QTableView{
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>&amp;File</string>
     </property>
-    <addaction name="actionEmployee_Maintenance"/>
+    <widget class="QMenu" name="menuEmployee_Maintenance">
+     <property name="title">
+      <string>&amp;Employees</string>
+     </property>
+     <addaction name="actionUpdate_Employee"/>
+     <addaction name="actionAdd_Employee"/>
+     <addaction name="actionRun_Desk_Goal_Update"/>
+    </widget>
+    <addaction name="menuEmployee_Maintenance"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionEmployee_Maintenance">
+  <action name="actionUpdate_Employee">
    <property name="text">
-    <string>Employee Maintenance</string>
+    <string>&amp;Update Employee</string>
+   </property>
+  </action>
+  <action name="actionRun_Desk_Goal_Update">
+   <property name="text">
+    <string>&amp;Run CDS Desk Update</string>
+   </property>
+  </action>
+  <action name="actionAdd_Employee">
+   <property name="text">
+    <string>&amp;Add Employee</string>
    </property>
   </action>
  </widget>

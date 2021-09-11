@@ -18,7 +18,18 @@ SELECT
 FROM
     COLL
 WHERE
-    MANAGER=:manager
+    MANAGER=:manager AND
+    ACTIVE='Y'
+"""
+
+all_act_collectors_sql = """
+SELECT
+    USER_ID,
+    FIRST_NAME || " " || LAST_NAME
+FROM
+    COLL
+WHERE
+    ACTIVE='Y'
 """
 
 all_collectors_sql = """
@@ -55,7 +66,8 @@ SET
     GOAL2_GOAL=:goal2,
     GOAL3_DESC=:desc3,
     GOAL3_BASE=:base3,
-    GOAL3_GOAL=:goal3
+    GOAL3_GOAL=:goal3,
+    ACTIVE=:active
 WHERE
     ULTIPRO_ID=:primary_key
 """
@@ -120,7 +132,6 @@ ORDER BY
     KPI_DATE ASC
 """
 
-
 weekly_conv_sql = """
 SELECT *
 FROM(
@@ -137,6 +148,15 @@ FROM(
     )
 ORDER BY
     WEEK_DATE ASC
+"""
+
+update_desks_sql = """
+UPDATE
+    COLL
+SET
+    DESK=:desk
+WHERE
+    USER_ID=:user_id    
 """
 
 
@@ -166,6 +186,16 @@ def my_collectors(manager):
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(my_collectors_sql, (manager,))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def all_act_collectors():
+    """Simple function used to query SQLite database for all collectors."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(all_act_collectors_sql)
     rows = cur.fetchall()
     conn.close()
     return rows
@@ -245,3 +275,11 @@ def weekly_conv(collector):
     rows = cur.fetchall()
     conn.close()
     return rows
+
+
+def update_desks(data):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(update_desks_sql, data)
+    conn.commit()
+    conn.close()

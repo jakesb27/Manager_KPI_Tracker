@@ -5,12 +5,15 @@ import getpass
 from datetime import datetime, timedelta, date
 from math import ceil
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis, QBarCategoryAxis
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont, QKeyEvent
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
 
+import cds_sql
 import kpidb as cmredb
 import cds_sql as cds
+import my_styles
+import msgbox
 from manager_main import Ui_managerMain
 from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
@@ -66,32 +69,44 @@ class Worker(QObject):
                     self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
                     x -= 1
 
+    def update_desks(self):
+        results = cds.get_act_desks()
+        for result in results:
+            cmredb.update_desks(result)
+
 
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     """Employee Maintenance screen used to update and change employee information."""
-    def __init__(self, users):
+    def __init__(self):
         super().__init__()
         self.setupUi(self)
+        # Obtains all users from the CMRE database
+        self.users = cmredb.all_collectors()
+        # Set default flags
         self.user_changed = False
         self.saved = True
         self.primary_key = ''
 
+        # Adds employees to combo box
         self.employeeSelect.addItem(f'- Select Employee -')
-        for item in users:
+        for item in sorted(self.users):
             self.employeeSelect.addItem(f'{item[0]} - {item[1]}')
 
+        # Connectes signals to slots for push buttons
         self.employeeSelect.currentIndexChanged.connect(self.update_window)
         self.clearButton.clicked.connect(self.clear_window)
         self.cancelButton.clicked.connect(self.cancel_update)
         self.saveButton.clicked.connect(self.save_window)
         self.undoButton.clicked.connect(self.undo_changes)
 
+        # Connects signals to slots for all metadata objects
         self.agentFirstName.textChanged.connect(self.save_enabled)
         self.agentLastName.textChanged.connect(self.save_enabled)
         self.agentExt.textChanged.connect(self.save_enabled)
         self.agentManager.currentIndexChanged.connect(self.save_enabled)
         self.agentGroup.textChanged.connect(self.save_enabled)
         self.agentEmail.textChanged.connect(self.save_enabled)
+        self.activeEmpBox.clicked.connect(self.active_changed)
         self.agentDesc1.currentIndexChanged.connect(self.save_enabled)
         self.agentDesc2.currentIndexChanged.connect(self.save_enabled)
         self.agentDesc3.currentIndexChanged.connect(self.save_enabled)
@@ -102,18 +117,34 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.agentGoal2.textChanged.connect(self.save_enabled)
         self.agentGoal3.textChanged.connect(self.save_enabled)
 
+    def keyPressEvent(self, a0: QKeyEvent) -> None:
+        key = a0.nativeVirtualKey()
+        if key == 13:
+            widget = QApplication.focusWidget()
+            if isinstance(widget, QComboBox):
+                widget.showPopup()
+
     def save_enabled(self):
+        """Detects a value has changed but not saved and warns user to save before exiting.
+        Once saved the flag will return to True."""
         if self.user_changed:
+            self.active_emp_check()
             self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 255);}")
             self.saved = False
         else:
             self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 0);}")
 
     def update_window(self):
+        """Updates the window with the employees current data."""
+
         if self.employeeSelect.currentIndex() != 0:
+            # Sets user changed flag to false since loading default employee info
             self.user_changed = False
+            # Obtains employee data from CMRE database
             user_id = self.employeeSelect.currentText().split(' - ')[0]
             coll_details = cmredb.coll_details(user_id)
+
+            # Updates all available fields with data
             self.primary_key = coll_details[0]
             self.agentFirstName.setText(coll_details[2])
             self.agentLastName.setText(coll_details[1])
@@ -136,16 +167,75 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.agentGoal1.setText(str(coll_details[11]))
             self.agentGoal2.setText(str(coll_details[14]))
             self.agentGoal3.setText(str(coll_details[17]))
+
+            # Sets "Employee Active" checkbox flag and sets new stylesheet
+            if coll_details[18] == 'Y':
+                self.activeEmpBox.setChecked(True)
+            else:
+                self.activeEmpBox.setChecked(False)
+
+            # Return user changed flag to True to track any changes to the employee
             self.user_changed = True
+            self.active_emp_check()
         else:
             self.clear_window()
 
+    def active_emp_check(self):
+        if self.activeEmpBox.checkState() == 2:
+            self.setStyleSheet(my_styles.active_emp)
+            self.agentFirstName.setReadOnly(False)
+            self.agentLastName.setReadOnly(False)
+            self.agentEmail.setReadOnly(False)
+            self.agentExt.setReadOnly(False)
+            self.agentGroup.setReadOnly(False)
+            self.agentManager.setDisabled(False)
+            self.agentDesc1.setDisabled(False)
+            self.agentBase1.setReadOnly(False)
+            self.agentGoal1.setReadOnly(False)
+            self.agentDesc2.setDisabled(False)
+            self.agentBase2.setReadOnly(False)
+            self.agentGoal2.setReadOnly(False)
+            self.agentDesc3.setDisabled(False)
+            self.agentBase3.setReadOnly(False)
+            self.agentGoal3.setReadOnly(False)
+        else:
+            self.setStyleSheet(my_styles.inactive_emp)
+            self.agentFirstName.setReadOnly(True)
+            self.agentLastName.setReadOnly(True)
+            self.agentEmail.setReadOnly(True)
+            self.agentExt.setReadOnly(True)
+            self.agentGroup.setReadOnly(True)
+            self.agentManager.setDisabled(True)
+            self.agentDesc1.setDisabled(True)
+            self.agentBase1.setReadOnly(True)
+            self.agentGoal1.setReadOnly(True)
+            self.agentDesc2.setDisabled(True)
+            self.agentBase2.setReadOnly(True)
+            self.agentGoal2.setReadOnly(True)
+            self.agentDesc3.setDisabled(True)
+            self.agentBase3.setReadOnly(True)
+            self.agentGoal3.setReadOnly(True)
+
+    def active_changed(self):
+        if self.activeEmpBox.checkState() == 0:
+            msg = msgbox.inactive_warning()
+            selection = msg.exec()
+            if selection != QMessageBox.Ok:
+                self.activeEmpBox.setChecked(True)
+                self.active_emp_check()
+            else:
+                self.save_enabled()
+        else:
+            self.save_enabled()
+
     def undo_changes(self):
+        """Resets screen to employee defaults and erases any unsaved changes."""
         index = self.employeeSelect.currentIndex()
         self.clear_window()
         self.employeeSelect.setCurrentIndex(index)
 
     def clear_window(self):
+        """Clears entire screen including the previously selected employee."""
         self.user_changed = False
         self.employeeSelect.setCurrentIndex(0)
         self.agentFirstName.clear()
@@ -156,6 +246,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.agentManager.setCurrentIndex(0)
         self.agentGroup.clear()
         self.agentEmail.clear()
+        self.activeEmpBox.setChecked(False)
 
         self.agentDesc1.setCurrentIndex(0)
         self.agentDesc2.setCurrentIndex(0)
@@ -171,45 +262,73 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.user_changed = True
 
     def save_window(self):
+        """Saves any unsaved changes made to an employee."""
 
         def check_value(value):
-            if isinstance(value, str) and len(value) > 0:
+            """Attempts to convert string to int or float type."""
+            try:
+                # Attempts to convert to integer
+                new_value = int(value)
+            except ValueError:
                 try:
-                    new_value = int(value)
-                except ValueError:
+                    # If unable to convert to integer, converts to float
                     new_value = float(value)
-                return new_value
+                except ValueError:
+                    new_value = None
+            return new_value
 
-        def check_index(obj):
-            if obj.currentIndex() == 0:
-                return None
-            else:
-                return obj.currentText()
+        def clear_goals():
+            if active == "N":
+                self.agentDesc1.setCurrentIndex(0)
+                self.agentBase1.clear()
+                self.agentGoal1.clear()
+                self.agentDesc2.setCurrentIndex(0)
+                self.agentBase2.clear()
+                self.agentGoal2.clear()
+                self.agentDesc3.setCurrentIndex(0)
+                self.agentBase3.clear()
+                self.agentGoal3.clear()
 
-        if not self.saved:
-            self.user_changed = False
-            updated_details = [
-                self.agentLastName.text(),
-                self.agentFirstName.text(),
-                self.agentEmail.text(),
-                int(self.agentExt.text()),
-                self.agentManager.currentText(),
-                self.agentGroup.text(),
-                check_index(self.agentDesc1),
-                check_value(self.agentBase1.text()),
-                check_value(self.agentGoal1.text()),
-                check_index(self.agentDesc2),
-                check_value(self.agentBase2.text()),
-                check_value(self.agentGoal2.text()),
-                check_index(self.agentDesc3),
-                check_value(self.agentBase3.text()),
-                check_value(self.agentGoal3.text()),
-                self.primary_key
-            ]
-            cmredb.update_coll(updated_details)
-            self.save_enabled()
-            window.refresh_manager_lists()
-            self.saved = True
+        def confirm_msg():
+            msg = msgbox.confirm_save()
+            selection = msg.exec()
+            return selection
+
+        if confirm_msg() == QMessageBox.Save:
+            if not self.saved:
+                self.user_changed = False
+                index = self.employeeSelect.currentIndex()
+                # Checks employee's active flag.
+                if self.activeEmpBox.checkState() == 2:
+                    active = "Y"
+                else:
+                    active = "N"
+                clear_goals()
+                # Creates list of employee data to be saved to CMRE db
+                updated_details = [
+                    self.agentLastName.text(),
+                    self.agentFirstName.text(),
+                    self.agentEmail.text(),
+                    check_value(self.agentExt.text()),
+                    self.agentManager.currentText(),
+                    self.agentGroup.text(),
+                    self.agentDesc1.currentText(),
+                    check_value(self.agentBase1.text()),
+                    check_value(self.agentGoal1.text()),
+                    self.agentDesc2.currentText(),
+                    check_value(self.agentBase2.text()),
+                    check_value(self.agentGoal2.text()),
+                    self.agentDesc3.currentText(),
+                    check_value(self.agentBase3.text()),
+                    check_value(self.agentGoal3.text()),
+                    active,
+                    self.primary_key
+                ]
+                cmredb.update_coll(updated_details)
+                self.save_enabled()
+                window.refresh_manager_lists()
+                self.clear_window()
+                self.employeeSelect.setCurrentIndex(index)
 
     def cancel_update(self):
         self.close()
@@ -329,7 +448,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
         self.weekConvBox.setLayout(self.week_conv_gp.layout)
 
-        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in window.all_users])
+        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
 
         # Triggers the currentIndexChanged event when initializing with the index
@@ -413,7 +532,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.setupUi(self)
 
         # Import users from CMRE database
-        self.all_users = cmredb.all_collectors()
+        self.all_users = cmredb.all_act_collectors()
         self.pattys_team = cmredb.my_collectors('Patty')
         self.roberts_team = cmredb.my_collectors('Robert')
         self.shanas_team = cmredb.my_collectors('Shana')
@@ -441,7 +560,8 @@ class Window(QMainWindow, Ui_managerMain):
         self.managerCombo.currentIndexChanged.connect(self.update_users)
         self.agentTableView.horizontalHeader().sortIndicatorChanged.connect(self.sort_order)
         self.agentTableView.doubleClicked.connect(self.agent_details)
-        self.actionEmployee_Maintenance.triggered.connect(self.employee_maintenance)
+        self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
+        self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
@@ -592,8 +712,26 @@ class Window(QMainWindow, Ui_managerMain):
 
     def employee_maintenance(self):
         """Function used to initialize the employee maintenance window"""
-        emp_main = EmployeeMaintenance(self.all_users)
+        emp_main = EmployeeMaintenance()
         emp_main.exec_()
+
+    def update_desks(self):
+        """Function used to update the desk and goals for all employees in the CMRE db."""
+
+        # Create thread object
+        thread = QThread()
+        # Create worker object
+        worker = Worker()
+        # Pass worker to thread for handling
+        worker.moveToThread(thread)
+        # Connect default signals and slots
+        thread.started.connect(worker.update_desks)
+        worker.finished.connect(thread.quit)
+        worker.finished.connect(worker.deleteLater)
+        thread.finished.connect(thread.deleteLater)
+
+        # Start the thread
+        thread.start()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
