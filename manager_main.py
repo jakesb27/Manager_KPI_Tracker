@@ -128,7 +128,7 @@ class Ui_managerMain(object):
         self.label_3.setText(_translate("managerMain", "Double Click user to see additional details."))
         self.managerCombo.setItemText(0, _translate("managerMain", "All"))
         self.managerCombo.setItemText(1, _translate("managerMain", "Patty"))
-        self.managerCombo.setItemText(2, _translate("managerMain", "Robert"))
+        self.managerCombo.setItemText(2, _translate("managerMain", "Jake"))
         self.managerCombo.setItemText(3, _translate("managerMain", "Shana"))
         self.managerCombo.setItemText(4, _translate("managerMain", "Stephanie"))
         self.label.setText(_translate("managerMain", "Manager Select"))
