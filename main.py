@@ -69,11 +69,6 @@ class Worker(QObject):
                     self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
                     x -= 1
 
-    def update_desks(self):
-        results = cds.get_act_desks()
-        for result in results:
-            cmredb.update_desks(result)
-
 
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     """Employee Maintenance screen used to update and change employee information."""
@@ -534,7 +529,7 @@ class Window(QMainWindow, Ui_managerMain):
         # Import users from CMRE database
         self.all_users = cmredb.all_act_collectors()
         self.pattys_team = cmredb.my_collectors('Patty')
-        self.roberts_team = cmredb.my_collectors('Robert')
+        self.jakes_team = cmredb.my_collectors('Jake')
         self.shanas_team = cmredb.my_collectors('Shana')
         self.stephanies_team = cmredb.my_collectors('Stephanie')
 
@@ -603,7 +598,7 @@ class Window(QMainWindow, Ui_managerMain):
     def refresh_manager_lists(self):
         self.all_users = cmredb.all_collectors()
         self.pattys_team = cmredb.my_collectors('Patty')
-        self.roberts_team = cmredb.my_collectors('Robert')
+        self.jakes_team = cmredb.my_collectors('Jake')
         self.shanas_team = cmredb.my_collectors('Shana')
         self.stephanies_team = cmredb.my_collectors('Stephanie')
 
@@ -624,8 +619,8 @@ class Window(QMainWindow, Ui_managerMain):
         # selected then calls 'build_model' function passing said users.
         if self.managerCombo.currentText() == 'Patty':
             self.build_model(self.pattys_team)
-        elif self.managerCombo.currentText() == 'Robert':
-            self.build_model(self.roberts_team)
+        elif self.managerCombo.currentText() == 'Jake':
+            self.build_model(self.jakes_team)
         elif self.managerCombo.currentText() == 'Shana':
             self.build_model(self.shanas_team)
         elif self.managerCombo.currentText() == 'Stephanie':
@@ -717,21 +712,11 @@ class Window(QMainWindow, Ui_managerMain):
 
     def update_desks(self):
         """Function used to update the desk and goals for all employees in the CMRE db."""
-
-        # Create thread object
-        thread = QThread()
-        # Create worker object
-        worker = Worker()
-        # Pass worker to thread for handling
-        worker.moveToThread(thread)
-        # Connect default signals and slots
-        thread.started.connect(worker.update_desks)
-        worker.finished.connect(thread.quit)
-        worker.finished.connect(worker.deleteLater)
-        thread.finished.connect(thread.deleteLater)
-
-        # Start the thread
-        thread.start()
+        results = cds.get_act_desks()
+        for result in results:
+            cmredb.update_desks(result)
+        update_msg = msgbox.desk_update_complete()
+        update_msg.exec()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
@@ -760,7 +745,8 @@ if __name__ == "__main__":
         app = QApplication(sys.argv)
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Critical)
-        msg.setText("You do not have access to this application.\n To gain access, please reach out Jake Boden x104.")
+        msg.setText("You do not have access to this application.\n To gain access, please "
+                    "reach out to Jake Boden at x104.")
         msg.setWindowTitle("Access Denied")
         msg.show()
         sys.exit(app.exec_())

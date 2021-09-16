@@ -33,3 +33,17 @@ def inactive_warning():
     msg.setWindowTitle("Update Employee")
     msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
     return msg
+
+
+def desk_update_complete():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    icon = QIcon()
+    icon.addPixmap(
+        QPixmap(icon_path),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText('CDS Desk update is complete!.')
+    msg.setWindowTitle("Desk Update Complete")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
