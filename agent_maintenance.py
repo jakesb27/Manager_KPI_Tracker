@@ -614,7 +614,7 @@ class Ui_agentMaintenance(object):
         self.label_5.setText(_translate("agentMaintenance", "Group:"))
         self.agentManager.setItemText(0, _translate("agentMaintenance", " - Select A Manager - "))
         self.agentManager.setItemText(1, _translate("agentMaintenance", "Patty"))
-        self.agentManager.setItemText(2, _translate("agentMaintenance", "Robert"))
+        self.agentManager.setItemText(2, _translate("agentMaintenance", "Jake"))
         self.agentManager.setItemText(3, _translate("agentMaintenance", "Shana"))
         self.agentManager.setItemText(4, _translate("agentMaintenance", "Stephanie"))
         self.label_6.setText(_translate("agentMaintenance", "Email:"))
