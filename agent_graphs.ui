@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>agentGraphsMain</class>
+ <widget class="QDialog" name="agentGraphsMain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>736</width>
+    <height>639</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Agent Trending Graphs</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QWidget{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 18;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QLineEdit{
+	background-color: rgb(223, 223, 223);
+	border: 1px solid black;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QTextEdit{
+	font: 12pt &quot;Corbel&quot;;
+}
+QStatusBar{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QComboBox{
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::hover{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(200, 200, 200);
+}
+QComboBox::pressed{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(175, 175, 175);
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="0" colspan="2">
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+	border: 1px solid black;
+	border-radius: 3px;
+}</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+	border: 0px;
+}</string>
+          </property>
+          <property name="text">
+           <string>Select Graph Data:  </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="graphData1">
+          <item>
+           <property name="text">
+            <string>RPC's - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Totals - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Weekly</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+	border: 0px;
+}</string>
+          </property>
+          <property name="text">
+           <string>Select Graph Data:  </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="graphData4">
+          <item>
+           <property name="text">
+            <string>RPC's - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Totals - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Weekly</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="1">
+       <widget class="QGroupBox" name="graphBox2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QGroupBox" name="graphBox4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+	border: 0px;
+}</string>
+          </property>
+          <property name="text">
+           <string>Select Graph Data:  </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="graphData3">
+          <item>
+           <property name="text">
+            <string>RPC's - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Totals - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Weekly</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QFrame{
+	border: 0px;
+}</string>
+          </property>
+          <property name="text">
+           <string>Select Graph Data:  </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="graphData2">
+          <item>
+           <property name="text">
+            <string>RPC's - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Totals - Monthly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RPC's Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Connects Per Hour - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Conversions - Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Fees - Weekly</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <widget class="QGroupBox" name="graphBox1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QGroupBox" name="graphBox3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">image: url(:/meduit/Meduit Email.png);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="styleSheet">
+      <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_20">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Employee Select:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QComboBox" name="employeeSelect"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>employeeSelect</tabstop>
+  <tabstop>graphData1</tabstop>
+  <tabstop>graphData2</tabstop>
+  <tabstop>graphData3</tabstop>
+  <tabstop>graphData4</tabstop>
+ </tabstops>
+ <resources>
+  <include location="main_images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
