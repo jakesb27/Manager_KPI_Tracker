@@ -44,9 +44,6 @@ QGroupBox::title{
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }
-QComboBox{
-	background-color: rgb(223, 223, 223);
-}
 QLineEdit{
 	border: 1px solid black;
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
@@ -63,7 +60,7 @@ QPushButton{
 	padding: 2px;
 	padding-left: 13px;
 	padding-right: 13px;
-	background-color: rgb(195, 195, 195);
+	background-color: rgb(225, 225, 225);
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }
@@ -74,7 +71,7 @@ QPushButton::hover{
 	padding-left: 10px;
 	padding-right: 10px;
 	width: 80px;
-	background-color: rgb(215, 215, 215);
+	background-color: rgb(200, 200, 200);
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }
@@ -87,6 +84,21 @@ QPushButton::pressed{
 	background-color: rgb(175, 175, 175);
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
+}
+QComboBox{
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::hover{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(200, 200, 200);
+}
+QComboBox::pressed{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(175, 175, 175);
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">

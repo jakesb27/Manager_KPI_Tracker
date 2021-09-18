@@ -57,6 +57,52 @@ class Ui_managerMain(object):
 "}\n"
 "QTableView{\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"QPushButton{\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::hover{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 10px;\n"
+"    padding-right: 10px;\n"
+"    width: 80px;\n"
+"    background-color: rgb(200, 200, 200);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 8px;\n"
+"    padding-right: 8px;\n"
+"    background-color: rgb(175, 175, 175);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QComboBox{\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::hover{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(200, 200, 200);\n"
+"}\n"
+"QComboBox::pressed{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(175, 175, 175);\n"
 "}")
         self.centralwidget = QtWidgets.QWidget(managerMain)
         self.centralwidget.setObjectName("centralwidget")
@@ -128,7 +174,7 @@ class Ui_managerMain(object):
         self.label_3.setText(_translate("managerMain", "Double Click user to see additional details."))
         self.managerCombo.setItemText(0, _translate("managerMain", "All"))
         self.managerCombo.setItemText(1, _translate("managerMain", "Patty"))
-        self.managerCombo.setItemText(2, _translate("managerMain", "Jake"))
+        self.managerCombo.setItemText(2, _translate("managerMain", "Robert"))
         self.managerCombo.setItemText(3, _translate("managerMain", "Shana"))
         self.managerCombo.setItemText(4, _translate("managerMain", "Stephanie"))
         self.label.setText(_translate("managerMain", "Manager Select"))

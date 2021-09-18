@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_agentDetailsMain(object):
     def setupUi(self, agentDetailsMain):
         agentDetailsMain.setObjectName("agentDetailsMain")
-        agentDetailsMain.resize(920, 841)
+        agentDetailsMain.resize(714, 329)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentDetailsMain.setWindowIcon(icon)
@@ -54,6 +54,52 @@ class Ui_agentDetailsMain(object):
 "}\n"
 "QStatusBar{\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
+"}\n"
+"QPushButton{\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::hover{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 10px;\n"
+"    padding-right: 10px;\n"
+"    width: 80px;\n"
+"    background-color: rgb(200, 200, 200);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2px;\n"
+"    padding-left: 8px;\n"
+"    padding-right: 8px;\n"
+"    background-color: rgb(175, 175, 175);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QComboBox{\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::hover{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(200, 200, 200);\n"
+"}\n"
+"QComboBox::pressed{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(175, 175, 175);\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(agentDetailsMain)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -89,267 +135,6 @@ class Ui_agentDetailsMain(object):
         self.employeeMisc.setObjectName("employeeMisc")
         self.gridLayout_4.addWidget(self.employeeMisc, 1, 1, 1, 2)
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
-        self.agentDetails = QtWidgets.QGroupBox(agentDetailsMain)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentDetails.sizePolicy().hasHeightForWidth())
-        self.agentDetails.setSizePolicy(sizePolicy)
-        self.agentDetails.setObjectName("agentDetails")
-        self.gridLayout = QtWidgets.QGridLayout(self.agentDetails)
-        self.gridLayout.setObjectName("gridLayout")
-        self.agentDesk = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentDesk.sizePolicy().hasHeightForWidth())
-        self.agentDesk.setSizePolicy(sizePolicy)
-        self.agentDesk.setReadOnly(True)
-        self.agentDesk.setObjectName("agentDesk")
-        self.gridLayout.addWidget(self.agentDesk, 2, 1, 1, 1)
-        self.label_7 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
-        self.label_7.setSizePolicy(sizePolicy)
-        self.label_7.setObjectName("label_7")
-        self.gridLayout.addWidget(self.label_7, 4, 2, 1, 1)
-        self.label_6 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 3, 2, 1, 1)
-        self.label = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.agentExt = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentExt.sizePolicy().hasHeightForWidth())
-        self.agentExt.setSizePolicy(sizePolicy)
-        self.agentExt.setReadOnly(True)
-        self.agentExt.setObjectName("agentExt")
-        self.gridLayout.addWidget(self.agentExt, 3, 1, 1, 1)
-        self.label_8 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
-        self.label_8.setSizePolicy(sizePolicy)
-        self.label_8.setObjectName("label_8")
-        self.gridLayout.addWidget(self.label_8, 3, 0, 1, 1)
-        self.agentName = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentName.sizePolicy().hasHeightForWidth())
-        self.agentName.setSizePolicy(sizePolicy)
-        self.agentName.setReadOnly(True)
-        self.agentName.setObjectName("agentName")
-        self.gridLayout.addWidget(self.agentName, 0, 1, 1, 1)
-        self.agentTotal = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentTotal.sizePolicy().hasHeightForWidth())
-        self.agentTotal.setSizePolicy(sizePolicy)
-        self.agentTotal.setReadOnly(True)
-        self.agentTotal.setObjectName("agentTotal")
-        self.gridLayout.addWidget(self.agentTotal, 3, 4, 1, 1)
-        self.agentPrinc = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentPrinc.sizePolicy().hasHeightForWidth())
-        self.agentPrinc.setSizePolicy(sizePolicy)
-        self.agentPrinc.setReadOnly(True)
-        self.agentPrinc.setObjectName("agentPrinc")
-        self.gridLayout.addWidget(self.agentPrinc, 0, 4, 1, 1)
-        self.agentInt = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentInt.sizePolicy().hasHeightForWidth())
-        self.agentInt.setSizePolicy(sizePolicy)
-        self.agentInt.setReadOnly(True)
-        self.agentInt.setObjectName("agentInt")
-        self.gridLayout.addWidget(self.agentInt, 2, 4, 1, 1)
-        self.label_4 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 0, 2, 1, 1)
-        self.label_5 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
-        self.label_2 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
-        self.label_3 = QtWidgets.QLabel(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
-        self.label_3.setSizePolicy(sizePolicy)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
-        self.agentComm = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentComm.sizePolicy().hasHeightForWidth())
-        self.agentComm.setSizePolicy(sizePolicy)
-        self.agentComm.setReadOnly(True)
-        self.agentComm.setObjectName("agentComm")
-        self.gridLayout.addWidget(self.agentComm, 4, 4, 1, 1)
-        self.agentGoal = QtWidgets.QLineEdit(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.agentGoal.sizePolicy().hasHeightForWidth())
-        self.agentGoal.setSizePolicy(sizePolicy)
-        self.agentGoal.setReadOnly(True)
-        self.agentGoal.setObjectName("agentGoal")
-        self.gridLayout.addWidget(self.agentGoal, 4, 1, 1, 1)
-        self.gridLayout_2.addWidget(self.agentDetails, 0, 1, 1, 1)
-        self.gridLayout_5 = QtWidgets.QGridLayout()
-        self.gridLayout_5.setObjectName("gridLayout_5")
-        self.weekRPCbox = QtWidgets.QGroupBox(agentDetailsMain)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.weekRPCbox.sizePolicy().hasHeightForWidth())
-        self.weekRPCbox.setSizePolicy(sizePolicy)
-        self.weekRPCbox.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.weekRPCbox.setTitle("")
-        self.weekRPCbox.setObjectName("weekRPCbox")
-        self.gridLayout_5.addWidget(self.weekRPCbox, 0, 1, 1, 1)
-        self.monthConvBox = QtWidgets.QGroupBox(agentDetailsMain)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.monthConvBox.sizePolicy().hasHeightForWidth())
-        self.monthConvBox.setSizePolicy(sizePolicy)
-        self.monthConvBox.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.monthConvBox.setTitle("")
-        self.monthConvBox.setObjectName("monthConvBox")
-        self.gridLayout_5.addWidget(self.monthConvBox, 1, 0, 1, 1)
-        self.weekConvBox = QtWidgets.QGroupBox(agentDetailsMain)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.weekConvBox.sizePolicy().hasHeightForWidth())
-        self.weekConvBox.setSizePolicy(sizePolicy)
-        self.weekConvBox.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.weekConvBox.setTitle("")
-        self.weekConvBox.setObjectName("weekConvBox")
-        self.gridLayout_5.addWidget(self.weekConvBox, 1, 1, 1, 1)
-        self.monthRPCbox = QtWidgets.QGroupBox(agentDetailsMain)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.monthRPCbox.sizePolicy().hasHeightForWidth())
-        self.monthRPCbox.setSizePolicy(sizePolicy)
-        self.monthRPCbox.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.monthRPCbox.setTitle("")
-        self.monthRPCbox.setObjectName("monthRPCbox")
-        self.gridLayout_5.addWidget(self.monthRPCbox, 0, 0, 1, 1)
-        self.gridLayout_2.addLayout(self.gridLayout_5, 2, 0, 1, 2)
         self.groupBox = QtWidgets.QGroupBox(agentDetailsMain)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
@@ -552,7 +337,156 @@ class Ui_agentDetailsMain(object):
         self.gridLayout_3.addWidget(self.agentRPC, 0, 1, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.gridLayout_3.addItem(spacerItem, 1, 0, 2, 7)
+        self.employeeGraphs = QtWidgets.QPushButton(self.groupBox)
+        self.employeeGraphs.setObjectName("employeeGraphs")
+        self.gridLayout_3.addWidget(self.employeeGraphs, 0, 5, 1, 2)
         self.gridLayout_2.addWidget(self.groupBox, 1, 0, 1, 2)
+        self.agentDetails = QtWidgets.QGroupBox(agentDetailsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentDetails.sizePolicy().hasHeightForWidth())
+        self.agentDetails.setSizePolicy(sizePolicy)
+        self.agentDetails.setObjectName("agentDetails")
+        self.gridLayout = QtWidgets.QGridLayout(self.agentDetails)
+        self.gridLayout.setObjectName("gridLayout")
+        self.agentDesk = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentDesk.sizePolicy().hasHeightForWidth())
+        self.agentDesk.setSizePolicy(sizePolicy)
+        self.agentDesk.setReadOnly(True)
+        self.agentDesk.setObjectName("agentDesk")
+        self.gridLayout.addWidget(self.agentDesk, 2, 1, 1, 1)
+        self.label_7 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 4, 2, 1, 1)
+        self.label_6 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 3, 2, 1, 1)
+        self.label = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.agentExt = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentExt.sizePolicy().hasHeightForWidth())
+        self.agentExt.setSizePolicy(sizePolicy)
+        self.agentExt.setReadOnly(True)
+        self.agentExt.setObjectName("agentExt")
+        self.gridLayout.addWidget(self.agentExt, 3, 1, 1, 1)
+        self.label_8 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy)
+        self.label_8.setObjectName("label_8")
+        self.gridLayout.addWidget(self.label_8, 3, 0, 1, 1)
+        self.agentName = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentName.sizePolicy().hasHeightForWidth())
+        self.agentName.setSizePolicy(sizePolicy)
+        self.agentName.setReadOnly(True)
+        self.agentName.setObjectName("agentName")
+        self.gridLayout.addWidget(self.agentName, 0, 1, 1, 1)
+        self.agentTotal = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentTotal.sizePolicy().hasHeightForWidth())
+        self.agentTotal.setSizePolicy(sizePolicy)
+        self.agentTotal.setReadOnly(True)
+        self.agentTotal.setObjectName("agentTotal")
+        self.gridLayout.addWidget(self.agentTotal, 3, 4, 1, 1)
+        self.agentPrinc = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentPrinc.sizePolicy().hasHeightForWidth())
+        self.agentPrinc.setSizePolicy(sizePolicy)
+        self.agentPrinc.setReadOnly(True)
+        self.agentPrinc.setObjectName("agentPrinc")
+        self.gridLayout.addWidget(self.agentPrinc, 0, 4, 1, 1)
+        self.agentInt = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentInt.sizePolicy().hasHeightForWidth())
+        self.agentInt.setSizePolicy(sizePolicy)
+        self.agentInt.setReadOnly(True)
+        self.agentInt.setObjectName("agentInt")
+        self.gridLayout.addWidget(self.agentInt, 2, 4, 1, 1)
+        self.label_4 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout.addWidget(self.label_4, 0, 2, 1, 1)
+        self.label_5 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout.addWidget(self.label_5, 2, 2, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
+        self.agentComm = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentComm.sizePolicy().hasHeightForWidth())
+        self.agentComm.setSizePolicy(sizePolicy)
+        self.agentComm.setReadOnly(True)
+        self.agentComm.setObjectName("agentComm")
+        self.gridLayout.addWidget(self.agentComm, 4, 4, 1, 1)
+        self.agentGoal = QtWidgets.QLineEdit(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.agentGoal.sizePolicy().hasHeightForWidth())
+        self.agentGoal.setSizePolicy(sizePolicy)
+        self.agentGoal.setReadOnly(True)
+        self.agentGoal.setObjectName("agentGoal")
+        self.gridLayout.addWidget(self.agentGoal, 4, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.agentDetails, 0, 1, 1, 1)
 
         self.retranslateUi(agentDetailsMain)
         QtCore.QMetaObject.connectSlotsByName(agentDetailsMain)
@@ -566,15 +500,6 @@ class Ui_agentDetailsMain(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Corbel\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.agentDetails.setTitle(_translate("agentDetailsMain", "Agent Information"))
-        self.label_7.setText(_translate("agentDetailsMain", "MTD Commission:"))
-        self.label_6.setText(_translate("agentDetailsMain", "MTD Total:"))
-        self.label.setText(_translate("agentDetailsMain", "Name:"))
-        self.label_8.setText(_translate("agentDetailsMain", "Ext:"))
-        self.label_4.setText(_translate("agentDetailsMain", "MTD Principal:"))
-        self.label_5.setText(_translate("agentDetailsMain", "MTD Interest:"))
-        self.label_2.setText(_translate("agentDetailsMain", "Desk:"))
-        self.label_3.setText(_translate("agentDetailsMain", "Goal:"))
         self.groupBox.setTitle(_translate("agentDetailsMain", "KPI Goals"))
         self.label_14.setText(_translate("agentDetailsMain", "Base Value:"))
         self.label_16.setText(_translate("agentDetailsMain", "Base Value:"))
@@ -587,6 +512,16 @@ class Ui_agentDetailsMain(object):
         self.label_18.setText(_translate("agentDetailsMain", "Goal:"))
         self.label_13.setText(_translate("agentDetailsMain", "Productivity Goal 3:"))
         self.label_12.setText(_translate("agentDetailsMain", "Productivity Goal 2:"))
+        self.employeeGraphs.setText(_translate("agentDetailsMain", "Trending Graphs"))
+        self.agentDetails.setTitle(_translate("agentDetailsMain", "Agent Information"))
+        self.label_7.setText(_translate("agentDetailsMain", "MTD Commission:"))
+        self.label_6.setText(_translate("agentDetailsMain", "MTD Total:"))
+        self.label.setText(_translate("agentDetailsMain", "Name:"))
+        self.label_8.setText(_translate("agentDetailsMain", "Ext:"))
+        self.label_4.setText(_translate("agentDetailsMain", "MTD Principal:"))
+        self.label_5.setText(_translate("agentDetailsMain", "MTD Interest:"))
+        self.label_2.setText(_translate("agentDetailsMain", "Desk:"))
+        self.label_3.setText(_translate("agentDetailsMain", "Goal:"))
 
 
 if __name__ == "__main__":

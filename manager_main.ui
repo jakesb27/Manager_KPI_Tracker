@@ -57,6 +57,52 @@ QStatusBar{
 }
 QTableView{
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QPushButton{
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::hover{
+	border: 2px solid black;
+	border-radius: 3px;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80px;
+	background-color: rgb(200, 200, 200);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::pressed{
+	border: 2px solid black;
+	border-radius: 3px;
+	padding: 2px;
+	padding-left: 8px;
+	padding-right: 8px;
+	background-color: rgb(175, 175, 175);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QComboBox{
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::hover{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(200, 200, 200);
+}
+QComboBox::pressed{
+	border: 2px solid black;
+	border-radius: 3px;
+	background-color: rgb(175, 175, 175);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">

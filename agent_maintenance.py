@@ -44,9 +44,6 @@ class Ui_agentMaintenance(object):
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
-"QComboBox{\n"
-"    background-color: rgb(223, 223, 223);\n"
-"}\n"
 "QLineEdit{\n"
 "    border: 1px solid black;\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
@@ -63,7 +60,7 @@ class Ui_agentMaintenance(object):
 "    padding: 2px;\n"
 "    padding-left: 13px;\n"
 "    padding-right: 13px;\n"
-"    background-color: rgb(195, 195, 195);\n"
+"    background-color: rgb(225, 225, 225);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
@@ -74,7 +71,7 @@ class Ui_agentMaintenance(object):
 "    padding-left: 10px;\n"
 "    padding-right: 10px;\n"
 "    width: 80px;\n"
-"    background-color: rgb(215, 215, 215);\n"
+"    background-color: rgb(200, 200, 200);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
@@ -87,6 +84,21 @@ class Ui_agentMaintenance(object):
 "    background-color: rgb(175, 175, 175);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
+"}\n"
+"QComboBox{\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::hover{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(200, 200, 200);\n"
+"}\n"
+"QComboBox::pressed{\n"
+"    border: 2px solid black;\n"
+"    border-radius: 3px;\n"
+"    background-color: rgb(175, 175, 175);\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(agentMaintenance)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -614,7 +626,7 @@ class Ui_agentMaintenance(object):
         self.label_5.setText(_translate("agentMaintenance", "Group:"))
         self.agentManager.setItemText(0, _translate("agentMaintenance", " - Select A Manager - "))
         self.agentManager.setItemText(1, _translate("agentMaintenance", "Patty"))
-        self.agentManager.setItemText(2, _translate("agentMaintenance", "Jake"))
+        self.agentManager.setItemText(2, _translate("agentMaintenance", "Robert"))
         self.agentManager.setItemText(3, _translate("agentMaintenance", "Shana"))
         self.agentManager.setItemText(4, _translate("agentMaintenance", "Stephanie"))
         self.label_6.setText(_translate("agentMaintenance", "Email:"))
