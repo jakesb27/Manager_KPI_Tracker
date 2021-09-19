@@ -45,12 +45,11 @@ class Ui_managerMain(object):
 "    font-weight: bold;\n"
 "}\n"
 "QLineEdit{\n"
-"    background-color: rgb(223, 223, 223);\n"
-"    border: 1px solid black;\n"
-"    font: 11pt \"Corbel\";\n"
+"    border: 1px solid rgb(75, 124, 154);;\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QTextEdit{\n"
-"    font: 30pt \"Corbel\";\n"
+"    font: 12pt \"Corbel\";\n"
 "}\n"
 "QStatusBar{\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
@@ -59,8 +58,11 @@ class Ui_managerMain(object):
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QPushButton{\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
 "    padding-left: 13px;\n"
 "    padding-right: 13px;\n"
@@ -69,40 +71,78 @@ class Ui_managerMain(object):
 "    font-weight: bold;\n"
 "}\n"
 "QPushButton::hover{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
-"    padding-left: 10px;\n"
-"    padding-right: 10px;\n"
-"    width: 80px;\n"
-"    background-color: rgb(200, 200, 200);\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(215, 215, 215);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
 "QPushButton::pressed{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
-"    padding-left: 8px;\n"
-"    padding-right: 8px;\n"
-"    background-color: rgb(175, 175, 175);\n"
+"    padding-left: 10px;\n"
+"    padding-right: 10px;\n"
+"    width: 80px;\n"
+"    background-color: rgb(225, 225, 225);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
 "QComboBox{\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
 "    background-color: rgb(225, 225, 225);\n"
 "}\n"
-"QComboBox::hover{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
-"    background-color: rgb(200, 200, 200);\n"
-"}\n"
 "QComboBox::pressed{\n"
-"    border: 2px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    background-color: rgb(175, 175, 175);\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::hover{\n"
+"    background-color: rgb(205, 205, 205);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::pressed{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::down-arrow{\n"
+"    image: url(:/meduit/arrow.png);\n"
+"    width: 14 px;\n"
+"    height:14 px;\n"
 "}")
         self.centralwidget = QtWidgets.QWidget(managerMain)
         self.centralwidget.setObjectName("centralwidget")
@@ -111,14 +151,6 @@ class Ui_managerMain(object):
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 3, 0, 1, 3)
-        self.managerCombo = QtWidgets.QComboBox(self.centralwidget)
-        self.managerCombo.setObjectName("managerCombo")
-        self.managerCombo.addItem("")
-        self.managerCombo.addItem("")
-        self.managerCombo.addItem("")
-        self.managerCombo.addItem("")
-        self.managerCombo.addItem("")
-        self.gridLayout.addWidget(self.managerCombo, 2, 1, 1, 1)
         self.agentTableView = QtWidgets.QTableView(self.centralwidget)
         self.agentTableView.setMinimumSize(QtCore.QSize(700, 0))
         self.agentTableView.setAlternatingRowColors(True)
@@ -141,14 +173,25 @@ class Ui_managerMain(object):
         self.label_2.setText("")
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 2, 5, 1, 1)
+        self.managerCombo = QtWidgets.QComboBox(self.centralwidget)
+        self.managerCombo.setMinimumSize(QtCore.QSize(150, 0))
+        self.managerCombo.setObjectName("managerCombo")
+        self.managerCombo.addItem("")
+        self.managerCombo.addItem("")
+        self.managerCombo.addItem("")
+        self.managerCombo.addItem("")
+        self.managerCombo.addItem("")
+        self.gridLayout.addWidget(self.managerCombo, 2, 1, 1, 1)
         managerMain.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(managerMain)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 718, 24))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
-        self.menuEmployee_Maintenance = QtWidgets.QMenu(self.menuFile)
-        self.menuEmployee_Maintenance.setObjectName("menuEmployee_Maintenance")
+        self.menuEmployees = QtWidgets.QMenu(self.menubar)
+        self.menuEmployees.setObjectName("menuEmployees")
+        self.menuView = QtWidgets.QMenu(self.menubar)
+        self.menuView.setObjectName("menuView")
         managerMain.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(managerMain)
         self.statusbar.setObjectName("statusbar")
@@ -159,11 +202,17 @@ class Ui_managerMain(object):
         self.actionRun_Desk_Goal_Update.setObjectName("actionRun_Desk_Goal_Update")
         self.actionAdd_Employee = QtWidgets.QAction(managerMain)
         self.actionAdd_Employee.setObjectName("actionAdd_Employee")
-        self.menuEmployee_Maintenance.addAction(self.actionUpdate_Employee)
-        self.menuEmployee_Maintenance.addAction(self.actionAdd_Employee)
-        self.menuEmployee_Maintenance.addAction(self.actionRun_Desk_Goal_Update)
-        self.menuFile.addAction(self.menuEmployee_Maintenance.menuAction())
+        self.actionTrending_Graphs = QtWidgets.QAction(managerMain)
+        self.actionTrending_Graphs.setObjectName("actionTrending_Graphs")
+        self.actionAdd_Employee_2 = QtWidgets.QAction(managerMain)
+        self.actionAdd_Employee_2.setObjectName("actionAdd_Employee_2")
+        self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
+        self.menuEmployees.addAction(self.actionAdd_Employee)
+        self.menuEmployees.addAction(self.actionUpdate_Employee)
+        self.menuView.addAction(self.actionTrending_Graphs)
         self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuEmployees.menuAction())
+        self.menubar.addAction(self.menuView.menuAction())
 
         self.retranslateUi(managerMain)
         QtCore.QMetaObject.connectSlotsByName(managerMain)
@@ -172,18 +221,21 @@ class Ui_managerMain(object):
         _translate = QtCore.QCoreApplication.translate
         managerMain.setWindowTitle(_translate("managerMain", "Manager KPI Tracker"))
         self.label_3.setText(_translate("managerMain", "Double Click user to see additional details."))
-        self.managerCombo.setItemText(0, _translate("managerMain", "All"))
-        self.managerCombo.setItemText(1, _translate("managerMain", "Patty"))
-        self.managerCombo.setItemText(2, _translate("managerMain", "Robert"))
-        self.managerCombo.setItemText(3, _translate("managerMain", "Shana"))
-        self.managerCombo.setItemText(4, _translate("managerMain", "Stephanie"))
         self.label.setText(_translate("managerMain", "Manager Select"))
         self.managerRefresh.setText(_translate("managerMain", "Refresh"))
+        self.managerCombo.setItemText(0, _translate("managerMain", "All"))
+        self.managerCombo.setItemText(1, _translate("managerMain", "Patty"))
+        self.managerCombo.setItemText(2, _translate("managerMain", "Jake"))
+        self.managerCombo.setItemText(3, _translate("managerMain", "Shana"))
+        self.managerCombo.setItemText(4, _translate("managerMain", "Stephanie"))
         self.menuFile.setTitle(_translate("managerMain", "&File"))
-        self.menuEmployee_Maintenance.setTitle(_translate("managerMain", "&Employees"))
+        self.menuEmployees.setTitle(_translate("managerMain", "Employees"))
+        self.menuView.setTitle(_translate("managerMain", "View"))
         self.actionUpdate_Employee.setText(_translate("managerMain", "&Update Employee"))
         self.actionRun_Desk_Goal_Update.setText(_translate("managerMain", "&Run CDS Desk Update"))
         self.actionAdd_Employee.setText(_translate("managerMain", "&Add Employee"))
+        self.actionTrending_Graphs.setText(_translate("managerMain", "Trending Graphs"))
+        self.actionAdd_Employee_2.setText(_translate("managerMain", "Add Employee"))
 import main_images_rc
 
 

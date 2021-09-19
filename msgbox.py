@@ -5,6 +5,20 @@ from PyQt5.QtGui import QIcon, QPixmap
 icon_path = r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"
 
 
+def closing_time():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("This application is only available during normal business hours.")
+    msg.setWindowTitle("Closing Time")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
 def confirm_save():
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Information)
@@ -45,5 +59,19 @@ def desk_update_complete():
     msg.setWindowIcon(icon)
     msg.setText('CDS Desk update is complete!.')
     msg.setWindowTitle("Desk Update Complete")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
+def unavailable():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    icon = QIcon()
+    icon.addPixmap(
+        QPixmap(icon_path),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText('This feature is currently unavailable at this time.')
+    msg.setWindowTitle("Unavailable")
     msg.setStandardButtons(QMessageBox.Ok)
     return msg

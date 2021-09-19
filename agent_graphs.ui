@@ -56,19 +56,51 @@ QStatusBar{
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
 QComboBox{
-	border: 1px solid black;
+	border: 1px solid;
+	border-color: rgb(75, 124, 154);
 	border-radius: 3px;
 	background-color: rgb(225, 225, 225);
 }
-QComboBox::hover{
-	border: 2px solid black;
-	border-radius: 3px;
-	background-color: rgb(200, 200, 200);
-}
 QComboBox::pressed{
-	border: 2px solid black;
+	border: 1px solid;
+	border-color: rgb(75, 124, 154);
 	border-radius: 3px;
-	background-color: rgb(175, 175, 175);
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::hover{
+	background-color: rgb(205, 205, 205);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::pressed{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::down-arrow{
+	image: url(:/meduit/arrow.png);
+	width: 14 px;
+	height:14 px;
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -103,6 +135,9 @@ QComboBox::pressed{
         </item>
         <item>
          <widget class="QComboBox" name="graphData1">
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
           <item>
            <property name="text">
             <string>RPC's - Monthly</string>
@@ -194,6 +229,9 @@ QComboBox::pressed{
         </item>
         <item>
          <widget class="QComboBox" name="graphData4">
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
           <item>
            <property name="text">
             <string>RPC's - Monthly</string>
@@ -274,20 +312,9 @@ QComboBox::pressed{
         <property name="styleSheet">
          <string notr="true">QGroupBox{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-	border: 1px solid black;
+	border: 1px solid rgb(75, 124, 154);
 	border-radius: 3px;
-	margin-top: 1ex;
-	padding-top: 0;
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}
-QGroupBox::title{
-	background-color: rgb(195, 195, 195);
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 2 10px;
-	subcontrol-origin: margin;
-	subcontrol-position: top;
+	padding-top: 0px;
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }</string>
@@ -308,20 +335,9 @@ QGroupBox::title{
         <property name="styleSheet">
          <string notr="true">QGroupBox{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-	border: 1px solid black;
+	border: 1px solid rgb(75, 124, 154);
 	border-radius: 3px;
-	margin-top: 1ex;
-	padding-top: 0;
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}
-QGroupBox::title{
-	background-color: rgb(195, 195, 195);
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 2 10px;
-	subcontrol-origin: margin;
-	subcontrol-position: top;
+	padding-top: 0px;
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }</string>
@@ -353,6 +369,9 @@ QGroupBox::title{
         </item>
         <item>
          <widget class="QComboBox" name="graphData3">
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
           <item>
            <property name="text">
             <string>RPC's - Monthly</string>
@@ -444,6 +463,9 @@ QGroupBox::title{
         </item>
         <item>
          <widget class="QComboBox" name="graphData2">
+          <property name="currentIndex">
+           <number>-1</number>
+          </property>
           <item>
            <property name="text">
             <string>RPC's - Monthly</string>
@@ -513,40 +535,6 @@ QGroupBox::title{
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QGroupBox" name="graphBox1">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QGroupBox{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-	border: 1px solid black;
-	border-radius: 3px;
-	margin-top: 1ex;
-	padding-top: 0;
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}
-QGroupBox::title{
-	background-color: rgb(195, 195, 195);
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 2 10px;
-	subcontrol-origin: margin;
-	subcontrol-position: top;
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}</string>
-        </property>
-        <property name="title">
-         <string/>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0">
        <widget class="QGroupBox" name="graphBox3">
         <property name="sizePolicy">
@@ -558,20 +546,9 @@ QGroupBox::title{
         <property name="styleSheet">
          <string notr="true">QGroupBox{
 	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-	border: 1px solid black;
+	border: 1px solid rgb(75, 124, 154);
 	border-radius: 3px;
-	margin-top: 1ex;
-	padding-top: 0;
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}
-QGroupBox::title{
-	background-color: rgb(195, 195, 195);
-	border: 1px solid black;
-	border-radius: 3px;
-	padding: 2 10px;
-	subcontrol-origin: margin;
-	subcontrol-position: top;
+	padding-top: 0px;
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }</string>
@@ -580,6 +557,9 @@ QGroupBox::title{
          <string/>
         </property>
        </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QWidget" name="graphBox1" native="true"/>
       </item>
      </layout>
     </widget>

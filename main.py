@@ -17,10 +17,244 @@ import msgbox
 from manager_main import Ui_managerMain
 from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
+from agent_graphs import Ui_agentGraphsMain
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
 managers = cmredb.managers()
+
+
+class Window(QMainWindow, Ui_managerMain):
+    """Main tracker window that Managers use to track Agent's current KPI's"""
+
+    def __init__(self):
+        super().__init__()
+        # Creates the main window UI and initialize class attributes
+        self.setupUi(self)
+
+        # Import users from CMRE database
+        self.all_users = cmredb.all_act_collectors()
+        self.pattys_team = cmredb.my_collectors('Patty')
+        self.jakes_team = cmredb.my_collectors('Jake')
+        self.shanas_team = cmredb.my_collectors('Shana')
+        self.stephanies_team = cmredb.my_collectors('Stephanie')
+
+        # Default sort is set to RPC's
+        self.user_sort_col = 3
+        # Default sorting order is descending
+        self.user_sort_order = Qt.DescendingOrder
+
+        # Build QStandardItemModel used to hold agent data to be placed in a table view
+        self.agentModel = QStandardItemModel(self)
+        self.agentModel.setHorizontalHeaderLabels(headers)
+        self.agentTableView.setModel(self.agentModel)
+        # Clear vertical headers
+        self.agentTableView.verticalHeader().setVisible(False)
+        # Last column will stretch to end of the table view
+        self.agentTableView.horizontalHeader().setStretchLastSection(True)
+
+        # Starts thread that loops to continuously update main window
+        self.start_thread()
+
+        # Connect main window's signals to slots
+        self.managerRefresh.clicked.connect(self.manual_refresh)
+        self.managerCombo.currentIndexChanged.connect(self.update_users)
+        self.agentTableView.horizontalHeader().sortIndicatorChanged.connect(self.sort_order)
+        self.agentTableView.doubleClicked.connect(self.agent_details)
+        # Options under "File" in menu bar
+        self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
+        # Options under "Employees" in menu bar
+        self.actionAdd_Employee.triggered.connect(self.add_employee)
+        self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
+        # Options under "View" in menu bar
+        self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        """Method used for handling column width when the user resizes the main UI"""
+        super().resizeEvent(event)
+        table_width = self.agentTableView.width()
+        set_width = 700
+        # Takes table width * column's min possible width / table's min possible width
+        # If a column is added, add the min column width to the total table width
+        self.agentTableView.setColumnWidth(0, int(table_width * 60 / set_width))
+        self.agentTableView.setColumnWidth(1, int(table_width * 170 / set_width))
+        self.agentTableView.setColumnWidth(2, int(table_width * 115 / set_width))
+        self.agentTableView.setColumnWidth(3, int(table_width * 110 / set_width))
+        self.agentTableView.setColumnWidth(4, int(table_width * 125 / set_width))
+        self.agentTableView.setColumnWidth(5, int(table_width * 90 / set_width))
+
+    def start_thread(self):
+        """Function that creates a worker thread that is used to refresh KPI's every 5 minuets on a loop."""
+
+        # Create thread object
+        self.thread = QThread()
+        # Create worker object
+        self.worker = Worker()
+        # Pass worker to thread for handling
+        self.worker.moveToThread(self.thread)
+        # Connect default signals and slots
+        self.thread.started.connect(self.worker.start_worker_loop)
+        self.worker.finished.connect(self.thread.quit)
+        self.worker.finished.connect(self.worker.deleteLater)
+        self.thread.finished.connect(self.thread.deleteLater)
+
+        # Connect app specific signals and slots
+        self.worker.refresh_main.connect(self.update_users)
+        self.worker.updt_main_stsbar.connect(self.update_status)
+        self.worker.close_app.connect(self.closing_time)
+
+        # Start the thread
+        self.thread.start()
+
+    def refresh_manager_lists(self):
+        self.all_users = cmredb.all_collectors()
+        self.pattys_team = cmredb.my_collectors('Patty')
+        self.jakes_team = cmredb.my_collectors('Jake')
+        self.shanas_team = cmredb.my_collectors('Shana')
+        self.stephanies_team = cmredb.my_collectors('Stephanie')
+
+    def manual_refresh(self):
+        """Function used to manually refresh the KPI's before the automatic refresh takes place."""
+        curr_time = datetime.strftime(datetime.now(), '%I:%M:%S %p')
+        # Update status bar message and call function to update QStandardItemModel
+        self.update_status(curr_time, '0:00 min')
+        self.update_users()
+
+    def update_users(self):
+        """Function used to gather info necessary to update data in QStandardItemModel."""
+
+        # Clear current data in QStandardItemModel except the headers
+        self.agentModel.setRowCount(0)
+
+        # Determine which users to add to QStandardItemModel based on manager
+        # selected then calls 'build_model' function passing said users.
+        if self.managerCombo.currentText() == 'Patty':
+            self.build_model(self.pattys_team)
+        elif self.managerCombo.currentText() == 'Jake':
+            self.build_model(self.jakes_team)
+        elif self.managerCombo.currentText() == 'Shana':
+            self.build_model(self.shanas_team)
+        elif self.managerCombo.currentText() == 'Stephanie':
+            self.build_model(self.stephanies_team)
+        else:
+            self.build_model(self.all_users)
+
+    def build_model(self, collectors):
+        """Function used to build the QStandardItemModel based on user selection."""
+
+        # Users is a nested list of user ID and name [['JSB', 'Jake Boden'], ]
+        for coll in collectors:
+            # Get user specific stats calling function from kpidb.py passing the User ID
+            agent_stats = cmredb.daily_kpis(coll[0])
+            # Check if result is null
+            if len(agent_stats) > 0:
+                # Convert tuple to list
+                list_stats = list(agent_stats[0])
+                # Format RPC's
+                rpcs = '{:.2f}'.format(float(list_stats[3]))
+                # Update list with formatted RPC's
+                list_stats[3] = rpcs
+                # Format conversion rate
+                conv = '{0:.0%}'.format(float(list_stats[4]))
+                # Uodate list with formatted conversion rate
+                list_stats[4] = conv
+                # Remove DAY from index 2
+                list_stats.pop(2)
+                # Insert collectors name. (User ID, Name, Start Time, RPC's, Conv, Last Update)
+                list_stats.insert(1, coll[1])
+            else:
+                # Query returned no results which indicates user has not logged into Agent Tracker
+                list_stats = [coll[0], coll[1], 'Not Logged In', '0.0', '0.0%', 'N/A']
+
+            # Converts items in list to a QStandardItem which is required for PyQt5
+            # All number and text formatting should be done PRIOR to converting
+            for index, item in enumerate(list_stats):
+                # Creates the QStandardItem from string object
+                data_obj = QStandardItem(item)
+
+                # Set object attributes
+                if index > 1:
+                    # Aligns the text in columns 2 and above
+                    data_obj.setTextAlignment(Qt.AlignCenter)
+                # Set object flags
+                data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                # Replace string item in list with newly created QStandardItem
+                list_stats[index] = data_obj
+
+            # Add user stats (list of QStandardItems) to QStandardItemModel
+            self.agentModel.appendRow(list_stats)
+
+        # Sort QStandardItemModel based on defaults or users current settings
+        self.agentModel.sort(self.user_sort_col, self.user_sort_order)
+
+        # Sets column widths based on current table width
+        if self.agentTableView.width() == 541:
+            self.agentTableView.resizeColumnsToContents()
+        self.agentTableView.resizeRowsToContents()
+
+    def update_status(self, time, count_down):
+        """Simple function used to update status bar message."""
+        self.statusbar.showMessage(f'Last updated at {time}. Next update in {count_down}.')
+
+    def sort_order(self, col, order):
+        """Simple function used to save the users sort column and sort order settings.
+        Called from the 'sortIndicatorChanged' signal of the QTableView."""
+        self.user_sort_col = col
+        self.user_sort_order = order
+
+    def agent_details(self, model):
+        """Function used to initialize the agent details window.
+        Called from the 'doubleClicked' signal of the QTableView."""
+
+        # Gets collector's User ID from the QStandardItemModel
+        user_id = self.agentModel.item(model.row(), 0).text()
+        coll_name = self.agentModel.item(model.row(), 1).text()
+
+        collector = f'{user_id} - {coll_name}'
+
+        # Creates the agent details window
+        agent_window = AgentDetails(collector)
+        agent_window.exec_()
+
+    def update_desks(self):
+        """Function used to update the desk and goals for all employees in the CMRE db."""
+        results = cds.get_act_desks()
+        for result in results:
+            cmredb.update_desks(result)
+        update_msg = msgbox.desk_update_complete()
+        update_msg.exec()
+
+    def add_employee(self):
+        msg = msgbox.unavailable()
+        msg.exec()
+
+    def employee_maintenance(self):
+        """Function used to initialize the employee maintenance window"""
+        emp_main = EmployeeMaintenance()
+        emp_main.exec_()
+
+    def employee_graphs(self):
+        """Function used to initialize the agent graphs window."""
+
+        selection = self.agentTableView.selectionModel().selectedRows()
+
+        if selection:
+            user_id = self.agentModel.item(selection[0].row(), 0).text()
+            coll_name = self.agentModel.item(selection[0].row(), 1).text()
+            collector = f'{user_id} - {coll_name}'
+        else:
+            collector = ""
+
+        agent_graphs = EmployeeGraphs(collector)
+        agent_graphs.exec_()
+
+    def closing_time(self):
+        """Function is called when user tries to run app after 5:40 pm. Will
+        also force close the app if left open overnight."""
+        closing_msg = msgbox.closing_time()
+        return_value = closing_msg.exec()
+        if return_value == QMessageBox.Ok:
+            app.quit()
 
 
 class Worker(QObject):
@@ -70,8 +304,96 @@ class Worker(QObject):
                     x -= 1
 
 
+class AgentDetails(QDialog, Ui_agentDetailsMain):
+    """Class that displays an agents details not shown in the MainWindow."""
+
+    def __init__(self, coll):
+        super().__init__()
+        # Initialize class attributes
+        self.setupUi(self)
+        self.user_id = ""
+
+        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
+        self.employeeSelect.currentIndexChanged.connect(self.update_info)
+        self.employeeGraphs.clicked.connect(self.employee_graphs)
+
+        # Triggers the currentIndexChanged event when initializing with the index
+        # that matches the employee selected from the main window.
+        index = self.employeeSelect.findText(coll)
+        if index == 0:
+            self.update_info()
+        else:
+            self.employeeSelect.setCurrentIndex(index)
+
+    def update_info(self):
+        """Updates the GUI with the newly selected employee's information."""
+        coll = self.employeeSelect.currentText().split(' - ')
+        self.user_id = coll[0]
+        self.coll_info()
+
+    def coll_info(self):
+        # Obtain agent details by calling function in kpidb.py
+        details = cmredb.coll_details(self.user_id)
+        # Obtain agent's current KPI's
+        curr_kpis = cmredb.daily_kpis(self.user_id)
+        # Converts results from a tuple to a list
+        coll_details = list(details)
+        # Obtain desk details from Oracle DB
+        desk_totals = cds.get_desk_totals(coll_details[6])
+
+        self.employeeMisc.setText(f'Email: <a href="mailto:{coll_details[4]}">{coll_details[4]}</a>')
+
+        self.agentName.setText(f'{coll_details[2]} {coll_details[1]}')
+        self.agentDesk.setText(coll_details[6])
+        self.agentExt.setText(str(coll_details[5]))
+        self.agentGoal.setText('${:,.2f}'.format(desk_totals[0][0]))
+
+        self.agentPrinc.setText('${:,.2f}'.format(desk_totals[0][1]))
+        self.agentInt.setText('${:,.2f}'.format(desk_totals[0][2]))
+        self.agentTotal.setText('${:,.2f}'.format(desk_totals[0][3]))
+        self.agentComm.setText('${:,.2f}'.format(desk_totals[0][4]))
+
+        try:
+            self.agentRPC.setText('{:.2f}'.format(float(curr_kpis[0][3])))
+            self.agentConv.setText('{0:.0%}'.format(float(curr_kpis[0][4])))
+        except IndexError:
+            self.agentRPC.setText('Not Logged In')
+            self.agentConv.setText('Not Logged In')
+
+        self.agentDesc1.setText(coll_details[9])
+        self.agentDesc2.setText(coll_details[12])
+        self.agentDesc3.setText(coll_details[15])
+
+        self.agentBase1.setText(str(coll_details[10]))
+        self.agentBase2.setText(str(coll_details[13]))
+        self.agentBase3.setText(str(coll_details[16]))
+
+        self.agentGoal1.setText(str(coll_details[11]))
+        self.agentGoal2.setText(str(coll_details[14]))
+        self.agentGoal3.setText(str(coll_details[17]))
+
+        # Checks if total collected is greater then the collector's goal
+        if desk_totals[0][3] > desk_totals[0][0]:
+            self.agentTotal.setStyleSheet("""
+            QLineEdit{
+                background-color: rgb(10, 211, 0);
+            }""")
+        else:
+            self.agentTotal.setStyleSheet("""
+            QLineEdit{
+                background-color: rgb(223, 223, 223);
+            }""")
+
+    def employee_graphs(self):
+        """Function used to initialize the agent graphs window."""
+        coll = self.employeeSelect.currentText()
+        agent_graphs = EmployeeGraphs(coll)
+        agent_graphs.exec_()
+
+
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     """Employee Maintenance screen used to update and change employee information."""
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -329,7 +651,51 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.close()
 
 
-class EmployeeGraph:
+class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
+    """Class that displays trending graphs for the selected agent."""
+
+    def __init__(self, coll):
+        super().__init__()
+        # Initialize class attributes
+        self.setupUi(self)
+        self.user_id = ""
+
+        # Build graph objects
+        self.emp_graph_1 = MyGraphs("Graph 1")
+        self.graphBox1.setLayout(self.emp_graph_1.layout)
+        # self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
+        # self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
+        # self.month_conv_gp = EmployeeGraph("Monthly Conv. Rate")
+        # self.monthConvBox.setLayout(self.month_conv_gp.layout)
+        # self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
+        # self.weekConvBox.setLayout(self.week_conv_gp.layout)
+
+        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
+        self.employeeSelect.currentIndexChanged.connect(self.update_info)
+
+        index = self.employeeSelect.findText(coll)
+
+        if index == 0:
+            self.update_info()
+        elif index > -1:
+            self.employeeSelect.setCurrentIndex(index)
+
+    def update_info(self):
+        """Updates the GUI with the newly selected employee's information."""
+        coll = self.employeeSelect.currentText().split(' - ')
+        self.user_id = coll[0]
+        self.draw_graphs()
+
+    def draw_graphs(self):
+        print(f"Draw {self.user_id}'s Graphs!!")
+
+        # self.month_rpc_gp.build_graph(self.user_id, month="yes", rpc="yes")
+        # self.week_rpc_gp.build_graph(self.user_id, month="no", rpc="yes")
+        # self.month_conv_gp.build_graph(self.user_id, month="yes", rpc="no")
+        # self.week_conv_gp.build_graph(self.user_id, month="no", rpc="no")
+
+
+class MyGraphs:
     """Class used to create a graph template for the Employee Details."""
 
     def __init__(self, title):
@@ -346,6 +712,7 @@ class EmployeeGraph:
         self.axisX = QBarCategoryAxis()
 
         self.layout = QHBoxLayout()
+        self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self.chartview)
 
     def build_graph(self, user_id, month, rpc):
@@ -422,317 +789,6 @@ class EmployeeGraph:
         self.chart.setAxisY(self.axisY)
         series.attachAxis(self.axisX)
         series.attachAxis(self.axisY)
-
-
-class AgentDetails(QDialog, Ui_agentDetailsMain):
-    """Class that displays an agents details not shown in the MainWindow."""
-
-    def __init__(self, coll):
-        super().__init__()
-        # Initialize class attributes
-        self.setupUi(self)
-        self.user_id = ""
-
-        # Build graph objects
-        self.month_rpc_gp = EmployeeGraph("Monthly RPC's")
-        self.monthRPCbox.setLayout(self.month_rpc_gp.layout)
-        self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
-        self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
-        self.month_conv_gp = EmployeeGraph("Monthly Conv. Rate")
-        self.monthConvBox.setLayout(self.month_conv_gp.layout)
-        self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
-        self.weekConvBox.setLayout(self.week_conv_gp.layout)
-
-        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
-        self.employeeSelect.currentIndexChanged.connect(self.update_info)
-
-        # Triggers the currentIndexChanged event when initializing with the index
-        # that matches the employee selected from the main window.
-        index = self.employeeSelect.findText(coll)
-        if index == 0:
-            self.update_info()
-        else:
-            self.employeeSelect.setCurrentIndex(index)
-
-    def update_info(self):
-        """Updates the GUI with the newly selected employee's information."""
-        coll = self.employeeSelect.currentText().split(' - ')
-        self.user_id = coll[0]
-        self.coll_info()
-        self.month_rpc_gp.build_graph(self.user_id, month="yes", rpc="yes")
-        self.week_rpc_gp.build_graph(self.user_id, month="no", rpc="yes")
-        self.month_conv_gp.build_graph(self.user_id, month="yes", rpc="no")
-        self.week_conv_gp.build_graph(self.user_id, month="no", rpc="no")
-
-    def coll_info(self):
-        # Obtain agent details by calling function in kpidb.py
-        details = cmredb.coll_details(self.user_id)
-        # Obtain agent's current KPI's
-        curr_kpis = cmredb.daily_kpis(self.user_id)
-        # Converts results from a tuple to a list
-        coll_details = list(details)
-        # Obtain desk details from Oracle DB
-        desk_totals = cds.get_desk_totals(coll_details[6])
-
-        self.employeeMisc.setText(f'Email: <a href="mailto:{coll_details[4]}">{coll_details[4]}</a>')
-
-        self.agentName.setText(f'{coll_details[2]} {coll_details[1]}')
-        self.agentDesk.setText(coll_details[6])
-        self.agentExt.setText(str(coll_details[5]))
-        self.agentGoal.setText('${:,.2f}'.format(desk_totals[0][0]))
-
-        self.agentPrinc.setText('${:,.2f}'.format(desk_totals[0][1]))
-        self.agentInt.setText('${:,.2f}'.format(desk_totals[0][2]))
-        self.agentTotal.setText('${:,.2f}'.format(desk_totals[0][3]))
-        self.agentComm.setText('${:,.2f}'.format(desk_totals[0][4]))
-
-        try:
-            self.agentRPC.setText('{:.2f}'.format(float(curr_kpis[0][3])))
-            self.agentConv.setText('{0:.0%}'.format(float(curr_kpis[0][4])))
-        except IndexError:
-            self.agentRPC.setText('Not Logged In')
-            self.agentConv.setText('Not Logged In')
-
-        self.agentDesc1.setText(coll_details[9])
-        self.agentDesc2.setText(coll_details[12])
-        self.agentDesc3.setText(coll_details[15])
-
-        self.agentBase1.setText(str(coll_details[10]))
-        self.agentBase2.setText(str(coll_details[13]))
-        self.agentBase3.setText(str(coll_details[16]))
-
-        self.agentGoal1.setText(str(coll_details[11]))
-        self.agentGoal2.setText(str(coll_details[14]))
-        self.agentGoal3.setText(str(coll_details[17]))
-
-        # Checks if total collected is greater then the collector's goal
-        if desk_totals[0][3] > desk_totals[0][0]:
-            self.agentTotal.setStyleSheet("""
-            QLineEdit{
-                background-color: rgb(10, 211, 0);
-            }""")
-        else:
-            self.agentTotal.setStyleSheet("""
-            QLineEdit{
-                background-color: rgb(223, 223, 223);
-            }""")
-        
-
-class Window(QMainWindow, Ui_managerMain):
-    """Main tracker window that Managers use to track Agent's current KPI's"""
-
-    def __init__(self):
-        super().__init__()
-        # Creates the main window UI and initialize class attributes
-        self.setupUi(self)
-
-        # Import users from CMRE database
-        self.all_users = cmredb.all_act_collectors()
-        self.pattys_team = cmredb.my_collectors('Patty')
-        self.jakes_team = cmredb.my_collectors('Jake')
-        self.shanas_team = cmredb.my_collectors('Shana')
-        self.stephanies_team = cmredb.my_collectors('Stephanie')
-
-        # Default sort is set to RPC's
-        self.user_sort_col = 3
-        # Default sorting order is descending
-        self.user_sort_order = Qt.DescendingOrder
-
-        # Build QStandardItemModel used to hold agent data to be placed in a table view
-        self.agentModel = QStandardItemModel(self)
-        self.agentModel.setHorizontalHeaderLabels(headers)
-        self.agentTableView.setModel(self.agentModel)
-        # Clear vertical headers
-        self.agentTableView.verticalHeader().setVisible(False)
-        # Last column will stretch to end of the table view
-        self.agentTableView.horizontalHeader().setStretchLastSection(True)
-
-        # Starts thread that loops to continuously update main window
-        self.start_thread()
-
-        # Connect main window's signals to slots
-        self.managerRefresh.clicked.connect(self.manual_refresh)
-        self.managerCombo.currentIndexChanged.connect(self.update_users)
-        self.agentTableView.horizontalHeader().sortIndicatorChanged.connect(self.sort_order)
-        self.agentTableView.doubleClicked.connect(self.agent_details)
-        self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
-        self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        """Method used for handling column width when the user resizes the main UI"""
-        super().resizeEvent(event)
-        table_width = self.agentTableView.width()
-        set_width = 700
-        # Takes table width * column's min possible width / table's min possible width
-        # If a column is added, add the min column width to the total table width
-        self.agentTableView.setColumnWidth(0, int(table_width * 60 / set_width))
-        self.agentTableView.setColumnWidth(1, int(table_width * 170 / set_width))
-        self.agentTableView.setColumnWidth(2, int(table_width * 115 / set_width))
-        self.agentTableView.setColumnWidth(3, int(table_width * 110 / set_width))
-        self.agentTableView.setColumnWidth(4, int(table_width * 125 / set_width))
-        self.agentTableView.setColumnWidth(5, int(table_width * 90 / set_width))
-
-    def start_thread(self):
-        """Function that creates a worker thread that is used to refresh KPI's every 5 minuets on a loop."""
-
-        # Create thread object
-        self.thread = QThread()
-        # Create worker object
-        self.worker = Worker()
-        # Pass worker to thread for handling
-        self.worker.moveToThread(self.thread)
-        # Connect default signals and slots
-        self.thread.started.connect(self.worker.start_worker_loop)
-        self.worker.finished.connect(self.thread.quit)
-        self.worker.finished.connect(self.worker.deleteLater)
-        self.thread.finished.connect(self.thread.deleteLater)
-
-        # Connect app specific signals and slots
-        self.worker.refresh_main.connect(self.update_users)
-        self.worker.updt_main_stsbar.connect(self.update_status)
-        self.worker.close_app.connect(self.closing_time)
-
-        # Start the thread
-        self.thread.start()
-
-    def refresh_manager_lists(self):
-        self.all_users = cmredb.all_collectors()
-        self.pattys_team = cmredb.my_collectors('Patty')
-        self.jakes_team = cmredb.my_collectors('Jake')
-        self.shanas_team = cmredb.my_collectors('Shana')
-        self.stephanies_team = cmredb.my_collectors('Stephanie')
-
-    def manual_refresh(self):
-        """Function used to manually refresh the KPI's before the automatic refresh takes place."""
-        curr_time = datetime.strftime(datetime.now(), '%I:%M:%S %p')
-        # Update status bar message and call function to update QStandardItemModel
-        self.update_status(curr_time, '0:00 min')
-        self.update_users()
-
-    def update_users(self):
-        """Function used to gather info necessary to update data in QStandardItemModel."""
-
-        # Clear current data in QStandardItemModel except the headers
-        self.agentModel.setRowCount(0)
-
-        # Determine which users to add to QStandardItemModel based on manager
-        # selected then calls 'build_model' function passing said users.
-        if self.managerCombo.currentText() == 'Patty':
-            self.build_model(self.pattys_team)
-        elif self.managerCombo.currentText() == 'Jake':
-            self.build_model(self.jakes_team)
-        elif self.managerCombo.currentText() == 'Shana':
-            self.build_model(self.shanas_team)
-        elif self.managerCombo.currentText() == 'Stephanie':
-            self.build_model(self.stephanies_team)
-        else:
-            self.build_model(self.all_users)
-
-    def build_model(self, collectors):
-        """Function used to build the QStandardItemModel based on user selection."""
-
-        # Users is a nested list of user ID and name [['JSB', 'Jake Boden'], ]
-        for coll in collectors:
-            # Get user specific stats calling function from kpidb.py passing the User ID
-            agent_stats = cmredb.daily_kpis(coll[0])
-            # Check if result is null
-            if len(agent_stats) > 0:
-                # Convert tuple to list
-                list_stats = list(agent_stats[0])
-                # Format RPC's
-                rpcs = '{:.2f}'.format(float(list_stats[3]))
-                # Update list with formatted RPC's
-                list_stats[3] = rpcs
-                # Format conversion rate
-                conv = '{0:.0%}'.format(float(list_stats[4]))
-                # Uodate list with formatted conversion rate
-                list_stats[4] = conv
-                # Remove DAY from index 2
-                list_stats.pop(2)
-                # Insert collectors name. (User ID, Name, Start Time, RPC's, Conv, Last Update)
-                list_stats.insert(1, coll[1])
-            else:
-                # Query returned no results which indicates user has not logged into Agent Tracker
-                list_stats = [coll[0], coll[1], 'Not Logged In', '0.0', '0.0%', 'N/A']
-
-            # Converts items in list to a QStandardItem which is required for PyQt5
-            # All number and text formatting should be done PRIOR to converting
-            for index, item in enumerate(list_stats):
-                # Creates the QStandardItem from string object
-                data_obj = QStandardItem(item)
-
-                # Set object attributes
-                if index > 1:
-                    # Aligns the text in columns 2 and above
-                    data_obj.setTextAlignment(Qt.AlignCenter)
-                # Set object flags
-                data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                # Replace string item in list with newly created QStandardItem
-                list_stats[index] = data_obj
-
-            # Add user stats (list of QStandardItems) to QStandardItemModel
-            self.agentModel.appendRow(list_stats)
-
-        # Sort QStandardItemModel based on defaults or users current settings
-        self.agentModel.sort(self.user_sort_col, self.user_sort_order)
-
-        # Sets column widths based on current table width
-        if self.agentTableView.width() == 541:
-            self.agentTableView.resizeColumnsToContents()
-        self.agentTableView.resizeRowsToContents()
-
-    def update_status(self, time, count_down):
-        """Simple function used to update status bar message."""
-        self.statusbar.showMessage(f'Last updated at {time}. Next update in {count_down}.')
-
-    def sort_order(self, col, order):
-        """Simple function used to save the users sort column and sort order settings.
-        Called from the 'sortIndicatorChanged' signal of the QTableView."""
-        self.user_sort_col = col
-        self.user_sort_order = order
-
-    def agent_details(self, model):
-        """Function used to initialize the agent details window.
-        Called from the 'doubleClicked' signal of the QTableView."""
-
-        # Gets collector's User ID from the QStandardItemModel
-        user_id = self.agentModel.item(model.row(), 0).text()
-        coll_name = self.agentModel.item(model.row(), 1).text()
-
-        collector = f'{user_id} - {coll_name}'
-
-        # Creates the agent details window
-        agent_window = AgentDetails(collector)
-        agent_window.exec_()
-
-    def employee_maintenance(self):
-        """Function used to initialize the employee maintenance window"""
-        emp_main = EmployeeMaintenance()
-        emp_main.exec_()
-
-    def update_desks(self):
-        """Function used to update the desk and goals for all employees in the CMRE db."""
-        results = cds.get_act_desks()
-        for result in results:
-            cmredb.update_desks(result)
-        update_msg = msgbox.desk_update_complete()
-        update_msg.exec()
-
-    def closing_time(self):
-        """Function is called when user tries to run app after 5:40 pm. Will
-        also force close the app if left open overnight."""
-        msg = QMessageBox()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"),
-                       QIcon.Normal, QIcon.Off)
-        msg.setWindowIcon(icon)
-        msg.setIcon(QMessageBox.Question)
-        msg.setText("It's now 5:40 and time to stop working.\nDon't you agree?")
-        msg.setWindowTitle("Closing Time")
-        msg.setStandardButtons(QMessageBox.Ok)
-        return_value = msg.exec()
-        if return_value == QMessageBox.Ok:
-            app.quit()
 
 
 if __name__ == "__main__":

@@ -46,7 +46,7 @@ QGroupBox::title{
 }
 QLineEdit{
 	background-color: rgb(223, 223, 223);
-	border: 1px solid black;
+	border: 1px solid rgb(95, 158, 195);
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
 QTextEdit{
@@ -56,8 +56,11 @@ QStatusBar{
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
 QPushButton{
-	border: 1px solid black;
-	border-radius: 3px;
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
 	padding: 2px;
 	padding-left: 13px;
 	padding-right: 13px;
@@ -66,40 +69,78 @@ QPushButton{
 	font-weight: bold;
 }
 QPushButton::hover{
-	border: 2px solid black;
-	border-radius: 3px;
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
 	padding: 2px;
-	padding-left: 10px;
-	padding-right: 10px;
-	width: 80px;
-	background-color: rgb(200, 200, 200);
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(215, 215, 215);
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }
 QPushButton::pressed{
-	border: 2px solid black;
-	border-radius: 3px;
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 4px;
 	padding: 2px;
-	padding-left: 8px;
-	padding-right: 8px;
-	background-color: rgb(175, 175, 175);
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80px;
+	background-color: rgb(225, 225, 225);
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
 }
 QComboBox{
-	border: 1px solid black;
+	border: 1px solid;
+	border-color: rgb(75, 124, 154);
 	border-radius: 3px;
 	background-color: rgb(225, 225, 225);
 }
-QComboBox::hover{
-	border: 2px solid black;
-	border-radius: 3px;
-	background-color: rgb(200, 200, 200);
-}
 QComboBox::pressed{
-	border: 2px solid black;
+	border: 1px solid;
+	border-color: rgb(75, 124, 154);
 	border-radius: 3px;
-	background-color: rgb(175, 175, 175);
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::hover{
+	background-color: rgb(205, 205, 205);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::pressed{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::down-arrow{
+	image: url(:/meduit/arrow.png);
+	width: 14 px;
+	height:14 px;
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -721,6 +762,8 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="main_images.qrc"/>
+ </resources>
  <connections/>
 </ui>

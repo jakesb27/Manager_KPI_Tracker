@@ -56,19 +56,51 @@ class Ui_agentGraphsMain(object):
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QComboBox{\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
 "    background-color: rgb(225, 225, 225);\n"
 "}\n"
-"QComboBox::hover{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
-"    background-color: rgb(200, 200, 200);\n"
-"}\n"
 "QComboBox::pressed{\n"
-"    border: 2px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    background-color: rgb(175, 175, 175);\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::hover{\n"
+"    background-color: rgb(205, 205, 205);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::pressed{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::down-arrow{\n"
+"    image: url(:/meduit/arrow.png);\n"
+"    width: 14 px;\n"
+"    height:14 px;\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(agentGraphsMain)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -148,20 +180,9 @@ class Ui_agentGraphsMain(object):
         self.graphBox2.setSizePolicy(sizePolicy)
         self.graphBox2.setStyleSheet("QGroupBox{\n"
 "    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
+"    padding-top: 0px;\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}")
@@ -176,20 +197,9 @@ class Ui_agentGraphsMain(object):
         self.graphBox4.setSizePolicy(sizePolicy)
         self.graphBox4.setStyleSheet("QGroupBox{\n"
 "    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
+"    padding-top: 0px;\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}")
@@ -256,34 +266,6 @@ class Ui_agentGraphsMain(object):
         self.graphData2.addItem("")
         self.horizontalLayout_2.addWidget(self.graphData2)
         self.gridLayout.addLayout(self.horizontalLayout_2, 1, 1, 1, 1)
-        self.graphBox1 = QtWidgets.QGroupBox(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.graphBox1.sizePolicy().hasHeightForWidth())
-        self.graphBox1.setSizePolicy(sizePolicy)
-        self.graphBox1.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.graphBox1.setTitle("")
-        self.graphBox1.setObjectName("graphBox1")
-        self.gridLayout.addWidget(self.graphBox1, 2, 0, 1, 1)
         self.graphBox3 = QtWidgets.QGroupBox(self.frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
@@ -292,26 +274,18 @@ class Ui_agentGraphsMain(object):
         self.graphBox3.setSizePolicy(sizePolicy)
         self.graphBox3.setStyleSheet("QGroupBox{\n"
 "    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
+"    padding-top: 0px;\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}")
         self.graphBox3.setTitle("")
         self.graphBox3.setObjectName("graphBox3")
         self.gridLayout.addWidget(self.graphBox3, 4, 0, 1, 1)
+        self.graphBox1 = QtWidgets.QWidget(self.frame)
+        self.graphBox1.setObjectName("graphBox1")
+        self.gridLayout.addWidget(self.graphBox1, 2, 0, 1, 1)
         self.gridLayout_2.addWidget(self.frame, 1, 0, 1, 2)
         self.label = QtWidgets.QLabel(agentGraphsMain)
         self.label.setStyleSheet("image: url(:/meduit/Meduit Email.png);")
@@ -356,6 +330,10 @@ class Ui_agentGraphsMain(object):
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
 
         self.retranslateUi(agentGraphsMain)
+        self.graphData1.setCurrentIndex(-1)
+        self.graphData4.setCurrentIndex(-1)
+        self.graphData3.setCurrentIndex(-1)
+        self.graphData2.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(agentGraphsMain)
         agentGraphsMain.setTabOrder(self.employeeSelect, self.graphData1)
         agentGraphsMain.setTabOrder(self.graphData1, self.graphData2)

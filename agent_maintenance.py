@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_agentMaintenance(object):
     def setupUi(self, agentMaintenance):
         agentMaintenance.setObjectName("agentMaintenance")
-        agentMaintenance.resize(719, 470)
+        agentMaintenance.resize(714, 482)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentMaintenance.setWindowIcon(icon)
@@ -45,7 +45,7 @@ class Ui_agentMaintenance(object):
 "    font-weight: bold;\n"
 "}\n"
 "QLineEdit{\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid rgb(75, 124, 154);;\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QTextEdit{\n"
@@ -55,8 +55,11 @@ class Ui_agentMaintenance(object):
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QPushButton{\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
 "    padding-left: 13px;\n"
 "    padding-right: 13px;\n"
@@ -65,40 +68,78 @@ class Ui_agentMaintenance(object):
 "    font-weight: bold;\n"
 "}\n"
 "QPushButton::hover{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
-"    padding-left: 10px;\n"
-"    padding-right: 10px;\n"
-"    width: 80px;\n"
-"    background-color: rgb(200, 200, 200);\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(215, 215, 215);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
 "QPushButton::pressed{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
 "    padding: 2px;\n"
-"    padding-left: 8px;\n"
-"    padding-right: 8px;\n"
-"    background-color: rgb(175, 175, 175);\n"
+"    padding-left: 10px;\n"
+"    padding-right: 10px;\n"
+"    width: 80px;\n"
+"    background-color: rgb(225, 225, 225);\n"
 "    font: 11pt \"Corbel\";\n"
 "    font-weight: bold;\n"
 "}\n"
 "QComboBox{\n"
-"    border: 1px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
 "    background-color: rgb(225, 225, 225);\n"
 "}\n"
-"QComboBox::hover{\n"
-"    border: 2px solid black;\n"
-"    border-radius: 3px;\n"
-"    background-color: rgb(200, 200, 200);\n"
-"}\n"
 "QComboBox::pressed{\n"
-"    border: 2px solid black;\n"
+"    border: 1px solid;\n"
+"    border-color: rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
-"    background-color: rgb(175, 175, 175);\n"
+"    background-color: rgb(225, 225, 225);\n"
+"}\n"
+"QComboBox::drop-down{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::hover{\n"
+"    background-color: rgb(205, 205, 205);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::drop-down::pressed{\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 3px;\n"
+"    subcontrol-origin: margin;\n"
+"    width: 16px;\n"
+"}\n"
+"QComboBox::down-arrow{\n"
+"    image: url(:/meduit/arrow.png);\n"
+"    width: 14 px;\n"
+"    height:14 px;\n"
 "}")
         self.gridLayout_2 = QtWidgets.QGridLayout(agentMaintenance)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -436,14 +477,6 @@ class Ui_agentMaintenance(object):
         self.label_21 = QtWidgets.QLabel(self.agentDetails)
         self.label_21.setObjectName("label_21")
         self.gridLayout.addWidget(self.label_21, 8, 4, 1, 1)
-        self.employeeSelect = QtWidgets.QComboBox(self.agentDetails)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.employeeSelect.sizePolicy().hasHeightForWidth())
-        self.employeeSelect.setSizePolicy(sizePolicy)
-        self.employeeSelect.setObjectName("employeeSelect")
-        self.gridLayout.addWidget(self.employeeSelect, 0, 1, 1, 3)
         self.label = QtWidgets.QLabel(self.agentDetails)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -504,6 +537,14 @@ class Ui_agentMaintenance(object):
         self.activeEmpBox = QtWidgets.QCheckBox(self.agentDetails)
         self.activeEmpBox.setObjectName("activeEmpBox")
         self.gridLayout.addWidget(self.activeEmpBox, 1, 1, 1, 1)
+        self.employeeSelect = QtWidgets.QComboBox(self.agentDetails)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.employeeSelect.sizePolicy().hasHeightForWidth())
+        self.employeeSelect.setSizePolicy(sizePolicy)
+        self.employeeSelect.setObjectName("employeeSelect")
+        self.gridLayout.addWidget(self.employeeSelect, 0, 1, 1, 4)
         self.gridLayout_2.addWidget(self.agentDetails, 1, 1, 1, 8)
         self.clearButton = QtWidgets.QPushButton(agentMaintenance)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -626,13 +667,14 @@ class Ui_agentMaintenance(object):
         self.label_5.setText(_translate("agentMaintenance", "Group:"))
         self.agentManager.setItemText(0, _translate("agentMaintenance", " - Select A Manager - "))
         self.agentManager.setItemText(1, _translate("agentMaintenance", "Patty"))
-        self.agentManager.setItemText(2, _translate("agentMaintenance", "Robert"))
+        self.agentManager.setItemText(2, _translate("agentMaintenance", "Jake"))
         self.agentManager.setItemText(3, _translate("agentMaintenance", "Shana"))
         self.agentManager.setItemText(4, _translate("agentMaintenance", "Stephanie"))
         self.label_6.setText(_translate("agentMaintenance", "Email:"))
         self.activeEmpBox.setText(_translate("agentMaintenance", "Active Employee"))
         self.clearButton.setText(_translate("agentMaintenance", "&Clear"))
         self.saveButton.setText(_translate("agentMaintenance", "&Save"))
+import main_images_rc
 
 
 if __name__ == "__main__":
