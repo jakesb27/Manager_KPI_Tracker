@@ -95,14 +95,10 @@ QPushButton::pressed{
 	font-weight: bold;
 }
 QComboBox{
-	border: 1px solid;
-	border-color: rgb(75, 124, 154);
-	border-radius: 3px;
-	background-color: rgb(225, 225, 225);
-}
-QComboBox::pressed{
-	border: 1px solid;
-	border-color: rgb(75, 124, 154);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(75, 124, 154);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(75, 124, 154);
 	border-radius: 3px;
 	background-color: rgb(225, 225, 225);
 }
@@ -151,6 +147,11 @@ QComboBox::down-arrow{
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="3" column="1">
        <widget class="QComboBox" name="agentDesc3">
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
         <item>
          <property name="text">
           <string> - Select A Goal - </string>
@@ -403,6 +404,11 @@ QComboBox::down-arrow{
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="agentDesc1">
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
         <item>
          <property name="text">
           <string> - Select A Goal - </string>
@@ -477,6 +483,11 @@ QComboBox::down-arrow{
       </item>
       <item row="2" column="1">
        <widget class="QComboBox" name="agentDesc2">
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
         <item>
          <property name="text">
           <string> - Select A Goal - </string>
@@ -920,6 +931,11 @@ QComboBox::down-arrow{
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
         <item>
          <property name="text">
           <string> - Select A Manager - </string>
@@ -987,6 +1003,11 @@ QComboBox::down-arrow{
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
         </property>
        </widget>
       </item>

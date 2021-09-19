@@ -83,6 +83,24 @@ SELECT *
 FROM(
     SELECT
         KPI_DATE,
+        RPC_TOTAL
+    FROM
+        MONTHLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        KPI_DATE DESC
+    LIMIT 6
+    )
+ORDER BY
+    KPI_DATE ASC
+"""
+
+monthly_rpcs_ph_sql = """
+SELECT *
+FROM(
+    SELECT
+        KPI_DATE,
         round(RPC_PER_HOUR, 2) "RPC_PER_HOUR"
     FROM
         MONTHLY_KPIS
@@ -96,22 +114,40 @@ ORDER BY
     KPI_DATE ASC
 """
 
-weekly_rpcs_sql = """
+monthly_conn_sql = """
 SELECT *
 FROM(
     SELECT
-        WEEK_DATE,
-        round(RPC_PER_HOUR, 2) "RPC_PER_HOUR"
+        KPI_DATE,
+        CONN_TOTAL
     FROM
-        WEEKLY_KPIS
+        MONTHLY_KPIS
     WHERE
         USER_ID=:user_id
     ORDER BY
-        WEEK_DATE DESC
-    LIMIT 5
+        KPI_DATE DESC
+    LIMIT 6
     )
 ORDER BY
-    WEEK_DATE ASC
+    KPI_DATE ASC
+"""
+
+monthly_conn_ph_sql = """
+SELECT *
+FROM(
+    SELECT
+        KPI_DATE,
+        round(CONN_PER_HOUR, 2) "CONN_PER_HOUR"
+    FROM
+        MONTHLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        KPI_DATE DESC
+    LIMIT 6
+    )
+ORDER BY
+    KPI_DATE ASC
 """
 
 monthly_conv_sql = """
@@ -132,12 +168,138 @@ ORDER BY
     KPI_DATE ASC
 """
 
+monthly_fees_sql = """
+SELECT *
+FROM(
+    SELECT
+        KPI_DATE,
+        FEES_TOTAL
+    FROM
+        MONTHLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        KPI_DATE DESC
+    LIMIT 6
+    )
+ORDER BY
+    KPI_DATE ASC
+"""
+
+monthly_totals_sql = """
+SELECT *
+FROM(
+    SELECT
+        MONTH_DATE,
+        TOTAL_COLL
+    FROM
+        TOTALS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        MONTH_DATE DESC
+    LIMIT 6
+    )
+ORDER BY
+    MONTH_DATE ASC
+"""
+
+weekly_rpcs_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        RPC_TOTAL
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
+weekly_rpcs_ph_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        round(RPC_PER_HOUR, 2) "RPC_PER_HOUR"
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
+weekly_conn_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        CONN_TOTAL
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
+weekly_conn_ph_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        round(CONN_PER_HOUR, 2) "CONN_PER_HOUR"
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
 weekly_conv_sql = """
 SELECT *
 FROM(
     SELECT
         WEEK_DATE,
         CONV_RATE
+    FROM
+        WEEKLY_KPIS
+    WHERE
+        USER_ID=:user_id
+    ORDER BY
+        WEEK_DATE DESC
+    LIMIT 5
+    )
+ORDER BY
+    WEEK_DATE ASC
+"""
+
+weekly_fees_sql = """
+SELECT *
+FROM(
+    SELECT
+        WEEK_DATE,
+        FEES_TOTAL
     FROM
         WEEKLY_KPIS
     WHERE
@@ -242,6 +404,7 @@ def managers():
 
 
 def monthly_rpcs(collector):
+    """Simple function used to query SQLite database for monthly RPC's."""
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(monthly_rpcs_sql, (collector, ))
@@ -250,16 +413,38 @@ def monthly_rpcs(collector):
     return rows
 
 
-def weekly_rpcs(collector):
+def monthly_rpcs_ph(collector):
+    """Simple function used to query SQLite database for monthly RPC's per hour."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(weekly_rpcs_sql, (collector, ))
+    cur.execute(monthly_rpcs_ph_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def monthly_conn(collector):
+    """Simple function used to query SQLite database for monthly Connects."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(monthly_conn_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def monthly_conn_ph(collector):
+    """Simple function used to query SQLite database for monthly Connects per hour."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(monthly_conn_ph_sql, (collector, ))
     rows = cur.fetchall()
     conn.close()
     return rows
 
 
 def monthly_conv(collector):
+    """Simple function used to query SQLite database for monthly conversion rate."""
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(monthly_conv_sql, (collector, ))
@@ -268,7 +453,68 @@ def monthly_conv(collector):
     return rows
 
 
+def monthly_fees(collector):
+    """Simple function used to query SQLite database for monthly fees."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(monthly_fees_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def monthly_totals(collector):
+    """Simple function used to query SQLite database for monthly totals."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(monthly_totals_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def weekly_rpcs(collector):
+    """Simple function used to query SQLite database for weekly RPC's."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_rpcs_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def weekly_rpcs_ph(collector):
+    """Simple function used to query SQLite database for weekly RPC's per hour."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_rpcs_ph_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def weekly_conn(collector):
+    """Simple function used to query SQLite database for weekly connects."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_conn_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def weekly_conn_ph(collector):
+    """Simple function used to query SQLite database for weekly connects per hour."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_conn_ph_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
 def weekly_conv(collector):
+    """Simple function used to query SQLite database for weekly conversion rate."""
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(weekly_conv_sql, (collector, ))
@@ -277,7 +523,18 @@ def weekly_conv(collector):
     return rows
 
 
+def weekly_fees(collector):
+    """Simple function used to query SQLite database for weekly fees."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(weekly_fees_sql, (collector, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
 def update_desks(data):
+    """Simple function used to update collector desk details from CDS database."""
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(update_desks_sql, data)

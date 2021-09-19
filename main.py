@@ -329,9 +329,6 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         """Updates the GUI with the newly selected employee's information."""
         coll = self.employeeSelect.currentText().split(' - ')
         self.user_id = coll[0]
-        self.coll_info()
-
-    def coll_info(self):
         # Obtain agent details by calling function in kpidb.py
         details = cmredb.coll_details(self.user_id)
         # Obtain agent's current KPI's
@@ -659,51 +656,72 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         # Initialize class attributes
         self.setupUi(self)
         self.user_id = ""
+        self.g1_combo_index = 0
+        self.g2_combo_index = 0
+        self.g3_combo_index = 0
+        self.g4_combo_index = 0
 
         # Build graph objects
-        self.emp_graph_1 = MyGraphs("Graph 1")
+        self.emp_graph_1 = MyGraphs()
         self.graphBox1.setLayout(self.emp_graph_1.layout)
-        # self.week_rpc_gp = EmployeeGraph("Weekly RPC's")
-        # self.weekRPCbox.setLayout(self.week_rpc_gp.layout)
-        # self.month_conv_gp = EmployeeGraph("Monthly Conv. Rate")
-        # self.monthConvBox.setLayout(self.month_conv_gp.layout)
-        # self.week_conv_gp = EmployeeGraph("Weekly Conv. Rate")
-        # self.weekConvBox.setLayout(self.week_conv_gp.layout)
+
+        self.emp_graph_2 = MyGraphs()
+        self.graphBox2.setLayout(self.emp_graph_2.layout)
+
+        self.emp_graph_3 = MyGraphs()
+        self.graphBox3.setLayout(self.emp_graph_3.layout)
+
+        self.emp_graph_4 = MyGraphs()
+        self.graphBox4.setLayout(self.emp_graph_4.layout)
 
         self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
-        self.employeeSelect.currentIndexChanged.connect(self.update_info)
+        self.employeeSelect.setCurrentIndex(-1)
+        self.employeeSelect.currentIndexChanged.connect(lambda: self.update_info(0))
+        self.graphData1.currentIndexChanged.connect(lambda: self.update_info(1))
+        self.graphData2.currentIndexChanged.connect(lambda: self.update_info(2))
+        self.graphData3.currentIndexChanged.connect(lambda: self.update_info(3))
+        self.graphData4.currentIndexChanged.connect(lambda: self.update_info(4))
 
         index = self.employeeSelect.findText(coll)
+        self.employeeSelect.setCurrentIndex(index)
 
-        if index == 0:
-            self.update_info()
-        elif index > -1:
-            self.employeeSelect.setCurrentIndex(index)
+        self.update_info(0)
 
-    def update_info(self):
-        """Updates the GUI with the newly selected employee's information."""
+    def update_info(self, gp_trig):
+        """Updates class attribute values when a combobox is changed."""
         coll = self.employeeSelect.currentText().split(' - ')
         self.user_id = coll[0]
-        self.draw_graphs()
 
-    def draw_graphs(self):
-        print(f"Draw {self.user_id}'s Graphs!!")
+        self.g1_combo_index = self.graphData1.currentIndex()
+        self.g2_combo_index = self.graphData2.currentIndex()
+        self.g3_combo_index = self.graphData3.currentIndex()
+        self.g4_combo_index = self.graphData4.currentIndex()
 
-        # self.month_rpc_gp.build_graph(self.user_id, month="yes", rpc="yes")
-        # self.week_rpc_gp.build_graph(self.user_id, month="no", rpc="yes")
-        # self.month_conv_gp.build_graph(self.user_id, month="yes", rpc="no")
-        # self.week_conv_gp.build_graph(self.user_id, month="no", rpc="no")
+        self.draw_graphs(gp_trig)
+
+    def draw_graphs(self, gp_trig):
+
+        if gp_trig == 0:
+            self.emp_graph_1.build_graph(self.user_id, self.g1_combo_index)
+            self.emp_graph_2.build_graph(self.user_id, self.g2_combo_index)
+            self.emp_graph_3.build_graph(self.user_id, self.g3_combo_index)
+            self.emp_graph_4.build_graph(self.user_id, self.g4_combo_index)
+        elif gp_trig == 1:
+            self.emp_graph_1.build_graph(self.user_id, self.g1_combo_index)
+        elif gp_trig == 2:
+            self.emp_graph_2.build_graph(self.user_id, self.g2_combo_index)
+        elif gp_trig == 3:
+            self.emp_graph_3.build_graph(self.user_id, self.g3_combo_index)
+        elif gp_trig == 4:
+            self.emp_graph_4.build_graph(self.user_id, self.g4_combo_index)
 
 
 class MyGraphs:
     """Class used to create a graph template for the Employee Details."""
 
-    def __init__(self, title):
+    def __init__(self):
         """Initialize the graph object and add it to the Employee Details GUI."""
         self.chart = QChart()
-        self.chart.setTitle(title)
-        self.title_font = QFont("MS Shell Dig 2", 12, 1)
-        self.chart.setTitleFont(self.title_font)
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
         self.chart.legend().setVisible(False)
         self.chartview = QChartView(self.chart)
@@ -715,7 +733,7 @@ class MyGraphs:
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.addWidget(self.chartview)
 
-    def build_graph(self, user_id, month, rpc):
+    def build_graph(self, user_id, combo_index):
         """Builds the graph axes and series with the employee's data."""
 
         def bar_hover(active, index):
@@ -724,10 +742,14 @@ class MyGraphs:
             if active:
                 value = bar_values.at(index)
                 # Determines the correct formatting for rpc or conv graph
-                if rpc == "yes":
-                    self.chart.setToolTip(str(value))
-                if rpc == "no":
+                if combo_index in (4, 11):
                     self.chart.setToolTip('{0:.0f}%'.format(value))
+                elif combo_index in (0, 2, 7, 9):
+                    self.chart.setToolTip('{0:.0f}'.format(value))
+                elif combo_index in (5, 6, 12):
+                    self.chart.setToolTip('${0:,.2f}'.format(value))
+                else:
+                    self.chart.setToolTip('{0:.2f}'.format(value))
             else:
                 self.chart.setToolTip("")
 
@@ -740,55 +762,90 @@ class MyGraphs:
         # Global variables
         x_values = []
         y_max = 0
-        coll_data = None
+        coll_data = []
 
         # Creates QBarSet and connects the hover signal to the slot
         bar_values = QBarSet("")
         bar_values.hovered.connect(bar_hover)
 
         # Determines the type of graph and fetches the correct data from the CMREDB
-        if month == "yes" and rpc == "yes":
+        if combo_index == 0:
             coll_data = cmredb.monthly_rpcs(user_id)
-        elif month == "no" and rpc == "yes":
-            coll_data = cmredb.weekly_rpcs(user_id)
-        elif month == "yes" and rpc == "no":
+        elif combo_index == 1:
+            coll_data = cmredb.monthly_rpcs_ph(user_id)
+        elif combo_index == 2:
+            coll_data = cmredb.monthly_conn(user_id)
+        elif combo_index == 3:
+            coll_data = cmredb.monthly_conn_ph(user_id)
+        elif combo_index == 4:
             coll_data = cmredb.monthly_conv(user_id)
-        elif month == "no" and rpc == "no":
+        elif combo_index == 5:
+            coll_data = cmredb.monthly_fees(user_id)
+        elif combo_index == 6:
+            coll_data = cmredb.monthly_totals(user_id)
+        elif combo_index == 7:
+            coll_data = cmredb.weekly_rpcs(user_id)
+        elif combo_index == 8:
+            coll_data = cmredb.weekly_rpcs_ph(user_id)
+        elif combo_index == 9:
+            coll_data = cmredb.weekly_conn(user_id)
+        elif combo_index == 10:
+            coll_data = cmredb.weekly_conn_ph(user_id)
+        elif combo_index == 11:
             coll_data = cmredb.weekly_conv(user_id)
+        elif combo_index == 12:
+            coll_data = cmredb.weekly_fees(user_id)
+        else:
+            coll_data = []
 
         # Iterate over results and update variables with correctly formatted data
-        for item in coll_data:
-            if item[1] > y_max:
-                y_max = item[1]
-            # Determines the correct date format; monthly or weekly
-            if month == "yes":
-                frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
-                x_values.append(frmt_date)
-            elif month == "no":
-                frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
-                x_values.append(frmt_date)
-            # Determines the correct graph type; RPC or Conversions
-            if rpc == "yes":
-                bar_values.append(item[1])
-            if rpc == "no":
-                bar_values.append(item[1] * 100)
+        if len(coll_data) > 0:
+            self.chart.setTitle("")
+            for item in coll_data:
+                if item[1] > y_max:
+                    y_max = item[1]
+                # Determines the correct date format; monthly or weekly
+                if combo_index < 7:
+                    frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%y')
+                    x_values.append(frmt_date)
+                else:
+                    frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
+                    x_values.append(frmt_date)
+                # Determines the correct graph type; RPC or Conversions
+                if combo_index in (4, 11):
+                    bar_values.append(item[1] * 100)
+                else:
+                    bar_values.append(item[1])
 
-        # Create series object and set axes to series and chart
-        series = QBarSeries()
-        series.append(bar_values)
-        self.chart.addSeries(series)
-        self.axisX.append(x_values)
-        # Determines the correct graph type; RPC or Conversions and applies correct format
-        if rpc == "yes":
-            self.axisY.setRange(0, ceil(y_max) + 1)
-            self.axisY.setTickCount(1)
-        elif rpc == "no":
-            self.axisY.setRange(0, (y_max + .1) * 100)
-            self.axisY.setLabelFormat("%0.0f %%")
-        self.chart.setAxisX(self.axisX)
-        self.chart.setAxisY(self.axisY)
-        series.attachAxis(self.axisX)
-        series.attachAxis(self.axisY)
+            # Create series object and set axes to series and chart
+            series = QBarSeries()
+            series.append(bar_values)
+            self.chart.addSeries(series)
+            self.axisX.append(x_values)
+            # Determines the correct graph type; RPC or Conversions and applies correct format
+            if combo_index in (4, 11):
+                self.axisY.setRange(0, (y_max + .1) * 100)
+                self.axisY.setLabelFormat("%0.0f %%")
+            elif combo_index in (0, 2, 7, 9):
+                self.axisY.setRange(0, ceil(y_max / 100) * 100)
+                self.axisY.setLabelFormat("%d")
+            elif combo_index in (5, 6, 12):
+                if combo_index == 6:
+                    self.axisY.setRange(0, ceil(y_max / 10000) * 10000)
+                else:
+                    self.axisY.setRange(0, ceil(y_max / 1000) * 1000)
+                self.axisY.setLabelFormat("$%0.0f")
+            else:
+                self.axisY.setRange(0, ceil(y_max) + 1)
+                self.axisY.setTickCount(1)
+                self.axisY.setLabelFormat("%0.2f")
+
+            self.chart.setAxisX(self.axisX)
+            self.chart.setAxisY(self.axisY)
+            series.attachAxis(self.axisX)
+            series.attachAxis(self.axisY)
+        else:
+            self.chart.setTitle("Missing Employee or Graph Data Selection")
 
 
 if __name__ == "__main__":

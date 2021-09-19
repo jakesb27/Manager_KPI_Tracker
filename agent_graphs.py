@@ -16,7 +16,7 @@ class Ui_agentGraphsMain(object):
         agentGraphsMain.setObjectName("agentGraphsMain")
         agentGraphsMain.resize(736, 639)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentGraphsMain.setWindowIcon(icon)
         agentGraphsMain.setStyleSheet("QDialog{\n"
 "    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));\n"
@@ -56,14 +56,10 @@ class Ui_agentGraphsMain(object):
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QComboBox{\n"
-"    border: 1px solid;\n"
-"    border-color: rgb(75, 124, 154);\n"
-"    border-radius: 3px;\n"
-"    background-color: rgb(225, 225, 225);\n"
-"}\n"
-"QComboBox::pressed{\n"
-"    border: 1px solid;\n"
-"    border-color: rgb(75, 124, 154);\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(75, 124, 154);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(75, 124, 154);\n"
 "    border-radius: 3px;\n"
 "    background-color: rgb(225, 225, 225);\n"
 "}\n"
@@ -106,42 +102,13 @@ class Ui_agentGraphsMain(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.frame = QtWidgets.QFrame(agentGraphsMain)
         self.frame.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "}")
         self.frame.setObjectName("frame")
         self.gridLayout = QtWidgets.QGridLayout(self.frame)
         self.gridLayout.setObjectName("gridLayout")
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label_2 = QtWidgets.QLabel(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setStyleSheet("QFrame{\n"
-"    border: 0px;\n"
-"}")
-        self.label_2.setObjectName("label_2")
-        self.horizontalLayout.addWidget(self.label_2)
-        self.graphData1 = QtWidgets.QComboBox(self.frame)
-        self.graphData1.setObjectName("graphData1")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.graphData1.addItem("")
-        self.horizontalLayout.addWidget(self.graphData1)
-        self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.label_5 = QtWidgets.QLabel(self.frame)
@@ -151,6 +118,7 @@ class Ui_agentGraphsMain(object):
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
         self.label_5.setStyleSheet("QFrame{\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
 "    border: 0px;\n"
 "}")
         self.label_5.setObjectName("label_5")
@@ -172,70 +140,12 @@ class Ui_agentGraphsMain(object):
         self.graphData4.addItem("")
         self.horizontalLayout_4.addWidget(self.graphData4)
         self.gridLayout.addLayout(self.horizontalLayout_4, 3, 1, 1, 1)
-        self.graphBox2 = QtWidgets.QGroupBox(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.graphBox2.sizePolicy().hasHeightForWidth())
-        self.graphBox2.setSizePolicy(sizePolicy)
-        self.graphBox2.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid rgb(75, 124, 154);\n"
-"    border-radius: 3px;\n"
-"    padding-top: 0px;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.graphBox2.setTitle("")
+        self.graphBox1 = QtWidgets.QWidget(self.frame)
+        self.graphBox1.setObjectName("graphBox1")
+        self.gridLayout.addWidget(self.graphBox1, 2, 0, 1, 1)
+        self.graphBox2 = QtWidgets.QWidget(self.frame)
         self.graphBox2.setObjectName("graphBox2")
         self.gridLayout.addWidget(self.graphBox2, 2, 1, 1, 1)
-        self.graphBox4 = QtWidgets.QGroupBox(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.graphBox4.sizePolicy().hasHeightForWidth())
-        self.graphBox4.setSizePolicy(sizePolicy)
-        self.graphBox4.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid rgb(75, 124, 154);\n"
-"    border-radius: 3px;\n"
-"    padding-top: 0px;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.graphBox4.setTitle("")
-        self.graphBox4.setObjectName("graphBox4")
-        self.gridLayout.addWidget(self.graphBox4, 4, 1, 1, 1)
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.label_4 = QtWidgets.QLabel(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy)
-        self.label_4.setStyleSheet("QFrame{\n"
-"    border: 0px;\n"
-"}")
-        self.label_4.setObjectName("label_4")
-        self.horizontalLayout_3.addWidget(self.label_4)
-        self.graphData3 = QtWidgets.QComboBox(self.frame)
-        self.graphData3.setObjectName("graphData3")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.graphData3.addItem("")
-        self.horizontalLayout_3.addWidget(self.graphData3)
-        self.gridLayout.addLayout(self.horizontalLayout_3, 3, 0, 1, 1)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label_3 = QtWidgets.QLabel(self.frame)
@@ -245,6 +155,7 @@ class Ui_agentGraphsMain(object):
         sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
         self.label_3.setSizePolicy(sizePolicy)
         self.label_3.setStyleSheet("QFrame{\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
 "    border: 0px;\n"
 "}")
         self.label_3.setObjectName("label_3")
@@ -266,26 +177,74 @@ class Ui_agentGraphsMain(object):
         self.graphData2.addItem("")
         self.horizontalLayout_2.addWidget(self.graphData2)
         self.gridLayout.addLayout(self.horizontalLayout_2, 1, 1, 1, 1)
-        self.graphBox3 = QtWidgets.QGroupBox(self.frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.graphBox3.sizePolicy().hasHeightForWidth())
-        self.graphBox3.setSizePolicy(sizePolicy)
-        self.graphBox3.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid rgb(75, 124, 154);\n"
-"    border-radius: 3px;\n"
-"    padding-top: 0px;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setStyleSheet("QFrame{\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"    border: 0px;\n"
 "}")
-        self.graphBox3.setTitle("")
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout.addWidget(self.label_2)
+        self.graphData1 = QtWidgets.QComboBox(self.frame)
+        self.graphData1.setObjectName("graphData1")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.graphData1.addItem("")
+        self.horizontalLayout.addWidget(self.graphData1)
+        self.gridLayout.addLayout(self.horizontalLayout, 1, 0, 1, 1)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        self.label_4 = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy)
+        self.label_4.setStyleSheet("QFrame{\n"
+"    background-color: rgba(255, 255, 255, 0);\n"
+"    border: 0px;\n"
+"}")
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_3.addWidget(self.label_4)
+        self.graphData3 = QtWidgets.QComboBox(self.frame)
+        self.graphData3.setObjectName("graphData3")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.graphData3.addItem("")
+        self.horizontalLayout_3.addWidget(self.graphData3)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 3, 0, 1, 1)
+        self.graphBox3 = QtWidgets.QWidget(self.frame)
         self.graphBox3.setObjectName("graphBox3")
         self.gridLayout.addWidget(self.graphBox3, 4, 0, 1, 1)
-        self.graphBox1 = QtWidgets.QWidget(self.frame)
-        self.graphBox1.setObjectName("graphBox1")
-        self.gridLayout.addWidget(self.graphBox1, 2, 0, 1, 1)
+        self.graphBox4 = QtWidgets.QWidget(self.frame)
+        self.graphBox4.setObjectName("graphBox4")
+        self.gridLayout.addWidget(self.graphBox4, 4, 1, 1, 1)
         self.gridLayout_2.addWidget(self.frame, 1, 0, 1, 2)
         self.label = QtWidgets.QLabel(agentGraphsMain)
         self.label.setStyleSheet("image: url(:/meduit/Meduit Email.png);")
@@ -325,15 +284,18 @@ class Ui_agentGraphsMain(object):
         self.label_20.setObjectName("label_20")
         self.gridLayout_4.addWidget(self.label_20, 0, 1, 1, 1)
         self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.employeeSelect.setObjectName("employeeSelect")
         self.gridLayout_4.addWidget(self.employeeSelect, 0, 2, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
 
         self.retranslateUi(agentGraphsMain)
-        self.graphData1.setCurrentIndex(-1)
         self.graphData4.setCurrentIndex(-1)
-        self.graphData3.setCurrentIndex(-1)
         self.graphData2.setCurrentIndex(-1)
+        self.graphData1.setCurrentIndex(-1)
+        self.graphData3.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(agentGraphsMain)
         agentGraphsMain.setTabOrder(self.employeeSelect, self.graphData1)
         agentGraphsMain.setTabOrder(self.graphData1, self.graphData2)
@@ -343,20 +305,6 @@ class Ui_agentGraphsMain(object):
     def retranslateUi(self, agentGraphsMain):
         _translate = QtCore.QCoreApplication.translate
         agentGraphsMain.setWindowTitle(_translate("agentGraphsMain", "Agent Trending Graphs"))
-        self.label_2.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
-        self.graphData1.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
-        self.graphData1.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
-        self.graphData1.setItemText(2, _translate("agentGraphsMain", "Connects - Monthly"))
-        self.graphData1.setItemText(3, _translate("agentGraphsMain", "Connects Per Hour - Monthly"))
-        self.graphData1.setItemText(4, _translate("agentGraphsMain", "Conversions - Monthly"))
-        self.graphData1.setItemText(5, _translate("agentGraphsMain", "Fees - Monthly"))
-        self.graphData1.setItemText(6, _translate("agentGraphsMain", "Totals - Monthly"))
-        self.graphData1.setItemText(7, _translate("agentGraphsMain", "RPC\'s - Weekly"))
-        self.graphData1.setItemText(8, _translate("agentGraphsMain", "RPC\'s Per Hour - Weekly"))
-        self.graphData1.setItemText(9, _translate("agentGraphsMain", "Connects - Weekly"))
-        self.graphData1.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
-        self.graphData1.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
-        self.graphData1.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
         self.label_5.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
         self.graphData4.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
         self.graphData4.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
@@ -371,20 +319,6 @@ class Ui_agentGraphsMain(object):
         self.graphData4.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
         self.graphData4.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
         self.graphData4.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
-        self.label_4.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
-        self.graphData3.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
-        self.graphData3.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
-        self.graphData3.setItemText(2, _translate("agentGraphsMain", "Connects - Monthly"))
-        self.graphData3.setItemText(3, _translate("agentGraphsMain", "Connects Per Hour - Monthly"))
-        self.graphData3.setItemText(4, _translate("agentGraphsMain", "Conversions - Monthly"))
-        self.graphData3.setItemText(5, _translate("agentGraphsMain", "Fees - Monthly"))
-        self.graphData3.setItemText(6, _translate("agentGraphsMain", "Totals - Monthly"))
-        self.graphData3.setItemText(7, _translate("agentGraphsMain", "RPC\'s - Weekly"))
-        self.graphData3.setItemText(8, _translate("agentGraphsMain", "RPC\'s Per Hour - Weekly"))
-        self.graphData3.setItemText(9, _translate("agentGraphsMain", "Connects - Weekly"))
-        self.graphData3.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
-        self.graphData3.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
-        self.graphData3.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
         self.label_3.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
         self.graphData2.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
         self.graphData2.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
@@ -399,6 +333,34 @@ class Ui_agentGraphsMain(object):
         self.graphData2.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
         self.graphData2.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
         self.graphData2.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
+        self.label_2.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
+        self.graphData1.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
+        self.graphData1.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
+        self.graphData1.setItemText(2, _translate("agentGraphsMain", "Connects - Monthly"))
+        self.graphData1.setItemText(3, _translate("agentGraphsMain", "Connects Per Hour - Monthly"))
+        self.graphData1.setItemText(4, _translate("agentGraphsMain", "Conversions - Monthly"))
+        self.graphData1.setItemText(5, _translate("agentGraphsMain", "Fees - Monthly"))
+        self.graphData1.setItemText(6, _translate("agentGraphsMain", "Totals - Monthly"))
+        self.graphData1.setItemText(7, _translate("agentGraphsMain", "RPC\'s - Weekly"))
+        self.graphData1.setItemText(8, _translate("agentGraphsMain", "RPC\'s Per Hour - Weekly"))
+        self.graphData1.setItemText(9, _translate("agentGraphsMain", "Connects - Weekly"))
+        self.graphData1.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
+        self.graphData1.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
+        self.graphData1.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
+        self.label_4.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
+        self.graphData3.setItemText(0, _translate("agentGraphsMain", "RPC\'s - Monthly"))
+        self.graphData3.setItemText(1, _translate("agentGraphsMain", "RPC\'s Per Hour - Monthly"))
+        self.graphData3.setItemText(2, _translate("agentGraphsMain", "Connects - Monthly"))
+        self.graphData3.setItemText(3, _translate("agentGraphsMain", "Connects Per Hour - Monthly"))
+        self.graphData3.setItemText(4, _translate("agentGraphsMain", "Conversions - Monthly"))
+        self.graphData3.setItemText(5, _translate("agentGraphsMain", "Fees - Monthly"))
+        self.graphData3.setItemText(6, _translate("agentGraphsMain", "Totals - Monthly"))
+        self.graphData3.setItemText(7, _translate("agentGraphsMain", "RPC\'s - Weekly"))
+        self.graphData3.setItemText(8, _translate("agentGraphsMain", "RPC\'s Per Hour - Weekly"))
+        self.graphData3.setItemText(9, _translate("agentGraphsMain", "Connects - Weekly"))
+        self.graphData3.setItemText(10, _translate("agentGraphsMain", "Connects Per Hour - Weekly"))
+        self.graphData3.setItemText(11, _translate("agentGraphsMain", "Conversions - Weekly"))
+        self.graphData3.setItemText(12, _translate("agentGraphsMain", "Fees - Weekly"))
         self.label_20.setText(_translate("agentGraphsMain", "Employee Select:"))
 import main_images_rc
 
