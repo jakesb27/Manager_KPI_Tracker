@@ -803,6 +803,7 @@ class MyGraphs:
 
         # Iterate over results and update variables with correctly formatted data
         if len(coll_data) > 0:
+            self.chart.setTitle("")
             for item in coll_data:
                 if item[1] > y_max:
                     y_max = item[1]
