@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>agentInput</class>
+ <widget class="QDialog" name="agentInput">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>735</width>
+    <height>413</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Add Employee</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>Meduit_logo.ico</normaloff>Meduit_logo.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QWidget{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 18;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QLineEdit{
+	border: 1px solid rgb(75, 124, 154);;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QTextEdit{
+	font: 12pt &quot;Corbel&quot;;
+}
+QStatusBar{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QPushButton{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::hover{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(215, 215, 215);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::pressed{
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QComboBox{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(75, 124, 154);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(75, 124, 154);
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::hover{
+	background-color: rgb(205, 205, 205);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::pressed{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::down-arrow{
+	image: url(:/meduit/arrow.png);
+	width: 14 px;
+	height:14 px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="3" column="2">
+    <widget class="QPushButton" name="addButton">
+     <property name="minimumSize">
+      <size>
+       <width>125</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&amp;Add Employee</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" colspan="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="1" colspan="6">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>KPI Goals</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="4" column="0" colspan="6">
+       <widget class="QLabel" name="label_4">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>*Please note that all percentages must be input as a whole number and should not contain the &quot;%&quot; symbol. For example 20% should be input as &quot;20&quot; and not &quot;.20&quot;, &quot;0.20&quot;. Monetary values should not contain a comma seperator or the &quot;$&quot; symbol. For example $1,654.23 should be input as &quot;1654.23&quot;.</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="agentBase1">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_15">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Base Value*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_17">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Goal*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_14">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Base Value*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QLineEdit" name="agentGoal3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Productivity Goal 3:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="agentGoal1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLabel" name="label_19">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Goal*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_16">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Base Value*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_11">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Productivity Goal 1:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Productivity Goal 2:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="agentDesc3">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string> - Select A Goal - </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Promises Conv%</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Conversions Per Hour</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (%)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (Avg Payment)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Overall Totals</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Payment Plan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Category Review</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_18">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Goal*:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLineEdit" name="agentBase3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="agentGoal2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="agentDesc1">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string> - Select A Goal - </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Promises Conv%</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Conversions Per Hour</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (%)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (Avg Payment)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Overall Totals</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Payment Plan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Category Review</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="agentBase2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="agentDesc2">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string> - Select A Goal - </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Connects (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>RPC (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Promises Conv%</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Conversions Per Hour</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (%)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Secured (Avg Payment)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Total)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fees (Per Hour)</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Overall Totals</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Payment Plan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Category Review</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QPushButton" name="clearButton">
+     <property name="minimumSize">
+      <size>
+       <width>125</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&amp;Clear Form</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2" colspan="4">
+    <widget class="QGroupBox" name="agentDetails">
+     <property name="title">
+      <string>New Agent Information</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Last Name *</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="agentUltiPro"/>
+      </item>
+      <item row="2" column="1" colspan="4">
+       <widget class="QLineEdit" name="agentLastName"/>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="agentUserID"/>
+      </item>
+      <item row="2" column="6" colspan="3">
+       <widget class="QLineEdit" name="agentGroup"/>
+      </item>
+      <item row="0" column="2" colspan="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Email</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Manager</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>First Name *</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1" colspan="6">
+       <widget class="QComboBox" name="agentManager">
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string> - Select A Manager - </string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Patty</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Jake</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Shana</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Stephanie</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="3">
+       <widget class="QLineEdit" name="agentFirstName"/>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>User ID *</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>UltiPro ID *</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="8">
+       <widget class="QLineEdit" name="agentExt"/>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Group:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4" colspan="5">
+       <widget class="QLineEdit" name="agentEmail"/>
+      </item>
+      <item row="1" column="7">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Ext:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="9">
+       <widget class="QLabel" name="label_10">
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>* Denotes a required field.</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>agentDesc1</tabstop>
+  <tabstop>agentBase1</tabstop>
+  <tabstop>agentGoal1</tabstop>
+  <tabstop>agentDesc2</tabstop>
+  <tabstop>agentBase2</tabstop>
+  <tabstop>agentGoal2</tabstop>
+  <tabstop>agentDesc3</tabstop>
+  <tabstop>agentBase3</tabstop>
+  <tabstop>agentGoal3</tabstop>
+  <tabstop>clearButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="main_images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

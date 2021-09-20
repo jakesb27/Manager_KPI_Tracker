@@ -49,6 +49,49 @@ WHERE
     USER_ID=:collector
 """
 
+add_coll_sql = """
+INSERT INTO COLL (
+    ULTIPRO_ID,
+    LAST_NAME,
+    FIRST_NAME,
+    USER_ID,
+    EMAIL,
+    EXT,
+    MANAGER,
+    USER_GROUP,
+    GOAL1_DESC,
+    GOAL1_BASE,
+    GOAL1_GOAL,
+    GOAL2_DESC,
+    GOAL2_BASE,
+    GOAL2_GOAL,
+    GOAL3_DESC,
+    GOAL3_BASE,
+    GOAL3_GOAL,
+    ACTIVE
+    )
+VALUES (
+    :ultipro_id,
+    :last_name,
+    :first_name,
+    :user_id,
+    :email,
+    :ext,
+    :manager,
+    :group,
+    :desc1,
+    :base1,
+    :goal1,
+    :desc2,
+    :base2,
+    :goal2,
+    :desc3,
+    :base3,
+    :goal3,
+    :active
+    )
+"""
+
 update_coll_sql = """
 UPDATE COLL
 SET
@@ -73,9 +116,11 @@ WHERE
 """
 
 managers_sql = """
-SELECT NAME
+SELECT NET_NAME
 FROM
     MANAGERS
+WHERE
+    APP_ACCESS=1
 """
 
 monthly_rpcs_sql = """
@@ -381,6 +426,15 @@ def daily_kpis(collector):
     rows = cur.fetchall()
     conn.close()
     return rows
+
+
+def add_coll(data):
+    """Simple function used to add collector to the COLL table of the SQLite database."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(add_coll_sql, data)
+    conn.commit()
+    conn.close()
 
 
 def update_coll(data):

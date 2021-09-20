@@ -18,6 +18,7 @@ from manager_main import Ui_managerMain
 from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
 from agent_graphs import Ui_agentGraphsMain
+from agent_input import Ui_agentInput
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
@@ -225,8 +226,8 @@ class Window(QMainWindow, Ui_managerMain):
         update_msg.exec()
 
     def add_employee(self):
-        msg = msgbox.unavailable()
-        msg.exec()
+        add_emp = AddEmployee()
+        add_emp.exec_()
 
     def employee_maintenance(self):
         """Function used to initialize the employee maintenance window"""
@@ -388,6 +389,151 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
         agent_graphs.exec_()
 
 
+class AddEmployee(QDialog, Ui_agentInput):
+    """Class that displays the add employee screen."""
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.all_req_fields = False
+
+        self.ultipro_id = ""
+        self.email = ""
+        self.first_name = ""
+        self.last_name = ""
+        self.user_id = ""
+        self.ext = ""
+        self.group = ""
+        self.manager = ""
+        self.desc1 = ""
+        self.desc2 = ""
+        self.desc3 = ""
+        self.base1 = ""
+        self.base2 = ""
+        self.base3 = ""
+        self.goal1 = ""
+        self.goal2 = ""
+        self.goal3 = ""
+
+        self.addButton.clicked.connect(self.add_employee)
+        self.clearButton.clicked.connect(self.clear_form)
+
+    def add_employee(self):
+        """Function used to add new employee to CMREDB database."""
+
+        def check_value(value):
+            """Attempts to convert string to int or float type."""
+            try:
+                # Attempts to convert to integer
+                new_value = int(value)
+            except ValueError:
+                try:
+                    # If unable to convert to integer, converts to float
+                    new_value = float(value)
+                except ValueError:
+                    new_value = None
+            return new_value
+
+        # TODO Confirm add messagebox
+
+        self.ultipro_id = self.agentUltiPro.text()
+        self.email = self.agentEmail.text().lower()
+        self.first_name = self.agentFirstName.text().title()
+        self.last_name = self.agentLastName.text().title()
+        self.user_id = self.agentUserID.text().upper()
+        self.ext = self.agentExt.text()
+        self.group = self.agentGroup.text().title()
+        if self.agentManager.currentIndex() == 0:
+            self.manager = ""
+        else:
+            self.manager = self.agentManager.currentText()
+        self.desc1 = self.agentDesc1.currentText()
+        self.desc2 = self.agentDesc2.currentText()
+        self.desc3 = self.agentDesc3.currentText()
+        self.base1 = self.agentBase1.text()
+        self.base2 = self.agentBase2.text()
+        self.base3 = self.agentBase3.text()
+        self.goal1 = self.agentGoal1.text()
+        self.goal2 = self.agentGoal2.text()
+        self.goal3 = self.agentGoal3.text()
+
+        if self.check_req_fields():
+            emp_info = [
+                self.ultipro_id,
+                self.last_name,
+                self.first_name,
+                self.user_id,
+                self.email,
+                check_value(self.ext),
+                self.manager,
+                self.group,
+                self.desc1,
+                check_value(self.base1),
+                check_value(self.goal1),
+                self.desc2,
+                check_value(self.base2),
+                check_value(self.goal2),
+                self.desc3,
+                check_value(self.base3),
+                check_value(self.goal3),
+                "Y",
+            ]
+            cmredb.add_coll(emp_info)
+            # TODO Confirmation message box
+            self.clear_form()
+        else:
+            print("Error Message!")
+
+    def check_req_fields(self):
+        """Function used to check that all required fields are filled out."""
+        req_fields = [self.ultipro_id, self.first_name, self.last_name, self.user_id]
+        for field in req_fields:
+            if len(field) > 0:
+                return True
+            else:
+                return False
+
+    def clear_form(self):
+        """Function used to clear/reset form."""
+        # Clear all text fields and resent comboboxes
+        self.agentUltiPro.clear()
+        self.agentEmail.clear()
+        self.agentFirstName.clear()
+        self.agentLastName.clear()
+        self.agentUserID.clear()
+        self.agentExt.clear()
+        self.agentGroup.clear()
+        self.agentManager.setCurrentIndex(0)
+        self.agentDesc1.setCurrentIndex(0)
+        self.agentDesc2.setCurrentIndex(0)
+        self.agentDesc3.setCurrentIndex(0)
+        self.agentBase1.clear()
+        self.agentBase2.clear()
+        self.agentBase3.clear()
+        self.agentGoal1.clear()
+        self.agentGoal2.clear()
+        self.agentGoal3.clear()
+
+        # Clear class attributes
+        self.ultipro_id = ""
+        self.email = ""
+        self.first_name = ""
+        self.last_name = ""
+        self.user_id = ""
+        self.ext = ""
+        self.group = ""
+        self.manager = ""
+        self.desc1 = ""
+        self.desc2 = ""
+        self.desc3 = ""
+        self.base1 = ""
+        self.base2 = ""
+        self.base3 = ""
+        self.goal1 = ""
+        self.goal2 = ""
+        self.goal3 = ""
+
+
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     """Employee Maintenance screen used to update and change employee information."""
 
@@ -465,7 +611,10 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.agentExt.setText(str(coll_details[5]))
             self.agentDesk.setText(coll_details[6])
             desk_totals = cds.get_desk_totals(coll_details[6])
-            self.agentGoal.setText('${:,.2f}'.format(desk_totals[0][0]))
+            try:
+                self.agentGoal.setText('${:,.2f}'.format(desk_totals[0][0]))
+            except IndexError:
+                self.agentGoal.setText("$0.00")
             self.agentManager.setCurrentText(coll_details[7])
             self.agentGroup.setText(coll_details[8])
             self.agentEmail.setText(coll_details[4])
@@ -620,12 +769,12 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                 clear_goals()
                 # Creates list of employee data to be saved to CMRE db
                 updated_details = [
-                    self.agentLastName.text(),
-                    self.agentFirstName.text(),
-                    self.agentEmail.text(),
+                    self.agentLastName.text().title(),
+                    self.agentFirstName.text().title(),
+                    self.agentEmail.text().lower(),
                     check_value(self.agentExt.text()),
                     self.agentManager.currentText(),
-                    self.agentGroup.text(),
+                    self.agentGroup.text().title(),
                     self.agentDesc1.currentText(),
                     check_value(self.agentBase1.text()),
                     check_value(self.agentGoal1.text()),
