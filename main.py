@@ -656,6 +656,7 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         # Initialize class attributes
         self.setupUi(self)
         self.user_id = ""
+        # Holds index value of selected graph
         self.g1_combo_index = 0
         self.g2_combo_index = 0
         self.g3_combo_index = 0
@@ -664,26 +665,27 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         # Build graph objects
         self.emp_graph_1 = MyGraphs()
         self.graphBox1.setLayout(self.emp_graph_1.layout)
-
         self.emp_graph_2 = MyGraphs()
         self.graphBox2.setLayout(self.emp_graph_2.layout)
-
         self.emp_graph_3 = MyGraphs()
         self.graphBox3.setLayout(self.emp_graph_3.layout)
-
         self.emp_graph_4 = MyGraphs()
         self.graphBox4.setLayout(self.emp_graph_4.layout)
 
+        # Add collectors to employee select combobox
         self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
         self.employeeSelect.setCurrentIndex(-1)
+
+        # Updates employee selection to prev. selected employee if applicable.
+        index = self.employeeSelect.findText(coll)
+        self.employeeSelect.setCurrentIndex(index)
+
+        # Connect signals and slots
         self.employeeSelect.currentIndexChanged.connect(lambda: self.update_info(0))
         self.graphData1.currentIndexChanged.connect(lambda: self.update_info(1))
         self.graphData2.currentIndexChanged.connect(lambda: self.update_info(2))
         self.graphData3.currentIndexChanged.connect(lambda: self.update_info(3))
         self.graphData4.currentIndexChanged.connect(lambda: self.update_info(4))
-
-        index = self.employeeSelect.findText(coll)
-        self.employeeSelect.setCurrentIndex(index)
 
         self.update_info(0)
 
@@ -700,6 +702,7 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         self.draw_graphs(gp_trig)
 
     def draw_graphs(self, gp_trig):
+        """Builds the visual graph objects based on the signal that was triggered."""
 
         if gp_trig == 0:
             self.emp_graph_1.build_graph(self.user_id, self.g1_combo_index)
@@ -717,10 +720,10 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
 
 
 class MyGraphs:
-    """Class used to create a graph template for the Employee Details."""
+    """Class used to create a graph template for the trending graph GUI."""
 
     def __init__(self):
-        """Initialize the graph object and add it to the Employee Details GUI."""
+        """Initialize the graph object and add it to the trending graph GUI."""
         self.chart = QChart()
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
         self.chart.legend().setVisible(False)
@@ -741,7 +744,7 @@ class MyGraphs:
             # If mouse is hovering over the bar, active is "True"
             if active:
                 value = bar_values.at(index)
-                # Determines the correct formatting for rpc or conv graph
+                # Determines the correct bar value formatting based on the graph type
                 if combo_index in (4, 11):
                     self.chart.setToolTip('{0:.0f}%'.format(value))
                 elif combo_index in (0, 2, 7, 9):
@@ -800,7 +803,6 @@ class MyGraphs:
 
         # Iterate over results and update variables with correctly formatted data
         if len(coll_data) > 0:
-            self.chart.setTitle("")
             for item in coll_data:
                 if item[1] > y_max:
                     y_max = item[1]
@@ -811,7 +813,7 @@ class MyGraphs:
                 else:
                     frmt_date = datetime.strptime(item[0], '%Y-%m-%d').strftime('%b-%d')
                     x_values.append(frmt_date)
-                # Determines the correct graph type; RPC or Conversions
+                # Converts conversion rate to whole number
                 if combo_index in (4, 11):
                     bar_values.append(item[1] * 100)
                 else:
@@ -822,20 +824,22 @@ class MyGraphs:
             series.append(bar_values)
             self.chart.addSeries(series)
             self.axisX.append(x_values)
-            # Determines the correct graph type; RPC or Conversions and applies correct format
-            if combo_index in (4, 11):
+
+            # Determines the correct graph type and applies correct label format
+            if combo_index in (4, 11):  # Percentage format
                 self.axisY.setRange(0, (y_max + .1) * 100)
                 self.axisY.setLabelFormat("%0.0f %%")
-            elif combo_index in (0, 2, 7, 9):
+            elif combo_index in (0, 2, 7, 9):  # Whole number format
                 self.axisY.setRange(0, ceil(y_max / 100) * 100)
                 self.axisY.setLabelFormat("%d")
-            elif combo_index in (5, 6, 12):
+            elif combo_index in (5, 6, 12):  # Currency format
+                # Round number to nearest thousand or ten-thousand
                 if combo_index == 6:
                     self.axisY.setRange(0, ceil(y_max / 10000) * 10000)
                 else:
                     self.axisY.setRange(0, ceil(y_max / 1000) * 1000)
                 self.axisY.setLabelFormat("$%0.0f")
-            else:
+            else:   # float format
                 self.axisY.setRange(0, ceil(y_max) + 1)
                 self.axisY.setTickCount(1)
                 self.axisY.setLabelFormat("%0.2f")

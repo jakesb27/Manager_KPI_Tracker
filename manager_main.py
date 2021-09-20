@@ -171,6 +171,9 @@ class Ui_managerMain(object):
         self.gridLayout.addWidget(self.label_2, 2, 5, 1, 1)
         self.managerCombo = QtWidgets.QComboBox(self.centralwidget)
         self.managerCombo.setMinimumSize(QtCore.QSize(150, 0))
+        self.managerCombo.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.managerCombo.setObjectName("managerCombo")
         self.managerCombo.addItem("")
         self.managerCombo.addItem("")

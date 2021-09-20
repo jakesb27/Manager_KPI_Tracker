@@ -151,6 +151,9 @@ class Ui_agentDetailsMain(object):
         self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.employeeSelect.setObjectName("employeeSelect")
         self.gridLayout_4.addWidget(self.employeeSelect, 0, 2, 1, 1)
         self.label_20 = QtWidgets.QLabel(self.groupBox_2)

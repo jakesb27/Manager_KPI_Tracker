@@ -144,6 +144,9 @@ class Ui_agentMaintenance(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.groupBox)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.agentDesc3 = QtWidgets.QComboBox(self.groupBox)
+        self.agentDesc3.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.agentDesc3.setObjectName("agentDesc3")
         self.agentDesc3.addItem("")
         self.agentDesc3.addItem("")
@@ -279,6 +282,9 @@ class Ui_agentMaintenance(object):
         self.label_13.setObjectName("label_13")
         self.gridLayout_3.addWidget(self.label_13, 3, 0, 1, 1)
         self.agentDesc1 = QtWidgets.QComboBox(self.groupBox)
+        self.agentDesc1.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.agentDesc1.setObjectName("agentDesc1")
         self.agentDesc1.addItem("")
         self.agentDesc1.addItem("")
@@ -296,6 +302,9 @@ class Ui_agentMaintenance(object):
         self.agentDesc1.addItem("")
         self.gridLayout_3.addWidget(self.agentDesc1, 1, 1, 1, 1)
         self.agentDesc2 = QtWidgets.QComboBox(self.groupBox)
+        self.agentDesc2.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.agentDesc2.setObjectName("agentDesc2")
         self.agentDesc2.addItem("")
         self.agentDesc2.addItem("")
@@ -506,6 +515,9 @@ class Ui_agentMaintenance(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.agentManager.sizePolicy().hasHeightForWidth())
         self.agentManager.setSizePolicy(sizePolicy)
+        self.agentManager.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.agentManager.setObjectName("agentManager")
         self.agentManager.addItem("")
         self.agentManager.addItem("")
@@ -539,6 +551,9 @@ class Ui_agentMaintenance(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.employeeSelect.sizePolicy().hasHeightForWidth())
         self.employeeSelect.setSizePolicy(sizePolicy)
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
         self.employeeSelect.setObjectName("employeeSelect")
         self.gridLayout.addWidget(self.employeeSelect, 0, 1, 1, 4)
         self.gridLayout_2.addWidget(self.agentDetails, 1, 1, 1, 8)

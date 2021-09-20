@@ -138,67 +138,67 @@ QComboBox::down-arrow{
           </property>
           <item>
            <property name="text">
-            <string>RPC's - Monthly</string>
+            <string>Monthly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Monthly</string>
+            <string>Monthly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Monthly</string>
+            <string>Monthly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Monthly</string>
+            <string>Monthly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Monthly</string>
+            <string>Monthly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Monthly</string>
+            <string>Monthly - Fees</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Totals - Monthly</string>
+            <string>Monthly - Totals</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's - Weekly</string>
+            <string>Weekly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Weekly</string>
+            <string>Weekly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Weekly</string>
+            <string>Weekly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Weekly</string>
+            <string>Weekly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Weekly</string>
+            <string>Weekly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Weekly</string>
+            <string>Weekly - Fees</string>
            </property>
           </item>
          </widget>
@@ -239,67 +239,67 @@ QComboBox::down-arrow{
           </property>
           <item>
            <property name="text">
-            <string>RPC's - Monthly</string>
+            <string>Monthly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Monthly</string>
+            <string>Monthly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Monthly</string>
+            <string>Monthly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Monthly</string>
+            <string>Monthly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Monthly</string>
+            <string>Monthly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Monthly</string>
+            <string>Monthly - Fees</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Totals - Monthly</string>
+            <string>Monthly - Totals</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's - Weekly</string>
+            <string>Weekly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Weekly</string>
+            <string>Weekly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Weekly</string>
+            <string>Weekly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Weekly</string>
+            <string>Weekly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Weekly</string>
+            <string>Weekly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Weekly</string>
+            <string>Weekly - Fees</string>
            </property>
           </item>
          </widget>
@@ -334,67 +334,67 @@ QComboBox::down-arrow{
           </property>
           <item>
            <property name="text">
-            <string>RPC's - Monthly</string>
+            <string>Monthly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Monthly</string>
+            <string>Monthly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Monthly</string>
+            <string>Monthly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Monthly</string>
+            <string>Monthly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Monthly</string>
+            <string>Monthly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Monthly</string>
+            <string>Monthly - Fees</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Totals - Monthly</string>
+            <string>Monthly - Totals</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's - Weekly</string>
+            <string>Weekly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Weekly</string>
+            <string>Weekly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Weekly</string>
+            <string>Weekly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Weekly</string>
+            <string>Weekly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Weekly</string>
+            <string>Weekly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Weekly</string>
+            <string>Weekly - Fees</string>
            </property>
           </item>
          </widget>
@@ -429,67 +429,67 @@ QComboBox::down-arrow{
           </property>
           <item>
            <property name="text">
-            <string>RPC's - Monthly</string>
+            <string>Monthly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Monthly</string>
+            <string>Monthly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Monthly</string>
+            <string>Monthly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Monthly</string>
+            <string>Monthly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Monthly</string>
+            <string>Monthly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Monthly</string>
+            <string>Monthly - Fees</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Totals - Monthly</string>
+            <string>Monthly - Totals</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's - Weekly</string>
+            <string>Weekly - RPC's</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>RPC's Per Hour - Weekly</string>
+            <string>Weekly - RPC's Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects - Weekly</string>
+            <string>Weekly - Connects</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Connects Per Hour - Weekly</string>
+            <string>Weekly - Connects Per Hour</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Conversions - Weekly</string>
+            <string>Weekly - Conversions</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Fees - Weekly</string>
+            <string>Weekly - Fees</string>
            </property>
           </item>
          </widget>
