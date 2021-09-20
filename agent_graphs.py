@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_agentGraphsMain(object):
     def setupUi(self, agentGraphsMain):
         agentGraphsMain.setObjectName("agentGraphsMain")
-        agentGraphsMain.resize(736, 639)
+        agentGraphsMain.resize(971, 656)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentGraphsMain.setWindowIcon(icon)
