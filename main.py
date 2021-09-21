@@ -226,6 +226,7 @@ class Window(QMainWindow, Ui_managerMain):
         update_msg.exec()
 
     def add_employee(self):
+
         add_emp = AddEmployee()
         add_emp.exec_()
 
@@ -434,8 +435,7 @@ class AddEmployee(QDialog, Ui_agentInput):
                     new_value = None
             return new_value
 
-        # TODO Confirm add messagebox
-
+        # Update class attributes with current values
         self.ultipro_id = self.agentUltiPro.text()
         self.email = self.agentEmail.text().lower()
         self.first_name = self.agentFirstName.text().title()
@@ -457,41 +457,58 @@ class AddEmployee(QDialog, Ui_agentInput):
         self.goal2 = self.agentGoal2.text()
         self.goal3 = self.agentGoal3.text()
 
+        # Checks to ensure all required fields are filled out
         if self.check_req_fields():
-            emp_info = [
-                self.ultipro_id,
-                self.last_name,
-                self.first_name,
-                self.user_id,
-                self.email,
-                check_value(self.ext),
-                self.manager,
-                self.group,
-                self.desc1,
-                check_value(self.base1),
-                check_value(self.goal1),
-                self.desc2,
-                check_value(self.base2),
-                check_value(self.goal2),
-                self.desc3,
-                check_value(self.base3),
-                check_value(self.goal3),
-                "Y",
-            ]
-            cmredb.add_coll(emp_info)
-            # TODO Confirmation message box
-            self.clear_form()
+            msg_confirm = msgbox.confirm_save()
+            selection = msg_confirm.exec_()
+
+            # If "Save" was clicked
+            if selection == QMessageBox.Save:
+                emp_info = [
+                    self.ultipro_id,
+                    self.last_name,
+                    self.first_name,
+                    self.user_id,
+                    self.email,
+                    check_value(self.ext),
+                    self.manager,
+                    self.group,
+                    self.desc1,
+                    check_value(self.base1),
+                    check_value(self.goal1),
+                    self.desc2,
+                    check_value(self.base2),
+                    check_value(self.goal2),
+                    self.desc3,
+                    check_value(self.base3),
+                    check_value(self.goal3),
+                    "Y",
+                ]
+
+                # SQL function returns boolean and error
+                add_emp_succeeded = cmredb.add_coll(emp_info)
+                if add_emp_succeeded:
+                    msg_emp_added = msgbox.employee_added()
+                    msg_emp_added.exec_()
+                    self.clear_form()
+                else:
+                    error_msg = msgbox.employee_add_dupe()
+                    error_msg.exec_()
         else:
-            print("Error Message!")
+            msg_add_error = msgbox.employee_add_error()
+            msg_add_error.exec_()
 
     def check_req_fields(self):
         """Function used to check that all required fields are filled out."""
         req_fields = [self.ultipro_id, self.first_name, self.last_name, self.user_id]
+        info_provided = False
         for field in req_fields:
-            if len(field) > 0:
-                return True
+            if len(field) < 1:
+                info_provided = False
+                break
             else:
-                return False
+                info_provided = True
+        return info_provided
 
     def clear_form(self):
         """Function used to clear/reset form."""

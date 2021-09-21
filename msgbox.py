@@ -21,13 +21,13 @@ def closing_time():
 
 def confirm_save():
     msg = QMessageBox()
-    msg.setIcon(QMessageBox.Information)
+    msg.setIcon(QMessageBox.Question)
     icon = QIcon(icon_path)
     icon.addPixmap(
         QPixmap(),
         QIcon.Normal, QIcon.Off)
     msg.setWindowIcon(icon)
-    msg.setText("Do you want to save the changes made to this employee?")
+    msg.setText("Please confirm you want to save your changes.")
     msg.setWindowTitle("Save Changes")
     msg.setStandardButtons(QMessageBox.Save | QMessageBox.Cancel)
     return msg
@@ -73,5 +73,49 @@ def unavailable():
     msg.setWindowIcon(icon)
     msg.setText('This feature is currently unavailable at this time.')
     msg.setWindowTitle("Unavailable")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
+def employee_added():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("Employee has been added successfully!")
+    msg.setWindowTitle("Success")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
+def employee_add_error():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("ERROR: Please fill out all the required fields and try again.")
+    msg.setWindowTitle("Failed")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
+def employee_add_dupe():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("ERROR: An error occurred while trying to add this employee. Typically\n"
+                "this happens if the UltiPro ID entered is already in use. Please confirm\n"
+                "you have the correct UltiPro ID for the user you are entering and try again.")
+    msg.setWindowTitle("Failed")
     msg.setStandardButtons(QMessageBox.Ok)
     return msg

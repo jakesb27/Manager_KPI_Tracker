@@ -432,9 +432,14 @@ def add_coll(data):
     """Simple function used to add collector to the COLL table of the SQLite database."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(add_coll_sql, data)
-    conn.commit()
-    conn.close()
+    try:
+        cur.execute(add_coll_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        conn.close()
+        return False
 
 
 def update_coll(data):

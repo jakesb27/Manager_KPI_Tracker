@@ -155,7 +155,7 @@ QComboBox::down-arrow{
      </property>
     </widget>
    </item>
-   <item row="3" column="3" colspan="2">
+   <item row="3" column="4" colspan="2">
     <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -168,7 +168,7 @@ QComboBox::down-arrow{
      </property>
     </spacer>
    </item>
-   <item row="2" column="1" colspan="6">
+   <item row="2" column="1" colspan="7">
     <widget class="QGroupBox" name="groupBox">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -642,23 +642,7 @@ QComboBox::down-arrow{
      </layout>
     </widget>
    </item>
-   <item row="3" column="5">
-    <widget class="QPushButton" name="clearButton">
-     <property name="minimumSize">
-      <size>
-       <width>125</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>&amp;Clear Form</string>
-     </property>
-     <property name="autoDefault">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2" colspan="4">
+   <item row="1" column="2" colspan="5">
     <widget class="QGroupBox" name="agentDetails">
      <property name="title">
       <string>New Agent Information</string>
@@ -675,16 +659,32 @@ QComboBox::down-arrow{
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="agentUltiPro"/>
+       <widget class="QLineEdit" name="agentUltiPro">
+        <property name="placeholderText">
+         <string>000000</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1" colspan="4">
-       <widget class="QLineEdit" name="agentLastName"/>
+       <widget class="QLineEdit" name="agentLastName">
+        <property name="placeholderText">
+         <string>Smith</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="5">
-       <widget class="QLineEdit" name="agentUserID"/>
+       <widget class="QLineEdit" name="agentUserID">
+        <property name="placeholderText">
+         <string>JOS</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="6" colspan="3">
-       <widget class="QLineEdit" name="agentGroup"/>
+       <widget class="QLineEdit" name="agentGroup">
+        <property name="placeholderText">
+         <string>Phone</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="2" colspan="2">
        <widget class="QLabel" name="label_6">
@@ -751,7 +751,11 @@ QComboBox::down-arrow{
        </widget>
       </item>
       <item row="1" column="1" colspan="3">
-       <widget class="QLineEdit" name="agentFirstName"/>
+       <widget class="QLineEdit" name="agentFirstName">
+        <property name="placeholderText">
+         <string>John</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="4">
        <widget class="QLabel" name="label_20">
@@ -774,7 +778,11 @@ QComboBox::down-arrow{
        </widget>
       </item>
       <item row="1" column="8">
-       <widget class="QLineEdit" name="agentExt"/>
+       <widget class="QLineEdit" name="agentExt">
+        <property name="placeholderText">
+         <string>123</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="5">
        <widget class="QLabel" name="label_5">
@@ -787,7 +795,11 @@ QComboBox::down-arrow{
        </widget>
       </item>
       <item row="0" column="4" colspan="5">
-       <widget class="QLineEdit" name="agentEmail"/>
+       <widget class="QLineEdit" name="agentEmail">
+        <property name="placeholderText">
+         <string>john.smith@myemail.com</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="7">
        <widget class="QLabel" name="label_8">
@@ -817,9 +829,43 @@ QComboBox::down-arrow{
      </layout>
     </widget>
    </item>
+   <item row="3" column="3">
+    <widget class="QPushButton" name="clearButton">
+     <property name="minimumSize">
+      <size>
+       <width>125</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>&amp;Clear Form</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <widget class="QPushButton" name="closeButton">
+     <property name="text">
+      <string>Close</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
+  <tabstop>agentUltiPro</tabstop>
+  <tabstop>agentEmail</tabstop>
+  <tabstop>agentFirstName</tabstop>
+  <tabstop>agentUserID</tabstop>
+  <tabstop>agentExt</tabstop>
+  <tabstop>agentLastName</tabstop>
+  <tabstop>agentGroup</tabstop>
+  <tabstop>agentManager</tabstop>
   <tabstop>agentDesc1</tabstop>
   <tabstop>agentBase1</tabstop>
   <tabstop>agentGoal1</tabstop>
@@ -829,10 +875,29 @@ QComboBox::down-arrow{
   <tabstop>agentDesc3</tabstop>
   <tabstop>agentBase3</tabstop>
   <tabstop>agentGoal3</tabstop>
+  <tabstop>addButton</tabstop>
   <tabstop>clearButton</tabstop>
+  <tabstop>closeButton</tabstop>
  </tabstops>
  <resources>
   <include location="main_images.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>closeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>agentInput</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>590</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>367</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
