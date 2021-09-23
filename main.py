@@ -15,7 +15,6 @@ import cds_sql as cds
 import my_styles
 import msgbox
 from manager_main import Ui_managerMain
-from manager_settings import Ui_managerSettings
 from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
 from agent_graphs import Ui_agentGraphsMain
@@ -250,8 +249,8 @@ class Window(QMainWindow, Ui_managerMain):
 
     def user_settings(self):
         """Function used to initialize the manager settings window."""
-        mgr_settings = ManagerSettings()
-        mgr_settings.exec_()
+        msg = msgbox.unavailable()
+        msg.exec_()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
@@ -307,54 +306,6 @@ class Worker(QObject):
                     # Sends signal to main thread's slot connected to 'update_status' function
                     self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), f'{count_down[3:7]} min')
                     x -= 1
-
-
-class ManagerSettings(QDialog, Ui_managerSettings):
-    """Manager settings screen used to update and change employee information."""
-
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        self.curr_user = getpass.getuser().lower()
-        curr_settings = cmredb.user_settings(self.curr_user)[0]
-        self.my_coll = curr_settings[0]
-        self.use_graph_pre = curr_settings[1]
-        self.preset_1 = curr_settings[2].split(",")
-        self.preset_2 = curr_settings[3].split(",")
-        self.preset_3 = curr_settings[4].split(",")
-
-        self.graphPreset.currentIndexChanged.connect(self.change_preset)
-
-        self.load_settings()
-    
-    def load_settings(self):
-        if self.my_coll == 0:
-            self.checkMyColl.setChecked(False)
-        else:
-            self.checkMyColl.setChecked(True)
-
-        if self.use_graph_pre == 0:
-            self.checkGraphPre.setChecked(False)
-        else:
-            self.checkGraphPre.setChecked(True)
-
-        self.change_preset()
-
-    def change_preset(self):
-
-        def update_combo(preset):
-            self.graphData1.setCurrentIndex(int(preset[0]))
-            self.graphData2.setCurrentIndex(int(preset[1]))
-            self.graphData3.setCurrentIndex(int(preset[2]))
-            self.graphData4.setCurrentIndex(int(preset[3]))
-
-        curr_sel = self.graphPreset.currentIndex()
-        if curr_sel == 0:
-            update_combo(self.preset_1)
-        elif curr_sel == 1:
-            update_combo(self.preset_2)
-        elif curr_sel == 2:
-            update_combo(self.preset_3)
 
 
 class EmployeeDetails(QDialog, Ui_agentDetailsMain):
