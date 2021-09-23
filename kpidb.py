@@ -3,6 +3,32 @@ from sqlite3 import Error
 
 db_file = r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\CMRE.db"
 
+user_settings_sql = """
+SELECT
+    MY_COLL,
+    GRAPH_PRESETS,
+    GP_1,
+    GP_2,
+    GP_3
+FROM
+    MANAGERS
+WHERE
+    NET_NAME=:user
+"""
+
+update_settings_sql = """
+UPDATE
+    MANAGERS
+SET
+    MY_COLL=:my_coll,
+    GRAPH_PRESETS=:presets,
+    GP_1=:preset1,
+    GP_2=:preset2,
+    GP_3=:preset3,
+WHERE
+    NET_NAME=:user
+"""
+
 coll_details_sql = """
 SELECT *
 FROM
@@ -93,7 +119,8 @@ VALUES (
 """
 
 update_coll_sql = """
-UPDATE COLL
+UPDATE
+    COLL
 SET
     LAST_NAME=:last,
     FIRST_NAME=:first,
@@ -386,6 +413,25 @@ def create_connection():
     except Error as e:
         print(e)
     return conn
+
+
+def user_settings(user):
+    """Simple function used to query SQLite database for a manager's settings."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(user_settings_sql, (user,))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def update_settings(data):
+    """Simple function used to update database with a manager's settings."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(update_settings_sql, data)
+    conn.commit()
+    conn.close()
 
 
 def coll_details(coll):
