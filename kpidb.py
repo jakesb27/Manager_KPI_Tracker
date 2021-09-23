@@ -115,12 +115,22 @@ WHERE
     ULTIPRO_ID=:primary_key
 """
 
-managers_sql = """
-SELECT NET_NAME
+users_with_access_sql = """
+SELECT
+    NET_NAME
 FROM
     MANAGERS
 WHERE
     APP_ACCESS=1
+"""
+
+current_managers_sql = """
+SELECT
+    FIRST_NAME
+FROM
+    MANAGERS
+WHERE
+    STAFF_MGR=1
 """
 
 monthly_rpcs_sql = """
@@ -451,11 +461,22 @@ def update_coll(data):
     conn.close()
 
 
-def managers():
+def users_with_access():
     """Simple function used to query SQLite database for managers."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(managers_sql)
+    cur.execute(users_with_access_sql)
+    rows = cur.fetchall()
+    conn.close()
+    mgr_list = [man[0] for man in rows]
+    return mgr_list
+
+
+def current_managers():
+    """Simple function used to query SQLite database for managers."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(current_managers_sql)
     rows = cur.fetchall()
     conn.close()
     mgr_list = [man[0] for man in rows]

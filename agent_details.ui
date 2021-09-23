@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>714</width>
-    <height>329</height>
+    <width>786</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -148,33 +148,32 @@ QComboBox::down-arrow{
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+     </property>
      <property name="title">
       <string/>
      </property>
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="2">
-       <widget class="QComboBox" name="employeeSelect">
-        <property name="styleSheet">
-         <string notr="true">QFrame{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-}</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_20">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Employee Select:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
+      <item row="2" column="1" colspan="2">
        <widget class="QTextBrowser" name="employeeMisc">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
@@ -185,7 +184,7 @@ QComboBox::down-arrow{
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>71</height>
+          <height>58</height>
          </size>
         </property>
         <property name="html">
@@ -198,6 +197,61 @@ p, li { white-space: pre-wrap; }
         <property name="openExternalLinks">
          <bool>true</bool>
         </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_20">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Employee Select:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QComboBox" name="employeeSelect">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Manager Filter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QComboBox" name="managerCombo">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -599,7 +653,7 @@ p, li { white-space: pre-wrap; }
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Name:</string>
+         <string>User ID:</string>
         </property>
        </widget>
       </item>
@@ -764,6 +818,31 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>managerCombo</tabstop>
+  <tabstop>employeeSelect</tabstop>
+  <tabstop>employeeGraphs</tabstop>
+  <tabstop>employeeMisc</tabstop>
+  <tabstop>agentName</tabstop>
+  <tabstop>agentPrinc</tabstop>
+  <tabstop>agentDesk</tabstop>
+  <tabstop>agentInt</tabstop>
+  <tabstop>agentExt</tabstop>
+  <tabstop>agentTotal</tabstop>
+  <tabstop>agentGoal</tabstop>
+  <tabstop>agentComm</tabstop>
+  <tabstop>agentRPC</tabstop>
+  <tabstop>agentConv</tabstop>
+  <tabstop>agentDesc1</tabstop>
+  <tabstop>agentBase1</tabstop>
+  <tabstop>agentGoal1</tabstop>
+  <tabstop>agentDesc2</tabstop>
+  <tabstop>agentBase2</tabstop>
+  <tabstop>agentGoal2</tabstop>
+  <tabstop>agentDesc3</tabstop>
+  <tabstop>agentBase3</tabstop>
+  <tabstop>agentGoal3</tabstop>
+ </tabstops>
  <resources>
   <include location="main_images.qrc"/>
  </resources>

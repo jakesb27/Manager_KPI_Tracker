@@ -55,6 +55,46 @@ class Ui_agentGraphsMain(object):
 "QStatusBar{\n"
 "    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
+"QPushButton{\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
+"    padding: 2px;\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::hover{\n"
+"    border-bottom: 2px solid rgb(75, 124, 154);\n"
+"    border-top: 1px solid rgb(95, 158, 195);\n"
+"    border-right: 2px solid rgb(75, 124, 154);\n"
+"    border-left: 1px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
+"    padding: 2px;\n"
+"    padding-left: 13px;\n"
+"    padding-right: 13px;\n"
+"    background-color: rgb(215, 215, 215);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QPushButton::pressed{\n"
+"    border-bottom: 1px solid rgb(75, 124, 154);\n"
+"    border-top: 2px solid rgb(95, 158, 195);\n"
+"    border-right: 1px solid rgb(75, 124, 154);\n"
+"    border-left: 2px solid rgb(95, 158, 195);\n"
+"    border-radius: 4px;\n"
+"    padding: 2px;\n"
+"    padding-left: 10px;\n"
+"    padding-right: 10px;\n"
+"    width: 80px;\n"
+"    background-color: rgb(225, 225, 225);\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
 "QComboBox{\n"
 "    border-bottom: 2px solid rgb(75, 124, 154);\n"
 "    border-top: 1px solid rgb(75, 124, 154);\n"
@@ -275,6 +315,22 @@ class Ui_agentGraphsMain(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
+        self.label_6 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_4.addWidget(self.label_6, 0, 1, 1, 1)
+        self.managerCombo = QtWidgets.QComboBox(self.groupBox_2)
+        self.managerCombo.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.managerCombo.setObjectName("managerCombo")
+        self.managerCombo.addItem("")
+        self.gridLayout_4.addWidget(self.managerCombo, 0, 2, 1, 2)
+        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.employeeSelect.setObjectName("employeeSelect")
+        self.gridLayout_4.addWidget(self.employeeSelect, 1, 2, 1, 2)
         self.label_20 = QtWidgets.QLabel(self.groupBox_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -282,13 +338,31 @@ class Ui_agentGraphsMain(object):
         sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
         self.label_20.setSizePolicy(sizePolicy)
         self.label_20.setObjectName("label_20")
-        self.gridLayout_4.addWidget(self.label_20, 0, 1, 1, 1)
-        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
-        self.employeeSelect.setStyleSheet("QFrame{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"}")
-        self.employeeSelect.setObjectName("employeeSelect")
-        self.gridLayout_4.addWidget(self.employeeSelect, 0, 2, 1, 1)
+        self.gridLayout_4.addWidget(self.label_20, 1, 1, 1, 1)
+        self.frame_2 = QtWidgets.QFrame(self.groupBox_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame_2.sizePolicy().hasHeightForWidth())
+        self.frame_2.setSizePolicy(sizePolicy)
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame_2)
+        self.gridLayout_3.setObjectName("gridLayout_3")
+        self.userPreset2 = QtWidgets.QPushButton(self.frame_2)
+        self.userPreset2.setAutoDefault(False)
+        self.userPreset2.setObjectName("userPreset2")
+        self.gridLayout_3.addWidget(self.userPreset2, 1, 1, 1, 1)
+        self.userPreset3 = QtWidgets.QPushButton(self.frame_2)
+        self.userPreset3.setAutoDefault(False)
+        self.userPreset3.setObjectName("userPreset3")
+        self.gridLayout_3.addWidget(self.userPreset3, 1, 2, 1, 1)
+        self.userPreset1 = QtWidgets.QPushButton(self.frame_2)
+        self.userPreset1.setAutoDefault(False)
+        self.userPreset1.setObjectName("userPreset1")
+        self.gridLayout_3.addWidget(self.userPreset1, 1, 0, 1, 1)
+        self.gridLayout_4.addWidget(self.frame_2, 2, 1, 1, 3)
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
 
         self.retranslateUi(agentGraphsMain)
@@ -297,7 +371,11 @@ class Ui_agentGraphsMain(object):
         self.graphData1.setCurrentIndex(-1)
         self.graphData3.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(agentGraphsMain)
-        agentGraphsMain.setTabOrder(self.employeeSelect, self.graphData1)
+        agentGraphsMain.setTabOrder(self.managerCombo, self.employeeSelect)
+        agentGraphsMain.setTabOrder(self.employeeSelect, self.userPreset1)
+        agentGraphsMain.setTabOrder(self.userPreset1, self.userPreset2)
+        agentGraphsMain.setTabOrder(self.userPreset2, self.userPreset3)
+        agentGraphsMain.setTabOrder(self.userPreset3, self.graphData1)
         agentGraphsMain.setTabOrder(self.graphData1, self.graphData2)
         agentGraphsMain.setTabOrder(self.graphData2, self.graphData3)
         agentGraphsMain.setTabOrder(self.graphData3, self.graphData4)
@@ -361,7 +439,12 @@ class Ui_agentGraphsMain(object):
         self.graphData3.setItemText(10, _translate("agentGraphsMain", "Weekly - Connects Per Hour"))
         self.graphData3.setItemText(11, _translate("agentGraphsMain", "Weekly - Conversions"))
         self.graphData3.setItemText(12, _translate("agentGraphsMain", "Weekly - Fees"))
+        self.label_6.setText(_translate("agentGraphsMain", "Manager Filter:"))
+        self.managerCombo.setItemText(0, _translate("agentGraphsMain", "All"))
         self.label_20.setText(_translate("agentGraphsMain", "Employee Select:"))
+        self.userPreset2.setText(_translate("agentGraphsMain", "User Preset 2"))
+        self.userPreset3.setText(_translate("agentGraphsMain", "User Preset 3"))
+        self.userPreset1.setText(_translate("agentGraphsMain", "User Preset 1"))
 import main_images_rc
 
 

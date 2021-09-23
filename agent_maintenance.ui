@@ -941,26 +941,6 @@ QComboBox::down-arrow{
           <string> - Select A Manager - </string>
          </property>
         </item>
-        <item>
-         <property name="text">
-          <string>Patty</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Jake</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Shana</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Stephanie</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item row="3" column="5">

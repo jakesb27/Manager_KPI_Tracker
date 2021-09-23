@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_agentDetailsMain(object):
     def setupUi(self, agentDetailsMain):
         agentDetailsMain.setObjectName("agentDetailsMain")
-        agentDetailsMain.resize(714, 329)
+        agentDetailsMain.resize(786, 325)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentDetailsMain.setWindowIcon(icon)
@@ -146,16 +146,39 @@ class Ui_agentDetailsMain(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
         self.groupBox_2.setSizePolicy(sizePolicy)
+        self.groupBox_2.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
         self.groupBox_2.setTitle("")
         self.groupBox_2.setObjectName("groupBox_2")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
-        self.employeeSelect.setStyleSheet("QFrame{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"}")
-        self.employeeSelect.setObjectName("employeeSelect")
-        self.gridLayout_4.addWidget(self.employeeSelect, 0, 2, 1, 1)
+        self.employeeMisc = QtWidgets.QTextBrowser(self.groupBox_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.employeeMisc.sizePolicy().hasHeightForWidth())
+        self.employeeMisc.setSizePolicy(sizePolicy)
+        self.employeeMisc.setMaximumSize(QtCore.QSize(16777215, 58))
+        self.employeeMisc.setOpenExternalLinks(True)
+        self.employeeMisc.setObjectName("employeeMisc")
+        self.gridLayout_4.addWidget(self.employeeMisc, 2, 1, 1, 2)
         self.label_20 = QtWidgets.QLabel(self.groupBox_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -163,17 +186,25 @@ class Ui_agentDetailsMain(object):
         sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
         self.label_20.setSizePolicy(sizePolicy)
         self.label_20.setObjectName("label_20")
-        self.gridLayout_4.addWidget(self.label_20, 0, 1, 1, 1)
-        self.employeeMisc = QtWidgets.QTextBrowser(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.employeeMisc.sizePolicy().hasHeightForWidth())
-        self.employeeMisc.setSizePolicy(sizePolicy)
-        self.employeeMisc.setMaximumSize(QtCore.QSize(16777215, 71))
-        self.employeeMisc.setOpenExternalLinks(True)
-        self.employeeMisc.setObjectName("employeeMisc")
-        self.gridLayout_4.addWidget(self.employeeMisc, 1, 1, 1, 2)
+        self.gridLayout_4.addWidget(self.label_20, 1, 1, 1, 1)
+        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
+        self.employeeSelect.setMinimumSize(QtCore.QSize(200, 0))
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.employeeSelect.setObjectName("employeeSelect")
+        self.gridLayout_4.addWidget(self.employeeSelect, 1, 2, 1, 1)
+        self.label_21 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_21.setObjectName("label_21")
+        self.gridLayout_4.addWidget(self.label_21, 0, 1, 1, 1)
+        self.managerCombo = QtWidgets.QComboBox(self.groupBox_2)
+        self.managerCombo.setMinimumSize(QtCore.QSize(200, 0))
+        self.managerCombo.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.managerCombo.setObjectName("managerCombo")
+        self.managerCombo.addItem("")
+        self.gridLayout_4.addWidget(self.managerCombo, 0, 2, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
         self.groupBox = QtWidgets.QGroupBox(agentDetailsMain)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
@@ -530,16 +561,40 @@ class Ui_agentDetailsMain(object):
 
         self.retranslateUi(agentDetailsMain)
         QtCore.QMetaObject.connectSlotsByName(agentDetailsMain)
+        agentDetailsMain.setTabOrder(self.managerCombo, self.employeeSelect)
+        agentDetailsMain.setTabOrder(self.employeeSelect, self.employeeGraphs)
+        agentDetailsMain.setTabOrder(self.employeeGraphs, self.employeeMisc)
+        agentDetailsMain.setTabOrder(self.employeeMisc, self.agentName)
+        agentDetailsMain.setTabOrder(self.agentName, self.agentPrinc)
+        agentDetailsMain.setTabOrder(self.agentPrinc, self.agentDesk)
+        agentDetailsMain.setTabOrder(self.agentDesk, self.agentInt)
+        agentDetailsMain.setTabOrder(self.agentInt, self.agentExt)
+        agentDetailsMain.setTabOrder(self.agentExt, self.agentTotal)
+        agentDetailsMain.setTabOrder(self.agentTotal, self.agentGoal)
+        agentDetailsMain.setTabOrder(self.agentGoal, self.agentComm)
+        agentDetailsMain.setTabOrder(self.agentComm, self.agentRPC)
+        agentDetailsMain.setTabOrder(self.agentRPC, self.agentConv)
+        agentDetailsMain.setTabOrder(self.agentConv, self.agentDesc1)
+        agentDetailsMain.setTabOrder(self.agentDesc1, self.agentBase1)
+        agentDetailsMain.setTabOrder(self.agentBase1, self.agentGoal1)
+        agentDetailsMain.setTabOrder(self.agentGoal1, self.agentDesc2)
+        agentDetailsMain.setTabOrder(self.agentDesc2, self.agentBase2)
+        agentDetailsMain.setTabOrder(self.agentBase2, self.agentGoal2)
+        agentDetailsMain.setTabOrder(self.agentGoal2, self.agentDesc3)
+        agentDetailsMain.setTabOrder(self.agentDesc3, self.agentBase3)
+        agentDetailsMain.setTabOrder(self.agentBase3, self.agentGoal3)
 
     def retranslateUi(self, agentDetailsMain):
         _translate = QtCore.QCoreApplication.translate
         agentDetailsMain.setWindowTitle(_translate("agentDetailsMain", "Agent Details"))
-        self.label_20.setText(_translate("agentDetailsMain", "Employee Select:"))
         self.employeeMisc.setHtml(_translate("agentDetailsMain", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Corbel\'; font-size:12pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+        self.label_20.setText(_translate("agentDetailsMain", "Employee Select:"))
+        self.label_21.setText(_translate("agentDetailsMain", "Manager Filter:"))
+        self.managerCombo.setItemText(0, _translate("agentDetailsMain", "All"))
         self.groupBox.setTitle(_translate("agentDetailsMain", "KPI Goals"))
         self.label_14.setText(_translate("agentDetailsMain", "Base Value:"))
         self.label_16.setText(_translate("agentDetailsMain", "Base Value:"))
@@ -556,7 +611,7 @@ class Ui_agentDetailsMain(object):
         self.agentDetails.setTitle(_translate("agentDetailsMain", "Agent Information"))
         self.label_7.setText(_translate("agentDetailsMain", "MTD Commission:"))
         self.label_6.setText(_translate("agentDetailsMain", "MTD Total:"))
-        self.label.setText(_translate("agentDetailsMain", "Name:"))
+        self.label.setText(_translate("agentDetailsMain", "User ID:"))
         self.label_8.setText(_translate("agentDetailsMain", "Ext:"))
         self.label_4.setText(_translate("agentDetailsMain", "MTD Principal:"))
         self.label_5.setText(_translate("agentDetailsMain", "MTD Interest:"))

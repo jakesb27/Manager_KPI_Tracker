@@ -15,6 +15,7 @@ import cds_sql as cds
 import my_styles
 import msgbox
 from manager_main import Ui_managerMain
+from manager_settings import Ui_managerSettings
 from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
 from agent_graphs import Ui_agentGraphsMain
@@ -22,7 +23,7 @@ from agent_input import Ui_agentInput
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
-managers = cmredb.managers()
+allowed_users = cmredb.users_with_access()
 
 
 class Window(QMainWindow, Ui_managerMain):
@@ -32,13 +33,12 @@ class Window(QMainWindow, Ui_managerMain):
         super().__init__()
         # Creates the main window UI and initialize class attributes
         self.setupUi(self)
+        self.current_bd_managers = cmredb.current_managers()
 
-        # Import users from CMRE database
+        # Get all users and add current managers to combobox
         self.all_users = cmredb.all_act_collectors()
-        self.pattys_team = cmredb.my_collectors('Patty')
-        self.jakes_team = cmredb.my_collectors('Jake')
-        self.shanas_team = cmredb.my_collectors('Shana')
-        self.stephanies_team = cmredb.my_collectors('Stephanie')
+        self.managers_agents = []
+        self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
 
         # Default sort is set to RPC's
         self.user_sort_col = 3
@@ -64,6 +64,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.agentTableView.doubleClicked.connect(self.agent_details)
         # Options under "File" in menu bar
         self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
+        self.actionSettings.triggered.connect(self.user_settings)
         # Options under "Employees" in menu bar
         self.actionAdd_Employee.triggered.connect(self.add_employee)
         self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
@@ -127,18 +128,13 @@ class Window(QMainWindow, Ui_managerMain):
         # Clear current data in QStandardItemModel except the headers
         self.agentModel.setRowCount(0)
 
-        # Determine which users to add to QStandardItemModel based on manager
-        # selected then calls 'build_model' function passing said users.
-        if self.managerCombo.currentText() == 'Patty':
-            self.build_model(self.pattys_team)
-        elif self.managerCombo.currentText() == 'Jake':
-            self.build_model(self.jakes_team)
-        elif self.managerCombo.currentText() == 'Shana':
-            self.build_model(self.shanas_team)
-        elif self.managerCombo.currentText() == 'Stephanie':
-            self.build_model(self.stephanies_team)
-        else:
+        # Updates GUI based on the manager selected
+        if self.managerCombo.currentIndex() == 0:
             self.build_model(self.all_users)
+        else:
+            sel_mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(sel_mgr)
+            self.build_model(self.managers_agents)
 
     def build_model(self, collectors):
         """Function used to build the QStandardItemModel based on user selection."""
@@ -212,9 +208,10 @@ class Window(QMainWindow, Ui_managerMain):
         coll_name = self.agentModel.item(model.row(), 1).text()
 
         collector = f'{user_id} - {coll_name}'
+        manager = self.managerCombo.currentText()
 
         # Creates the agent details window
-        agent_window = AgentDetails(collector)
+        agent_window = EmployeeDetails(collector, manager)
         agent_window.exec_()
 
     def update_desks(self):
@@ -231,7 +228,7 @@ class Window(QMainWindow, Ui_managerMain):
         add_emp.exec_()
 
     def employee_maintenance(self):
-        """Function used to initialize the employee maintenance window"""
+        """Function used to initialize the employee maintenance window."""
         emp_main = EmployeeMaintenance()
         emp_main.exec_()
 
@@ -243,12 +240,18 @@ class Window(QMainWindow, Ui_managerMain):
         if selection:
             user_id = self.agentModel.item(selection[0].row(), 0).text()
             coll_name = self.agentModel.item(selection[0].row(), 1).text()
-            collector = f'{user_id} - {coll_name}'
+            coll = f'{user_id} - {coll_name}'
         else:
-            collector = ""
+            coll = ""
 
-        agent_graphs = EmployeeGraphs(collector)
+        mgr = self.managerCombo.currentText()
+        agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
+
+    def user_settings(self):
+        """Function used to initialize the manager settings window."""
+        mgr_settings = ManagerSettings()
+        mgr_settings.exec_()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
@@ -306,26 +309,75 @@ class Worker(QObject):
                     x -= 1
 
 
-class AgentDetails(QDialog, Ui_agentDetailsMain):
+class ManagerSettings(QDialog, Ui_managerSettings):
+    """Manager settings screen used to update and change employee information."""
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+
+class EmployeeDetails(QDialog, Ui_agentDetailsMain):
     """Class that displays an agents details not shown in the MainWindow."""
 
-    def __init__(self, coll):
+    def __init__(self, coll, mgr):
         super().__init__()
         # Initialize class attributes
         self.setupUi(self)
         self.user_id = ""
+        self.all_users = window.all_users
+        self.managers_agents = []
+        self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
 
-        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
-        self.employeeSelect.currentIndexChanged.connect(self.update_info)
-        self.employeeGraphs.clicked.connect(self.employee_graphs)
+        # Sets manager to selected manager from main
+        mgr_index = self.managerCombo.findText(mgr)
+        if mgr_index == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+        else:
+            # Adds selected manager's employees only
+            self.managerCombo.setCurrentIndex(mgr_index)
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
 
-        # Triggers the currentIndexChanged event when initializing with the index
-        # that matches the employee selected from the main window.
+        # Sets the selected employee
         index = self.employeeSelect.findText(coll)
         if index == 0:
             self.update_info()
         else:
             self.employeeSelect.setCurrentIndex(index)
+            self.update_info()
+
+        # Connect signals to slots
+        self.managerCombo.currentIndexChanged.connect(self.update_combobox)
+        self.employeeSelect.currentIndexChanged.connect(self.update_info)
+        self.employeeGraphs.clicked.connect(self.employee_graphs)
+
+    def update_combobox(self):
+        """Function used to update employee combobox based on the manager selected."""
+
+        coll = self.employeeSelect.currentText()
+        # Block signal temporarily
+        self.employeeSelect.blockSignals(True)
+        self.employeeSelect.clear()
+
+        # If manager is 'All' then all employees are added
+        if self.managerCombo.currentIndex() == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+            index = self.employeeSelect.findText(coll)
+            self.employeeSelect.setCurrentIndex(index)
+        else:
+            # Adds only the employees for the selected manager
+            mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+            index = self.employeeSelect.findText(coll)
+            # If the employee cannot be found in the updated employee list
+            if index != -1:
+                self.employeeSelect.setCurrentIndex(index)
+
+        # Unblock the signal and update employee info
+        self.employeeSelect.blockSignals(False)
+        self.update_info()
 
     def update_info(self):
         """Updates the GUI with the newly selected employee's information."""
@@ -342,7 +394,7 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
 
         self.employeeMisc.setText(f'Email: <a href="mailto:{coll_details[4]}">{coll_details[4]}</a>')
 
-        self.agentName.setText(f'{coll_details[2]} {coll_details[1]}')
+        self.agentName.setText(self.user_id)
         self.agentDesk.setText(coll_details[6])
         self.agentExt.setText(str(coll_details[5]))
         self.agentGoal.setText('${:,.2f}'.format(desk_totals[0][0]))
@@ -386,7 +438,8 @@ class AgentDetails(QDialog, Ui_agentDetailsMain):
     def employee_graphs(self):
         """Function used to initialize the agent graphs window."""
         coll = self.employeeSelect.currentText()
-        agent_graphs = EmployeeGraphs(coll)
+        mgr = self.managerCombo.currentText()
+        agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
 
 
@@ -397,6 +450,7 @@ class AddEmployee(QDialog, Ui_agentInput):
         super().__init__()
         self.setupUi(self)
         self.all_req_fields = False
+        self.agentManager.addItems([mgr for mgr in sorted(window.current_bd_managers)])
 
         self.ultipro_id = ""
         self.email = ""
@@ -563,6 +617,9 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.user_changed = False
         self.saved = True
         self.primary_key = ''
+
+        # Add managers to combobox
+        self.agentManager.addItems([mgr for mgr in sorted(window.current_bd_managers)])
 
         # Adds employees to combo box
         self.employeeSelect.addItem(f'- Select Employee -')
@@ -817,11 +874,13 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
 class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
     """Class that displays trending graphs for the selected agent."""
 
-    def __init__(self, coll):
+    def __init__(self, coll, mgr):
         super().__init__()
         # Initialize class attributes
         self.setupUi(self)
         self.user_id = ""
+        self.all_users = window.all_users
+        self.managers_agents = []
         # Holds index value of selected graph
         self.g1_combo_index = 0
         self.g2_combo_index = 0
@@ -838,21 +897,58 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         self.emp_graph_4 = MyGraphs()
         self.graphBox4.setLayout(self.emp_graph_4.layout)
 
-        # Add collectors to employee select combobox
-        self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(window.all_users)])
-        self.employeeSelect.setCurrentIndex(-1)
+        # Add managers to manager combobox
+        self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
+
+        # Sets manager to selected manager from main
+        mgr_index = self.managerCombo.findText(mgr)
+        if mgr_index == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+        else:
+            # Adds selected manager's employees only
+            self.managerCombo.setCurrentIndex(mgr_index)
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
 
         # Updates employee selection to prev. selected employee if applicable.
         index = self.employeeSelect.findText(coll)
         self.employeeSelect.setCurrentIndex(index)
 
         # Connect signals and slots
+        self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.employeeSelect.currentIndexChanged.connect(lambda: self.update_info(0))
         self.graphData1.currentIndexChanged.connect(lambda: self.update_info(1))
         self.graphData2.currentIndexChanged.connect(lambda: self.update_info(2))
         self.graphData3.currentIndexChanged.connect(lambda: self.update_info(3))
         self.graphData4.currentIndexChanged.connect(lambda: self.update_info(4))
 
+        self.update_info(0)
+
+    def update_combobox(self):
+        """Function used to update employee combobox based on the manager selected."""
+
+        coll = self.employeeSelect.currentText()
+        # Block signal temporarily
+        self.employeeSelect.blockSignals(True)
+        self.employeeSelect.clear()
+
+        # If manager is 'All' then all employees are added
+        if self.managerCombo.currentIndex() == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+            index = self.employeeSelect.findText(coll)
+            self.employeeSelect.setCurrentIndex(index)
+        else:
+            # Adds only the employees for the selected manager
+            mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+            index = self.employeeSelect.findText(coll)
+            # If the employee cannot be found in the updated employee list
+            if index != -1:
+                self.employeeSelect.setCurrentIndex(index)
+
+        # Unblock the signal and update employee info
+        self.employeeSelect.blockSignals(False)
         self.update_info(0)
 
     def update_info(self, gp_trig):
@@ -1020,7 +1116,7 @@ class MyGraphs:
 
 
 if __name__ == "__main__":
-    if getpass.getuser().lower() in managers:
+    if getpass.getuser().lower() in allowed_users:
         app = QApplication(sys.argv)
         window = Window()
         window.show()

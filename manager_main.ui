@@ -229,26 +229,6 @@ QComboBox::down-arrow{
         <string>All</string>
        </property>
       </item>
-      <item>
-       <property name="text">
-        <string>Patty</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Jake</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Shana</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Stephanie</string>
-       </property>
-      </item>
      </widget>
     </item>
    </layout>
@@ -267,6 +247,7 @@ QComboBox::down-arrow{
      <string>&amp;File</string>
     </property>
     <addaction name="actionRun_Desk_Goal_Update"/>
+    <addaction name="actionSettings"/>
    </widget>
    <widget class="QMenu" name="menuEmployees">
     <property name="title">
@@ -309,6 +290,11 @@ QComboBox::down-arrow{
   <action name="actionAdd_Employee_2">
    <property name="text">
     <string>Add Employee</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>
