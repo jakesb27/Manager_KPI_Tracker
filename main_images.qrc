@@ -1,6 +1,9 @@
 <RCC>
   <qresource prefix="meduit">
-    <file>arrow.png</file>
+    <file>arrow-dwn.png</file>
+    <file>arrow-left.png</file>
+    <file>arrow-right.png</file>
+    <file>arrow-up.png</file>
     <file>Meduit Email.png</file>
   </qresource>
 </RCC>

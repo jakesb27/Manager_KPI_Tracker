@@ -19,6 +19,7 @@ from agent_details import Ui_agentDetailsMain
 from agent_maintenance import Ui_agentMaintenance
 from agent_graphs import Ui_agentGraphsMain
 from agent_input import Ui_agentInput
+from manager_review import Ui_managerForm
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
@@ -247,6 +248,11 @@ class Window(QMainWindow, Ui_managerMain):
         agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
 
+    def employee_review(self):
+        """Function used to initialize the agent review window."""
+        agent_rvw = ManagerReview()
+        agent_rvw.exec_()
+
     def user_settings(self):
         """Function used to initialize the manager settings window."""
         msg = msgbox.unavailable()
@@ -399,8 +405,8 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
             self.agentRPC.setText('{:.2f}'.format(float(curr_kpis[0][3])))
             self.agentConv.setText('{0:.0%}'.format(float(curr_kpis[0][4])))
         except IndexError:
-            self.agentRPC.setText('Not Logged In')
-            self.agentConv.setText('Not Logged In')
+            self.agentRPC.setText('N/A')
+            self.agentConv.setText('N/A')
 
         self.agentDesc1.setText(coll_details[9])
         self.agentDesc2.setText(coll_details[12])
@@ -1104,6 +1110,14 @@ class MyGraphs:
             series.attachAxis(self.axisY)
         else:
             self.chart.setTitle("Missing Employee or Graph Data Selection")
+
+
+class ManagerReview(QDialog, Ui_managerForm):
+    """Class that displays employee review form to be completed and saved."""
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
 
 
 if __name__ == "__main__":

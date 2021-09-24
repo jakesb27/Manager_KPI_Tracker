@@ -14,8 +14,8 @@
    <string>Manager KPI Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/images/Meduit_logo.ico</normaloff>:/images/Meduit_logo.ico</iconset>
+   <iconset resource="main_images.qrc">
+    <normaloff>:/meduit/Meduit Email.png</normaloff>:/meduit/Meduit Email.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
@@ -35,7 +35,7 @@ QGroupBox{
 	font-weight: bold;
 }
 QGroupBox::title{
-	background-color: rgb(195, 195, 195);
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
 	border: 1px solid black;
 	border-radius: 3px;
 	padding: 2 10px;
@@ -136,7 +136,7 @@ QComboBox::drop-down::pressed{
 	width: 16px;
 }
 QComboBox::down-arrow{
-	image: url(:/meduit/arrow.png);
+	image: url(:/meduit/arrow-dwn.png);
 	width: 14 px;
 	height:14 px;
 }</string>
@@ -255,6 +255,7 @@ QComboBox::down-arrow{
     </property>
     <addaction name="actionAdd_Employee"/>
     <addaction name="actionUpdate_Employee"/>
+    <addaction name="actionManager_Review"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -295,6 +296,11 @@ QComboBox::down-arrow{
   <action name="actionSettings">
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionManager_Review">
+   <property name="text">
+    <string>Add/Edit Review</string>
    </property>
   </action>
  </widget>

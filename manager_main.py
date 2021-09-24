@@ -35,7 +35,7 @@ class Ui_managerMain(object):
 "    font-weight: bold;\n"
 "}\n"
 "QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
+"    background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "    padding: 2 10px;\n"
@@ -136,7 +136,7 @@ class Ui_managerMain(object):
 "    width: 16px;\n"
 "}\n"
 "QComboBox::down-arrow{\n"
-"    image: url(:/meduit/arrow.png);\n"
+"    image: url(:/meduit/arrow-dwn.png);\n"
 "    width: 14 px;\n"
 "    height:14 px;\n"
 "}")
@@ -203,10 +203,13 @@ class Ui_managerMain(object):
         self.actionAdd_Employee_2.setObjectName("actionAdd_Employee_2")
         self.actionSettings = QtWidgets.QAction(managerMain)
         self.actionSettings.setObjectName("actionSettings")
+        self.actionManager_Review = QtWidgets.QAction(managerMain)
+        self.actionManager_Review.setObjectName("actionManager_Review")
         self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
         self.menuFile.addAction(self.actionSettings)
         self.menuEmployees.addAction(self.actionAdd_Employee)
         self.menuEmployees.addAction(self.actionUpdate_Employee)
+        self.menuEmployees.addAction(self.actionManager_Review)
         self.menuView.addAction(self.actionTrending_Graphs)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEmployees.menuAction())
@@ -231,6 +234,7 @@ class Ui_managerMain(object):
         self.actionTrending_Graphs.setText(_translate("managerMain", "Trending Graphs"))
         self.actionAdd_Employee_2.setText(_translate("managerMain", "Add Employee"))
         self.actionSettings.setText(_translate("managerMain", "Settings"))
+        self.actionManager_Review.setText(_translate("managerMain", "Add/Edit Review"))
 import main_images_rc
 
 

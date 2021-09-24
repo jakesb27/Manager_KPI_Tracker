@@ -35,7 +35,7 @@ class Ui_agentGraphsMain(object):
 "    font-weight: bold;\n"
 "}\n"
 "QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
+"    background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "    padding: 2 10px;\n"
@@ -134,7 +134,7 @@ class Ui_agentGraphsMain(object):
 "    width: 16px;\n"
 "}\n"
 "QComboBox::down-arrow{\n"
-"    image: url(:/meduit/arrow.png);\n"
+"    image: url(:/meduit/arrow-dwn.png);\n"
 "    width: 14 px;\n"
 "    height:14 px;\n"
 "}")

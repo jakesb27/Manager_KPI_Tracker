@@ -35,7 +35,7 @@ QGroupBox{
 	font-weight: bold;
 }
 QGroupBox::title{
-	background-color: rgb(195, 195, 195);
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
 	border: 1px solid black;
 	border-radius: 3px;
 	padding: 2 10px;
@@ -133,7 +133,7 @@ QComboBox::drop-down::pressed{
 	width: 16px;
 }
 QComboBox::down-arrow{
-	image: url(:/meduit/arrow.png);
+	image: url(:/meduit/arrow-dwn.png);
 	width: 14 px;
 	height:14 px;
 }</string>

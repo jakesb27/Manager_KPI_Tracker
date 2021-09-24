@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>managerForm</class>
+ <widget class="QDialog" name="managerForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>736</width>
+    <height>485</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Manager Review Template</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QWidget{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QDateEdit{
+	background-color: rgb(223, 223, 223);
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QDateEdit::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 18px;
+}
+QDateEdit::down-arrow{
+	image: url(:/meduit/arrow-dwn.png);
+	width: 14 px;
+	height:14 px;
+}
+QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 18;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QLineEdit{
+	background-color: rgb(223, 223, 223);
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QTextEdit{
+	font: 12pt &quot;Corbel&quot;;
+}
+QStatusBar{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QPushButton{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::hover{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(215, 215, 215);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::pressed{
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QComboBox{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(75, 124, 154);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(75, 124, 154);
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::hover{
+	background-color: rgb(205, 205, 205);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::pressed{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::down-arrow{
+	image: url(:/meduit/arrow-dwn.png);
+	width: 14 px;
+	height:14 px;
+}
+QCalendarWidget QWidget#qt_calendar_navigationbar{
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QToolButton{
+	color: rgb(0, 0, 0);
+  	icon-size: 20px, 20px;
+}
+QCalendarWidget QWidget#qt_calendar_prevmonth{
+	qproperty-icon: url(:/meduit/arrow-left.png);
+}
+
+QCalendarWidget QWidget#qt_calendar_nextmonth{
+	qproperty-icon: url(:/meduit/arrow-right.png);
+}
+QCalendarWidget QSpinBox{ 
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QMenu{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QWidget{
+	alternate-background-color: rgb(234, 234, 234);
+}
+QCalendarWidget QAbstractItemView:enabled{
+	font: 12pt &quot;Corbel&quot;;
+	font-weight: bold;
+	background-color: rgb(214, 214, 214);
+  	selection-background-color: rgb(64, 64, 64);
+	selection-color: rgb(255, 255, 255);
+	border: 1px solid black;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+QCalendarWidget QAbstractItemView:disabled{
+	color: rgb(64, 64, 64); 
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="styleSheet">
+      <string notr="true">QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 0;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: rgb(195, 195, 195);
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="2">
+       <widget class="QComboBox" name="managerCombo">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="1" colspan="2">
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item row="1" column="1">
+          <widget class="QRadioButton" name="radioButton_4">
+           <property name="text">
+            <string>Disciplinary</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="radioButton">
+           <property name="text">
+            <string>One on One</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="radioButton_3">
+           <property name="text">
+            <string>Coaching</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="text">
+            <string>Side by Side</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QComboBox" name="employeeSelect">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_20">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Employee Select:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Manager Filter:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QFrame" name="frame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="editButton">
+        <property name="text">
+         <string>Edit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="closeButton">
+        <property name="text">
+         <string>Close</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveClose">
+        <property name="text">
+         <string>Save &amp;&amp; Close</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="employeeGraphs">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Trending Graphs</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QGroupBox" name="agentDetails">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Document Information</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="3">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Issued Via:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Desk:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>User ID:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="agentName">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Group:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="agentDesk">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLineEdit" name="agentExt">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLineEdit" name="lineEdit_2"/>
+      </item>
+      <item row="1" column="4" colspan="2">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item row="3" column="4" colspan="2">
+       <widget class="QDateEdit" name="dateEdit">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Issue Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Issued By:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLineEdit" name="agentGroup"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Ext:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Main Topic:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="5">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Document Notes</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_9">
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	color: rgb(38, 76, 115);
+	font: 16pt &quot;Corbel&quot;;
+	font-weight: bold;
+	text-decoration: underline;
+}</string>
+        </property>
+        <property name="text">
+         <string>One on One Review</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPlainTextEdit" name="plainTextEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>managerCombo</tabstop>
+  <tabstop>employeeSelect</tabstop>
+ </tabstops>
+ <resources>
+  <include location="main_images.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>closeButton</sender>
+   <signal>clicked()</signal>
+   <receiver>managerForm</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>538</x>
+     <y>519</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>367</x>
+     <y>270</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
