@@ -33,6 +33,21 @@ def confirm_save():
     return msg
 
 
+def confirm_close_unsaved():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("You are about to close without saving any changes.\n"
+                "Please confirm you do not want to save your changes.")
+    msg.setWindowTitle("Close Without Saving")
+    msg.setStandardButtons(QMessageBox.Close | QMessageBox.Cancel)
+    return msg
+
+
 def inactive_warning():
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Warning)

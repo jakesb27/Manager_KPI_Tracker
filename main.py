@@ -7,7 +7,7 @@ from math import ceil
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis, QBarCategoryAxis
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QIcon, QPixmap, QPainter, QFont, QKeyEvent
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QHBoxLayout, QComboBox
-from PyQt5.QtCore import Qt, QObject, QThread, pyqtSignal
+from PyQt5.QtCore import Qt, QObject, QThread, QDate, pyqtSignal
 
 import cds_sql
 import kpidb as cmredb
@@ -68,6 +68,7 @@ class Window(QMainWindow, Ui_managerMain):
         # Options under "Employees" in menu bar
         self.actionAdd_Employee.triggered.connect(self.add_employee)
         self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
+        self.actionManager_Review.triggered.connect(self.employee_review)
         # Options under "View" in menu bar
         self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
 
@@ -107,13 +108,6 @@ class Window(QMainWindow, Ui_managerMain):
 
         # Start the thread
         self.thread.start()
-
-    def refresh_manager_lists(self):
-        self.all_users = cmredb.all_collectors()
-        self.pattys_team = cmredb.my_collectors('Patty')
-        self.jakes_team = cmredb.my_collectors('Jake')
-        self.shanas_team = cmredb.my_collectors('Shana')
-        self.stephanies_team = cmredb.my_collectors('Stephanie')
 
     def manual_refresh(self):
         """Function used to manually refresh the KPI's before the automatic refresh takes place."""
@@ -250,7 +244,8 @@ class Window(QMainWindow, Ui_managerMain):
 
     def employee_review(self):
         """Function used to initialize the agent review window."""
-        agent_rvw = ManagerReview()
+        mgr = self.managerCombo.currentText()
+        agent_rvw = ManagerReview(mgr)
         agent_rvw.exec_()
 
     def user_settings(self):
@@ -716,7 +711,6 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
 
     def active_emp_check(self):
         if self.activeEmpBox.checkState() == 2:
-            self.setStyleSheet(my_styles.active_emp)
             self.agentFirstName.setReadOnly(False)
             self.agentLastName.setReadOnly(False)
             self.agentEmail.setReadOnly(False)
@@ -732,8 +726,8 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.agentDesc3.setDisabled(False)
             self.agentBase3.setReadOnly(False)
             self.agentGoal3.setReadOnly(False)
+            self.setStyleSheet(my_styles.active_style)
         else:
-            self.setStyleSheet(my_styles.inactive_emp)
             self.agentFirstName.setReadOnly(True)
             self.agentLastName.setReadOnly(True)
             self.agentEmail.setReadOnly(True)
@@ -749,6 +743,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.agentDesc3.setDisabled(True)
             self.agentBase3.setReadOnly(True)
             self.agentGoal3.setReadOnly(True)
+            self.setStyleSheet(my_styles.active_style)
 
     def active_changed(self):
         if self.activeEmpBox.checkState() == 0:
@@ -1115,9 +1110,102 @@ class MyGraphs:
 class ManagerReview(QDialog, Ui_managerForm):
     """Class that displays employee review form to be completed and saved."""
 
-    def __init__(self):
+    def __init__(self, mgr):
         super().__init__()
         self.setupUi(self)
+        self.discFrame.hide()
+        self.radio_btns = [
+            self.radio1on1,
+            self.radioSbS,
+            self.radioCoach,
+            self.radioDisc
+        ]
+        today_date = date.today()
+        sdate = QDate(today_date)
+        self.issueDate.setDate(sdate)
+
+        self.all_users = window.all_users
+        self.managers_agents = []
+        self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
+
+        # Connect signals to slots
+        self.managerCombo.currentIndexChanged.connect(self.update_combobox)
+        self.employeeSelect.currentIndexChanged.connect(self.update_info)
+        self.closeButton.clicked.connect(self.close_without_save)
+        self.saveClose.clicked.connect(self.save_and_close)
+        self.employeeGraphs.clicked.connect(self.employee_graphs)
+        self.radio1on1.toggled.connect(self.template_sel)
+        self.radioSbS.toggled.connect(self.template_sel)
+        self.radioCoach.toggled.connect(self.template_sel)
+        self.radioDisc.toggled.connect(self.template_sel)
+
+        # Sets manager to selected manager from main
+        mgr_index = self.managerCombo.findText(mgr)
+        if mgr_index == 0:
+            self.update_combobox()
+        else:
+            self.managerCombo.setCurrentIndex(mgr_index)
+
+    def update_combobox(self):
+        """Function used to update employee combobox based on the manager selected."""
+
+        # Block signal temporarily
+        self.employeeSelect.blockSignals(True)
+        self.employeeSelect.clear()
+
+        # If manager is 'All' then all employees are added
+        if self.managerCombo.currentIndex() == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+        else:
+            # Adds only the employees for the selected manager
+            mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+
+        self.employeeSelect.setCurrentIndex(-1)
+        # Unblock the signal and update employee info
+        self.employeeSelect.blockSignals(False)
+
+    def update_info(self):
+        """Updates the GUI with the newly selected employee's information."""
+        coll = self.employeeSelect.currentText().split(' - ')
+        user_id = coll[0]
+        # Obtain agent details by calling function in kpidb.py
+        details = cmredb.coll_details(user_id)
+        # Converts results from a tuple to a list
+        coll_details = list(details)
+
+        self.agentUserID.setText(user_id)
+        self.agentDesk.setText(coll_details[6])
+        self.agentExt.setText(str(coll_details[5]))
+        self.agentGroup.setText(coll_details[8])
+
+    def template_sel(self):
+        """Function used to detect template type and update GUI options accordingly."""
+        for item in self.radio_btns:
+            if item.isChecked():
+                button = item.text()
+                self.tempType.setText(button)
+                if button == "Disciplinary":
+                    self.discFrame.show()
+                else:
+                    self.discFrame.hide()
+
+    def close_without_save(self):
+        confirm_msg = msgbox.confirm_close_unsaved()
+        confirm_close = confirm_msg.exec_()
+        if confirm_close == QMessageBox.Close:
+            self.close()
+
+    def save_and_close(self):
+        pass
+
+    def employee_graphs(self):
+        """Function used to initialize the agent graphs window."""
+        coll = self.employeeSelect.currentText()
+        mgr = self.managerCombo.currentText()
+        agent_graphs = EmployeeGraphs(coll, mgr)
+        agent_graphs.exec_()
 
 
 if __name__ == "__main__":

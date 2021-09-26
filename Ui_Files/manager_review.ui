@@ -7,23 +7,29 @@
     <x>0</x>
     <y>0</y>
     <width>736</width>
-    <height>485</height>
+    <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Manager Review Template</string>
+   <string>Manager Review Form</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</normaloff>J:/COLLECTOR RESOURCES/KPI Tracker/cmredb/Meduit_logo.ico</iconset>
+   <iconset resource="../main_images.qrc">
+    <normaloff>:/logos/Images/Meduit_logo.ico</normaloff>:/logos/Images/Meduit_logo.ico</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QDialog{
+   <string notr="true">QMainWindow{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QDialog{
 	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
 }
 QWidget{
 	font: 11pt &quot;Corbel&quot;;
 	font-weight: bold;
+}
+QPlainTextEdit{
+	border: 1px solid black;
 }
 QDateEdit{
 	background-color: rgb(223, 223, 223);
@@ -49,7 +55,7 @@ QDateEdit::drop-down{
 	width: 18px;
 }
 QDateEdit::down-arrow{
-	image: url(:/meduit/arrow-dwn.png);
+	image: url(:/arrows/Images/arrow-dwn.png);
 	width: 14 px;
 	height:14 px;
 }
@@ -73,7 +79,11 @@ QGroupBox::title{
 	font-weight: bold;
 }
 QLineEdit{
-	background-color: rgb(223, 223, 223);
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QLineEdit[readOnly=&quot;true&quot;]{
+	background-color: rgb(200, 200, 200);
 	border: 1px solid rgb(95, 158, 195);
 	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
@@ -162,7 +172,7 @@ QComboBox::drop-down::pressed{
 	width: 16px;
 }
 QComboBox::down-arrow{
-	image: url(:/meduit/arrow-dwn.png);
+	image: url(:/arrows/Images/arrow-dwn.png);
 	width: 14 px;
 	height:14 px;
 }
@@ -181,11 +191,11 @@ QCalendarWidget QToolButton{
   	icon-size: 20px, 20px;
 }
 QCalendarWidget QWidget#qt_calendar_prevmonth{
-	qproperty-icon: url(:/meduit/arrow-left.png);
+	qproperty-icon: url(:/arrows/Images/arrow-left.png);
 }
 
 QCalendarWidget QWidget#qt_calendar_nextmonth{
-	qproperty-icon: url(:/meduit/arrow-right.png);
+	qproperty-icon: url(:/arrows/Images/arrow-right.png);
 }
 QCalendarWidget QSpinBox{ 
 	font: 11pt &quot;Corbel&quot;;
@@ -213,6 +223,19 @@ QCalendarWidget QAbstractItemView:disabled{
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
+   <item row="3" column="1">
+    <widget class="QPushButton" name="employeeGraphs">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Trending Graphs</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="1">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="styleSheet">
@@ -282,14 +305,14 @@ QGroupBox::title{
           <number>0</number>
          </property>
          <item row="1" column="1">
-          <widget class="QRadioButton" name="radioButton_4">
+          <widget class="QRadioButton" name="radioDisc">
            <property name="text">
             <string>Disciplinary</string>
            </property>
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="radio1on1">
            <property name="text">
             <string>One on One</string>
            </property>
@@ -299,14 +322,14 @@ QGroupBox::title{
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QRadioButton" name="radioButton_3">
+          <widget class="QRadioButton" name="radioCoach">
            <property name="text">
             <string>Coaching</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="radioSbS">
            <property name="text">
             <string>Side by Side</string>
            </property>
@@ -353,6 +376,268 @@ QGroupBox::title{
      </layout>
     </widget>
    </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Document Notes</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="1">
+       <widget class="QLabel" name="tempType">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	color: rgb(43, 87, 130);
+	font: 16pt &quot;Corbel&quot;;
+	font-weight: bold;
+	text-decoration: underline;
+}</string>
+        </property>
+        <property name="text">
+         <string>One on One Review</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QFrame" name="discFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Disciplinary Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="disciplineType">
+           <property name="styleSheet">
+            <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>1. Verbal</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2. Written</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>3. Final Written</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>4. PIP</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>5. Term</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QPlainTextEdit" name="managerNotes"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QGroupBox" name="agentDetails">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Document Information</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>User ID:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLineEdit" name="agentExt">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1" colspan="5">
+       <widget class="QLineEdit" name="mainTopic"/>
+      </item>
+      <item row="3" column="4" colspan="2">
+       <widget class="QDateEdit" name="issueDate">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Issue Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="agentUserID">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Desk:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="agentDesk">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Main Topic:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLineEdit" name="agentGroup">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" colspan="2">
+       <widget class="QLineEdit" name="meetLocation"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Ext:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1" colspan="2">
+       <widget class="QLineEdit" name="issuedBy"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Issued By:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Group:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Location:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="3" column="2">
     <widget class="QFrame" name="frame">
      <property name="sizePolicy">
@@ -381,14 +666,32 @@ QGroupBox::title{
        <number>0</number>
       </property>
       <item>
-       <widget class="QPushButton" name="editButton">
-        <property name="text">
-         <string>Edit</string>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="closeButton">
+        <property name="minimumSize">
+         <size>
+          <width>119</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>119</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
          <string>Close</string>
         </property>
@@ -396,184 +699,20 @@ QGroupBox::title{
       </item>
       <item>
        <widget class="QPushButton" name="saveClose">
-        <property name="text">
-         <string>Save &amp;&amp; Close</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="employeeGraphs">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Trending Graphs</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QGroupBox" name="agentDetails">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Document Information</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="1" column="3">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Issued Via:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Desk:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>User ID:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="agentName">
         <property name="minimumSize">
          <size>
-          <width>50</width>
+          <width>119</width>
           <height>0</height>
          </size>
         </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Group:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="agentDesk">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QLineEdit" name="agentExt">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_2"/>
-      </item>
-      <item row="1" column="4" colspan="2">
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-      <item row="3" column="4" colspan="2">
-       <widget class="QDateEdit" name="dateEdit">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Issue Date:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Issued By:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QLineEdit" name="agentGroup"/>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Ext:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>Main Topic:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1" colspan="5">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="1" colspan="2">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>Document Notes</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_9">
-        <property name="styleSheet">
-         <string notr="true">QLabel{
-	color: rgb(38, 76, 115);
-	font: 16pt &quot;Corbel&quot;;
-	font-weight: bold;
-	text-decoration: underline;
-}</string>
+        <property name="maximumSize">
+         <size>
+          <width>119</width>
+          <height>16777215</height>
+         </size>
         </property>
         <property name="text">
-         <string>One on One Review</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QPlainTextEdit" name="plainTextEdit">
-        <property name="enabled">
-         <bool>false</bool>
+         <string>Save &amp;&amp; Close</string>
         </property>
        </widget>
       </item>
@@ -587,24 +726,7 @@ QGroupBox::title{
   <tabstop>employeeSelect</tabstop>
  </tabstops>
  <resources>
-  <include location="main_images.qrc"/>
+  <include location="../main_images.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>closeButton</sender>
-   <signal>clicked()</signal>
-   <receiver>managerForm</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>538</x>
-     <y>519</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>367</x>
-     <y>270</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
