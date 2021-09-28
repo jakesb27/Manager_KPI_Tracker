@@ -497,7 +497,17 @@ QGroupBox::title{
        </spacer>
       </item>
       <item row="1" column="0" colspan="3">
-       <widget class="QPlainTextEdit" name="managerNotes"/>
+       <widget class="QPlainTextEdit" name="managerNotes">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="tabStopWidth">
+         <number>40</number>
+        </property>
+        <property name="placeholderText">
+         <string>Select employee to begin...</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -538,7 +548,11 @@ QGroupBox::title{
        </widget>
       </item>
       <item row="5" column="1" colspan="5">
-       <widget class="QLineEdit" name="mainTopic"/>
+       <widget class="QLineEdit" name="mainTopic">
+        <property name="placeholderText">
+         <string>-Required-</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="4" colspan="2">
        <widget class="QDateEdit" name="issueDate">
@@ -599,7 +613,11 @@ QGroupBox::title{
        </widget>
       </item>
       <item row="1" column="4" colspan="2">
-       <widget class="QLineEdit" name="meetLocation"/>
+       <widget class="QLineEdit" name="meetLocation">
+        <property name="placeholderText">
+         <string>-Required-</string>
+        </property>
+       </widget>
       </item>
       <item row="0" column="4">
        <widget class="QLabel" name="label_8">
@@ -609,7 +627,11 @@ QGroupBox::title{
        </widget>
       </item>
       <item row="3" column="1" colspan="2">
-       <widget class="QLineEdit" name="issuedBy"/>
+       <widget class="QLineEdit" name="issuedBy">
+        <property name="placeholderText">
+         <string>-Required-</string>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_6">
@@ -698,7 +720,7 @@ QGroupBox::title{
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="saveClose">
+       <widget class="QPushButton" name="saveReview">
         <property name="minimumSize">
          <size>
           <width>119</width>
@@ -712,7 +734,7 @@ QGroupBox::title{
          </size>
         </property>
         <property name="text">
-         <string>Save &amp;&amp; Close</string>
+         <string>&amp;Save Review</string>
         </property>
        </widget>
       </item>

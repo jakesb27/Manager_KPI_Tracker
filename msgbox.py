@@ -48,6 +48,21 @@ def confirm_close_unsaved():
     return msg
 
 
+def confirm_change_unsaved():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("By continuing, you will lose any unsaved changes.\n"
+                "Do you wish to continue?")
+    msg.setWindowTitle("Continue Without Saving")
+    msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+    return msg
+
+
 def inactive_warning():
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Warning)
@@ -106,7 +121,7 @@ def employee_added():
     return msg
 
 
-def employee_add_error():
+def add_data_error():
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Critical)
     icon = QIcon(icon_path)

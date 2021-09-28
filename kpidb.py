@@ -377,6 +377,39 @@ WHERE
     USER_ID=:user_id    
 """
 
+add_review_sql = """
+INSERT INTO REVIEWS (
+    REVIEW_ID,
+    EMP_ID,
+    EMP_USERID,
+    DESK,
+    EXT,
+    EMP_GROUP,
+    RVW_LOC,
+    ISSUED_BY,
+    ISSUE_DATE,
+    TOPIC,
+    RVW_TYPE,
+    DISC_TYPE,
+    RVW_NOTES
+    )
+VALUES (
+    :review_id,
+    :emp_id,
+    :emp_userid,
+    :desk,
+    :ext,
+    :emp_group,
+    :rvw_loc,
+    :issued_by,
+    :issue_date,
+    :topic,
+    :rvw_type,
+    :disc_type,
+    :rvw_notes
+    )
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -619,5 +652,14 @@ def update_desks(data):
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(update_desks_sql, data)
+    conn.commit()
+    conn.close()
+
+
+def add_review(data):
+    """Simple function used to add an employee review to the CMRE database."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(add_review_sql, data)
     conn.commit()
     conn.close()

@@ -39,6 +39,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.all_users = cmredb.all_act_collectors()
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
+        # TODO Add link to email ALL users. Add function to change users based on manger selected.
 
         # Default sort is set to RPC's
         self.user_sort_col = 3
@@ -284,7 +285,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() < self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -346,6 +347,7 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
+        # TODO Add field to include employee's manager.
 
         coll = self.employeeSelect.currentText()
         # Block signal temporarily
@@ -541,7 +543,7 @@ class AddEmployee(QDialog, Ui_agentInput):
                     error_msg = msgbox.employee_add_dupe()
                     error_msg.exec_()
         else:
-            msg_add_error = msgbox.employee_add_error()
+            msg_add_error = msgbox.add_data_error()
             msg_add_error.exec_()
 
     def check_req_fields(self):
@@ -1113,7 +1115,9 @@ class ManagerReview(QDialog, Ui_managerForm):
     def __init__(self, mgr):
         super().__init__()
         self.setupUi(self)
+        self.emp_id = ""
         self.discFrame.hide()
+        self.employee = 0
         self.radio_btns = [
             self.radio1on1,
             self.radioSbS,
@@ -1132,7 +1136,7 @@ class ManagerReview(QDialog, Ui_managerForm):
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
         self.closeButton.clicked.connect(self.close_without_save)
-        self.saveClose.clicked.connect(self.save_and_close)
+        self.saveReview.clicked.connect(self.save_review)
         self.employeeGraphs.clicked.connect(self.employee_graphs)
         self.radio1on1.toggled.connect(self.template_sel)
         self.radioSbS.toggled.connect(self.template_sel)
@@ -1166,19 +1170,36 @@ class ManagerReview(QDialog, Ui_managerForm):
         # Unblock the signal and update employee info
         self.employeeSelect.blockSignals(False)
 
+        self.emp_id = ""
+        self.agentUserID.clear()
+        self.agentDesk.clear()
+        self.agentExt.clear()
+        self.agentGroup.clear()
+        self.radio1on1.setChecked(True)
+        self.managerNotes.setReadOnly(True)
+        self.managerNotes.setPlaceholderText("Select employee to begin...")
+
     def update_info(self):
         """Updates the GUI with the newly selected employee's information."""
+
+        self.managerNotes.clear()
+        self.meetLocation.clear()
+        self.issuedBy.clear()
+        self.mainTopic.clear()
+        self.radio1on1.setChecked(True)
         coll = self.employeeSelect.currentText().split(' - ')
         user_id = coll[0]
         # Obtain agent details by calling function in kpidb.py
         details = cmredb.coll_details(user_id)
         # Converts results from a tuple to a list
         coll_details = list(details)
-
+        self.emp_id = coll_details[0]
         self.agentUserID.setText(user_id)
         self.agentDesk.setText(coll_details[6])
         self.agentExt.setText(str(coll_details[5]))
         self.agentGroup.setText(coll_details[8])
+        self.managerNotes.setReadOnly(False)
+        self.managerNotes.setPlaceholderText("-Required-")
 
     def template_sel(self):
         """Function used to detect template type and update GUI options accordingly."""
@@ -1192,13 +1213,79 @@ class ManagerReview(QDialog, Ui_managerForm):
                     self.discFrame.hide()
 
     def close_without_save(self):
-        confirm_msg = msgbox.confirm_close_unsaved()
-        confirm_close = confirm_msg.exec_()
-        if confirm_close == QMessageBox.Close:
+        if len(self.managerNotes.toPlainText()) > 0:
+            confirm_msg = msgbox.confirm_close_unsaved()
+            confirm_close = confirm_msg.exec_()
+            if confirm_close == QMessageBox.Close:
+                self.close()
+        else:
             self.close()
 
-    def save_and_close(self):
-        pass
+    def save_review(self):
+
+        def field_check():
+            passed = True
+            check_fields = [
+                self.meetLocation,
+                self.issuedBy,
+                self.mainTopic
+            ]
+
+            if self.employeeSelect.currentIndex() > 0:
+                if len(self.managerNotes.toPlainText()) != 0:
+                    for field in check_fields:
+                        if len(field.text()) == 0:
+                            passed = False
+                            break
+                else:
+                    passed = False
+            else:
+                passed = False
+
+            return passed
+
+        def gather_data():
+            rvw_type = ""
+            disc_type = ""
+
+            for btn in self.radio_btns:
+                if btn.isChecked():
+                    rvw_type = btn.text()
+                    break
+
+            if rvw_type == "Disciplinary":
+                disc_type = self.disciplineType.currentText()
+
+            rvw_id = f"{self.emp_id}.{self.issueDate.date().toPyDate()}." \
+                     f"{rvw_type[:3]}-{disc_type}-{self.mainTopic.text()}"
+
+            rvw_data = [
+                rvw_id,
+                self.emp_id,
+                self.agentUserID.text(),
+                self.agentDesk.text(),
+                self.agentExt.text(),
+                self.agentGroup.text(),
+                self.meetLocation.text(),
+                self.issuedBy.text(),
+                str(self.issueDate.date().toPyDate()),
+                self.mainTopic.text(),
+                rvw_type,
+                disc_type,
+                self.managerNotes.toPlainText()
+            ]
+
+            return rvw_data
+
+        if field_check():
+            save_msg = msgbox.confirm_save()
+            selection = save_msg.exec_()
+            if selection == QMessageBox.Save:
+                cmredb.add_review(gather_data())
+                self.update_info()
+        else:
+            error_msg = msgbox.add_data_error()
+            error_msg.exec_()
 
     def employee_graphs(self):
         """Function used to initialize the agent graphs window."""
