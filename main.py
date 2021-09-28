@@ -22,7 +22,7 @@ from agent_input import Ui_agentInput
 from manager_review import Ui_managerForm
 
 # Column headers used to build QStandardItemModel
-headers = ['User ID', 'Collector', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
+headers = ['User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
 allowed_users = cmredb.users_with_access()
 
 
@@ -42,7 +42,7 @@ class Window(QMainWindow, Ui_managerMain):
         # TODO Add link to email ALL users. Add function to change users based on manger selected.
 
         # Default sort is set to RPC's
-        self.user_sort_col = 3
+        self.user_sort_col = 4
         # Default sorting order is descending
         self.user_sort_order = Qt.DescendingOrder
 
@@ -77,15 +77,16 @@ class Window(QMainWindow, Ui_managerMain):
         """Method used for handling column width when the user resizes the main UI"""
         super().resizeEvent(event)
         table_width = self.agentTableView.width()
-        set_width = 700
+        set_width = 770
         # Takes table width * column's min possible width / table's min possible width
         # If a column is added, add the min column width to the total table width
-        self.agentTableView.setColumnWidth(0, int(table_width * 60 / set_width))
-        self.agentTableView.setColumnWidth(1, int(table_width * 170 / set_width))
-        self.agentTableView.setColumnWidth(2, int(table_width * 115 / set_width))
-        self.agentTableView.setColumnWidth(3, int(table_width * 110 / set_width))
-        self.agentTableView.setColumnWidth(4, int(table_width * 125 / set_width))
-        self.agentTableView.setColumnWidth(5, int(table_width * 90 / set_width))
+        self.agentTableView.setColumnWidth(0, int(table_width * 70 / set_width))
+        self.agentTableView.setColumnWidth(1, int(table_width * 130 / set_width))
+        self.agentTableView.setColumnWidth(2, int(table_width * 75 / set_width))
+        self.agentTableView.setColumnWidth(3, int(table_width * 115 / set_width))
+        self.agentTableView.setColumnWidth(4, int(table_width * 120 / set_width))
+        self.agentTableView.setColumnWidth(5, int(table_width * 130 / set_width))
+        self.agentTableView.setColumnWidth(6, int(table_width * 100 / set_width))
 
     def start_thread(self):
         """Function that creates a worker thread that is used to refresh KPI's every 5 minuets on a loop."""
@@ -143,20 +144,20 @@ class Window(QMainWindow, Ui_managerMain):
                 # Convert tuple to list
                 list_stats = list(agent_stats[0])
                 # Format RPC's
-                rpcs = '{:.2f}'.format(float(list_stats[3]))
+                rpcs = '{:.2f}'.format(float(list_stats[4]))
                 # Update list with formatted RPC's
-                list_stats[3] = rpcs
+                list_stats[4] = rpcs
                 # Format conversion rate
-                conv = '{0:.0%}'.format(float(list_stats[4]))
+                conv = '{0:.0%}'.format(float(list_stats[5]))
                 # Uodate list with formatted conversion rate
-                list_stats[4] = conv
+                list_stats[5] = conv
                 # Remove DAY from index 2
-                list_stats.pop(2)
-                # Insert collectors name. (User ID, Name, Start Time, RPC's, Conv, Last Update)
+                list_stats.pop(3)
+                # Insert collectors name. (User ID, Name, Group, Start Time, RPC's, Conv, Last Update)
                 list_stats.insert(1, coll[1])
             else:
                 # Query returned no results which indicates user has not logged into Agent Tracker
-                list_stats = [coll[0], coll[1], 'Not Logged In', '0.0', '0.0%', 'N/A']
+                list_stats = [coll[0], coll[1], '', 'Not Logged In', '0.0', '0.0%', 'N/A']
 
             # Converts items in list to a QStandardItem which is required for PyQt5
             # All number and text formatting should be done PRIOR to converting
@@ -347,7 +348,6 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
-        # TODO Add field to include employee's manager.
 
         coll = self.employeeSelect.currentText()
         # Block signal temporarily
@@ -397,6 +397,7 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
         self.agentInt.setText('${:,.2f}'.format(desk_totals[0][2]))
         self.agentTotal.setText('${:,.2f}'.format(desk_totals[0][3]))
         self.agentComm.setText('${:,.2f}'.format(desk_totals[0][4]))
+        self.agentGroup.setText(coll_details[8])
 
         try:
             self.agentRPC.setText('{:.2f}'.format(float(curr_kpis[0][3])))
@@ -842,7 +843,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                     self.agentEmail.text().lower(),
                     check_value(self.agentExt.text()),
                     self.agentManager.currentText(),
-                    self.agentGroup.text().title(),
+                    self.agentGroup.text(),
                     self.agentDesc1.currentText(),
                     check_value(self.agentBase1.text()),
                     check_value(self.agentGoal1.text()),
@@ -857,7 +858,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                 ]
                 cmredb.update_coll(updated_details)
                 self.save_enabled()
-                window.refresh_manager_lists()
+                window.update_users()
                 self.clear_window()
                 self.employeeSelect.setCurrentIndex(index)
 
@@ -1246,7 +1247,6 @@ class ManagerReview(QDialog, Ui_managerForm):
 
         def gather_data():
             rvw_type = ""
-            disc_type = ""
 
             for btn in self.radio_btns:
                 if btn.isChecked():
@@ -1254,10 +1254,12 @@ class ManagerReview(QDialog, Ui_managerForm):
                     break
 
             if rvw_type == "Disciplinary":
-                disc_type = self.disciplineType.currentText()
+                disc_type = f"-{self.disciplineType.currentText()}-"
+            else:
+                disc_type = "-"
 
             rvw_id = f"{self.emp_id}.{self.issueDate.date().toPyDate()}." \
-                     f"{rvw_type[:3]}-{disc_type}-{self.mainTopic.text()}"
+                     f"{rvw_type[:3]}{disc_type}{self.mainTopic.text()}"
 
             rvw_data = [
                 rvw_id,

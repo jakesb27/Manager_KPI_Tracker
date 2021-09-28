@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
+    <width>788</width>
     <height>423</height>
    </rect>
   </property>
@@ -235,9 +235,14 @@ QCalendarWidget QAbstractItemView:disabled{
      <widget class="QTableView" name="agentTableView">
       <property name="minimumSize">
        <size>
-        <width>700</width>
+        <width>770</width>
         <height>0</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTableView{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
       </property>
       <property name="alternatingRowColors">
        <bool>true</bool>
@@ -319,7 +324,7 @@ QCalendarWidget QAbstractItemView:disabled{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>718</width>
+     <width>788</width>
      <height>24</height>
     </rect>
    </property>

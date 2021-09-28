@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_managerMain(object):
     def setupUi(self, managerMain):
         managerMain.setObjectName("managerMain")
-        managerMain.resize(718, 423)
+        managerMain.resize(788, 423)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         managerMain.setWindowIcon(icon)
@@ -229,7 +229,10 @@ class Ui_managerMain(object):
         self.label_3.setObjectName("label_3")
         self.gridLayout.addWidget(self.label_3, 3, 0, 1, 3)
         self.agentTableView = QtWidgets.QTableView(self.centralwidget)
-        self.agentTableView.setMinimumSize(QtCore.QSize(700, 0))
+        self.agentTableView.setMinimumSize(QtCore.QSize(770, 0))
+        self.agentTableView.setStyleSheet("QTableView{\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"}")
         self.agentTableView.setAlternatingRowColors(True)
         self.agentTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.agentTableView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
@@ -260,7 +263,7 @@ class Ui_managerMain(object):
         self.gridLayout.addWidget(self.managerCombo, 2, 1, 1, 1)
         managerMain.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(managerMain)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 718, 24))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 788, 24))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")

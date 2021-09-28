@@ -41,12 +41,20 @@ FROM
 """
 
 daily_kpis_sql = """
-SELECT *
+SELECT
+    KPI.USER_ID,
+    COLL.USER_GROUP,
+    KPI.START_TIME,
+    KPI.DAY,
+    KPI.RPCS,
+    KPI.CONV,
+    KPI.LAST_UPDATE
 FROM
-    DAILY_KPIS
+    DAILY_KPIS KPI
+JOIN COLL ON COLL.USER_ID = KPI.USER_ID
 WHERE
     DAY=strftime('%d', 'now', 'localtime') AND
-    USER_ID=:collector
+    KPI.USER_ID=:collector
 """
 
 add_coll_sql = """
