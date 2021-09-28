@@ -16,7 +16,7 @@ class Ui_agentGraphsMain(object):
         agentGraphsMain.setObjectName("agentGraphsMain")
         agentGraphsMain.resize(971, 656)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentGraphsMain.setWindowIcon(icon)
         agentGraphsMain.setStyleSheet("QMainWindow{\n"
 "    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));\n"
