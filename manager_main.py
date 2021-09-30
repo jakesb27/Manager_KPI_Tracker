@@ -289,12 +289,15 @@ class Ui_managerMain(object):
         self.actionSettings.setObjectName("actionSettings")
         self.actionManager_Review = QtWidgets.QAction(managerMain)
         self.actionManager_Review.setObjectName("actionManager_Review")
+        self.actionEmployee_Review = QtWidgets.QAction(managerMain)
+        self.actionEmployee_Review.setObjectName("actionEmployee_Review")
         self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
         self.menuFile.addAction(self.actionSettings)
         self.menuEmployees.addAction(self.actionAdd_Employee)
         self.menuEmployees.addAction(self.actionUpdate_Employee)
         self.menuEmployees.addAction(self.actionManager_Review)
         self.menuView.addAction(self.actionTrending_Graphs)
+        self.menuView.addAction(self.actionEmployee_Review)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEmployees.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -319,6 +322,7 @@ class Ui_managerMain(object):
         self.actionAdd_Employee_2.setText(_translate("managerMain", "Add Employee"))
         self.actionSettings.setText(_translate("managerMain", "Settings"))
         self.actionManager_Review.setText(_translate("managerMain", "Add Review"))
+        self.actionEmployee_Review.setText(_translate("managerMain", "Employee Reviews"))
 import main_images_rc
 
 

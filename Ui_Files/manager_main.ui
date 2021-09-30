@@ -348,6 +348,7 @@ QCalendarWidget QAbstractItemView:disabled{
      <string>View</string>
     </property>
     <addaction name="actionTrending_Graphs"/>
+    <addaction name="actionEmployee_Review"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEmployees"/>
@@ -387,6 +388,11 @@ QCalendarWidget QAbstractItemView:disabled{
   <action name="actionManager_Review">
    <property name="text">
     <string>Add Review</string>
+   </property>
+  </action>
+  <action name="actionEmployee_Review">
+   <property name="text">
+    <string>Employee Reviews</string>
    </property>
   </action>
  </widget>

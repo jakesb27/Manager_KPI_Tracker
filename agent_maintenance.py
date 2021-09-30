@@ -30,6 +30,7 @@ class Ui_agentMaintenance(object):
 "}\n"
 "QPlainTextEdit{\n"
 "    border: 1px solid black;\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QDateEdit{\n"
 "    background-color: rgb(223, 223, 223);\n"

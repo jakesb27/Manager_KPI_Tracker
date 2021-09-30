@@ -30,6 +30,7 @@ QWidget{
 }
 QPlainTextEdit{
 	border: 1px solid black;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }
 QDateEdit{
 	background-color: rgb(223, 223, 223);

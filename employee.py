@@ -235,22 +235,10 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             if isinstance(widget, QComboBox):
                 widget.showPopup()
 
-    def save_enabled(self):
-        """Detects a value has changed but not saved and warns user to save before exiting.
-        Once saved the flag will return to True."""
-        if self.user_changed:
-            self.active_emp_check()
-            self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 255);}")
-            self.saved = False
-        else:
-            self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 0);}")
-
     def update_window(self):
         """Updates the window with the employees current data."""
 
         if self.employeeSelect.currentIndex() != 0:
-            # Sets user changed flag to false since loading default employee info
-            self.user_changed = False
             # Obtains employee data from CMRE database
             user_id = self.employeeSelect.currentText().split(' - ')[0]
             coll_details = cmredb.coll_details(user_id)
@@ -288,11 +276,19 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             else:
                 self.activeEmpBox.setChecked(False)
 
-            # Return user changed flag to True to track any changes to the employee
-            self.user_changed = True
             self.active_emp_check()
+            self.user_changed = True
         else:
             self.clear_window()
+
+    def save_enabled(self):
+        """Detects a value has changed but not saved and warns user to save before exiting.
+        Once saved the flag will return to True."""
+        if self.user_changed:
+            self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 255);}")
+            self.saved = False
+        else:
+            self.saveLabel.setStyleSheet("QLabel{color: rgba(255, 0, 0, 0);}")
 
     def active_emp_check(self):
         if self.activeEmpBox.checkState() == 2:
@@ -331,15 +327,22 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.setStyleSheet(my_styles.active_style)
 
     def active_changed(self):
+        """Checks if checkbox is checked or not and takes appropriate action."""
+
+        # If checkbox is un-checked (inactive employee)
         if self.activeEmpBox.checkState() == 0:
+            # Display warning that employee is now inactive
             msg = msgbox.inactive_warning()
             selection = msg.exec()
+            # If user cancels change to make employee inactive
             if selection != QMessageBox.Ok:
                 self.activeEmpBox.setChecked(True)
-                self.active_emp_check()
+                # self.active_emp_check()
             else:
+                self.active_emp_check()
                 self.save_enabled()
         else:
+            self.active_emp_check()
             self.save_enabled()
 
     def undo_changes(self):
@@ -360,7 +363,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.agentManager.setCurrentIndex(0)
         self.agentGroup.clear()
         self.agentEmail.clear()
-        self.activeEmpBox.setChecked(False)
+        self.activeEmpBox.setChecked(True)
 
         self.agentDesc1.setCurrentIndex(0)
         self.agentDesc2.setCurrentIndex(0)
@@ -408,7 +411,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             selection = msg.exec()
             return selection
 
-        if self.employeeSelect.currentIndex() > -1:
+        if self.employeeSelect.currentIndex() > 0:
             if confirm_msg() == QMessageBox.Save:
                 if not self.saved:
                     self.user_changed = False

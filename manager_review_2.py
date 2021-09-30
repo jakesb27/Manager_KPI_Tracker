@@ -16,7 +16,7 @@ class Ui_managerForm(object):
         managerForm.setObjectName("managerForm")
         managerForm.resize(754, 502)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         managerForm.setWindowIcon(icon)
         managerForm.setStyleSheet("QMainWindow{\n"
 "    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));\n"
@@ -652,6 +652,7 @@ class Ui_managerForm(object):
         self.gridLayout_2.addWidget(self.stackedWidget, 0, 0, 1, 1)
 
         self.retranslateUi(managerForm)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(managerForm)
         managerForm.setTabOrder(self.managerCombo, self.employeeSelect)
 
