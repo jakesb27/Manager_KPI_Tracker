@@ -671,3 +671,13 @@ def add_review(data):
     cur.execute(add_review_sql, data)
     conn.commit()
     conn.close()
+
+
+def agent_reviews(search_sql):
+    """Simple function used to query SQLite database for employee reviews."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(search_sql)
+    rows = cur.fetchall()
+    conn.close()
+    return rows

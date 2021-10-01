@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>managerForm</class>
- <widget class="QDialog" name="managerForm">
+ <class>reviewSearch</class>
+ <widget class="QDialog" name="reviewSearch">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>529</height>
+    <width>646</width>
+    <height>471</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Manager Review Form</string>
+   <string>Employee Review Look Up</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../main_images.qrc">
@@ -240,7 +240,7 @@ QCalendarWidget QAbstractItemView:disabled{
         </property>
         <layout class="QGridLayout" name="gridLayout_5">
          <property name="leftMargin">
-          <number>0</number>
+          <number>25</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -249,6 +249,9 @@ QCalendarWidget QAbstractItemView:disabled{
           <number>0</number>
          </property>
          <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="horizontalSpacing">
           <number>0</number>
          </property>
          <item row="1" column="0">
@@ -282,98 +285,6 @@ QCalendarWidget QAbstractItemView:disabled{
         </layout>
        </widget>
       </item>
-      <item row="4" column="5">
-       <widget class="QDateEdit" name="issueEndDate">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="4">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>To:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" colspan="3">
-       <widget class="QComboBox" name="managerCombo">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-}</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>All</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Jake</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Patty</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Shana</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="2" column="1" colspan="5">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Issue Date</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3" colspan="3">
-       <widget class="QComboBox" name="employeeSelect">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
-}</string>
-        </property>
-        <item>
-         <property name="text">
-          <string>ATM</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>CDZ</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>NFR</string>
-         </property>
-        </item>
-       </widget>
-      </item>
       <item row="4" column="6">
        <widget class="QFrame" name="frame">
         <property name="frameShape">
@@ -382,7 +293,7 @@ QCalendarWidget QAbstractItemView:disabled{
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QGridLayout" name="gridLayout_6">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -395,7 +306,7 @@ QCalendarWidget QAbstractItemView:disabled{
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item>
+         <item row="0" column="0">
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -408,7 +319,7 @@ QCalendarWidget QAbstractItemView:disabled{
            </property>
           </spacer>
          </item>
-         <item>
+         <item row="1" column="2">
           <widget class="QPushButton" name="searchButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
@@ -430,34 +341,39 @@ QCalendarWidget QAbstractItemView:disabled{
         </layout>
        </widget>
       </item>
-      <item row="4" column="3">
-       <widget class="QDateEdit" name="issueStrtDate">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+      <item row="1" column="3" colspan="3">
+       <widget class="QComboBox" name="employeeSelect">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
         </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
+      <item row="0" column="3" colspan="3">
+       <widget class="QComboBox" name="managerCombo">
+        <property name="minimumSize">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>200</width>
+          <height>0</height>
          </size>
         </property>
-       </spacer>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>From:</string>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+}</string>
         </property>
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item row="1" column="0" colspan="3">
@@ -476,8 +392,67 @@ QCalendarWidget QAbstractItemView:disabled{
       <item row="0" column="0" colspan="3">
        <widget class="QLabel" name="label_21">
         <property name="text">
-         <string>Manager:</string>
+         <string>Manager Filter:</string>
         </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="6">
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>From:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>To:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="4">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Issue Date Range</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QDateEdit" name="issueEndDate">
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDateEdit" name="issueStrtDate">
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="calendarPopup">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>

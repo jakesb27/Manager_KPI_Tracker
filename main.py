@@ -12,10 +12,12 @@ import cds_sql as cds
 import msgbox
 from manager_main import Ui_managerMain
 from manager_review_2 import Ui_managerForm
+from review_search import Ui_reviewSearch
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
+headers_rvw = ['Review ID', 'Review Type', 'Level', 'Issue Date', 'Issued By', 'Topic']
 allowed_users = cmredb.users_with_access()
 
 
@@ -65,6 +67,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.actionManager_Review.triggered.connect(self.employee_review)
         # Options under "View" in menu bar
         self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
+        self.actionEmployee_Review.triggered.connect(self.employee_review_search)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
@@ -244,6 +247,11 @@ class Window(QMainWindow, Ui_managerMain):
         mgr = self.managerCombo.currentText()
         agent_rvw = ManagerReview(mgr)
         agent_rvw.exec_()
+
+    def employee_review_search(self):
+        """Function used to review employee reviews window."""
+        employee_search = ReviewSearch()
+        employee_search.exec_()
 
     def user_settings(self):
         """Function used to initialize the manager settings window."""
@@ -458,8 +466,7 @@ class ManagerReview(QDialog, Ui_managerForm):
             else:
                 disc_type = "-"
 
-            rvw_id = f"{self.emp_id}.{self.issueDate.date().toPyDate()}." \
-                     f"{rvw_type[:3]}{disc_type}{self.mainTopic.text()}"
+            rvw_id = f"{self.emp_id}-{self.issueDate.date().toPyDate()}-{rvw_type[:3]}"
 
             rvw_data = [
                 rvw_id,
@@ -468,10 +475,10 @@ class ManagerReview(QDialog, Ui_managerForm):
                 self.agentDesk.text(),
                 self.agentExt.text(),
                 self.agentGroup.text(),
-                self.meetLocation.text(),
-                self.issuedBy.text(),
+                self.meetLocation.text().title(),
+                self.issuedBy.text().title(),
                 str(self.issueDate.date().toPyDate()),
-                self.mainTopic.text(),
+                self.mainTopic.text().title(),
                 rvw_type,
                 disc_type,
                 self.managerNotes.toPlainText()
@@ -499,6 +506,124 @@ class ManagerReview(QDialog, Ui_managerForm):
         agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
 
+
+class ReviewSearch(QDialog, Ui_reviewSearch):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.all_users = window.all_users
+        self.managers_agents = []
+        self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
+        self.update_combobox()
+
+        self.issueStrtDate.setDate(QDate(2021, 9, 1))
+        self.issueEndDate.setDate(QDate(datetime.today()))
+        self.reviewModel = QStandardItemModel(self)
+        self.reviewModel.setHorizontalHeaderLabels(headers_rvw)
+        self.empReviewTable.setModel(self.reviewModel)
+        # Clear vertical headers
+        self.empReviewTable.verticalHeader().setVisible(False)
+        # Last column will stretch to end of the table view
+        self.empReviewTable.horizontalHeader().setStretchLastSection(True)
+
+        self.managerCombo.currentIndexChanged.connect(self.update_combobox)
+        self.searchButton.clicked.connect(self.search_reviews)
+
+    def update_combobox(self):
+        """Function used to update employee combobox based on the manager selected."""
+
+        self.employeeSelect.clear()
+        # If manager is 'All' then all employees are added
+        if self.managerCombo.currentIndex() == 0:
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+        else:
+            # Adds only the employees for the selected manager
+            mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+
+        self.employeeSelect.setCurrentIndex(0)
+
+    def search_reviews(self):
+
+        def generate_sql():
+            check_boxes = [
+                self.check1on1,
+                self.checkSbS,
+                self.checkCoach,
+                self.checkDisc
+            ]
+            srch_1 = ""
+            srch_2 = ""
+            srch_3 = ""
+
+            sdate = self.issueStrtDate.text().split("/")
+            syear = sdate[2]
+            smon = sdate[0].zfill(2)
+            sday = sdate[1].zfill(2)
+            edate = self.issueEndDate.text().split("/")
+            eyear = edate[2]
+            emon = edate[0].zfill(2)
+            eday = edate[1].zfill(2)
+
+            date_sql = f"ISSUE_DATE BETWEEN '{syear}-{smon}-{sday}' AND '{eyear}-{emon}-{eday}'"
+
+            if self.managerCombo.currentIndex() > 0:
+                srch_1 = f"ISSUED_BY='{self.managerCombo.currentText()}'"
+            if self.employeeSelect.currentIndex() > -1:
+                srch_2 = f"EMP_USERID='{self.employeeSelect.currentText()[:3]}'"
+
+            xcount = 0
+            for item in check_boxes:
+                if item.isChecked():
+                    if xcount == 0:
+                        srch_3 += f"'{item.text()}'"
+                        xcount += 1
+                    else:
+                        srch_3 += f", '{item.text()}'"
+
+            if len(srch_1) > 0:
+                criteria_1 = f"{srch_1}"
+                if len(srch_2) > 0:
+                    criteria_2 = f"AND {srch_2}"
+                    if xcount > 0:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} {criteria_2} " \
+                                    f"AND RVW_TYPE IN ({srch_3}) " \
+                                    f"AND {date_sql}"
+                    else:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} {criteria_2} " \
+                                    f"AND {date_sql}"
+                else:
+                    if xcount > 0:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                                    f"AND RVW_TYPE IN ({srch_3}) " \
+                                    f"AND {date_sql}"
+                    else:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                                    f"AND {date_sql}"
+            else:
+                if len(srch_2) > 0:
+                    criteria_1 = f"{srch_2}"
+                    if xcount > 0:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                                    f"AND RVW_TYPE IN ({srch_3}) " \
+                                    f"AND {date_sql}"
+                    else:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                                    f"AND {date_sql}"
+                else:
+                    if xcount > 0:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE RVW_TYPE IN ({srch_3}) " \
+                                    f"AND {date_sql}"
+                    else:
+                        final_sql = f"SELECT * FROM REVIEWS WHERE {date_sql}"
+            return final_sql
+
+        search_sql = generate_sql()
+        results = cmredb.agent_reviews(search_sql)
+
+        print(results)
 
 if __name__ == "__main__":
     if getpass.getuser().lower() in allowed_users:
