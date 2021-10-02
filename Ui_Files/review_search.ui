@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>646</width>
-    <height>471</height>
+    <width>788</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -240,7 +240,7 @@ QCalendarWidget QAbstractItemView:disabled{
         </property>
         <layout class="QGridLayout" name="gridLayout_5">
          <property name="leftMargin">
-          <number>25</number>
+          <number>100</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -335,6 +335,19 @@ QCalendarWidget QAbstractItemView:disabled{
            </property>
            <property name="text">
             <string>Search</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="clearButton">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Clear</string>
            </property>
           </widget>
          </item>
@@ -465,7 +478,34 @@ QCalendarWidget QAbstractItemView:disabled{
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QTableView" name="empReviewTable"/>
+       <widget class="QTableView" name="empReviewTable">
+        <property name="minimumSize">
+         <size>
+          <width>750</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTableView{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="verticalScrollMode">
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
+        </property>
+        <property name="horizontalScrollMode">
+         <enum>QAbstractItemView::ScrollPerPixel</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

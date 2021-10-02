@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>managerForm</class>
- <widget class="QDialog" name="managerForm">
+ <class>reviewForm</class>
+ <widget class="QDialog" name="reviewForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>736</width>
+    <width>788</width>
     <height>502</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Manager Review Form</string>
+   <string>Employee Review Form</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../main_images.qrc">

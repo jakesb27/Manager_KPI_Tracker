@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_Files\manager_review.ui'
+# Form implementation generated from reading ui file 'Ui_Files\review_form.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.2
 #
@@ -11,14 +11,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_managerForm(object):
-    def setupUi(self, managerForm):
-        managerForm.setObjectName("managerForm")
-        managerForm.resize(736, 502)
+class Ui_reviewForm(object):
+    def setupUi(self, reviewForm):
+        reviewForm.setObjectName("reviewForm")
+        reviewForm.resize(788, 502)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        managerForm.setWindowIcon(icon)
-        managerForm.setStyleSheet("QMainWindow{\n"
+        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        reviewForm.setWindowIcon(icon)
+        reviewForm.setStyleSheet("QMainWindow{\n"
 "    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));\n"
 "}\n"
 "QDialog{\n"
@@ -30,6 +30,7 @@ class Ui_managerForm(object):
 "}\n"
 "QPlainTextEdit{\n"
 "    border: 1px solid black;\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
 "}\n"
 "QDateEdit{\n"
 "    background-color: rgb(223, 223, 223);\n"
@@ -221,9 +222,9 @@ class Ui_managerForm(object):
 "QCalendarWidget QAbstractItemView:disabled{\n"
 "    color: rgb(64, 64, 64); \n"
 "}")
-        self.gridLayout_2 = QtWidgets.QGridLayout(managerForm)
+        self.gridLayout_2 = QtWidgets.QGridLayout(reviewForm)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.employeeGraphs = QtWidgets.QPushButton(managerForm)
+        self.employeeGraphs = QtWidgets.QPushButton(reviewForm)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -231,7 +232,7 @@ class Ui_managerForm(object):
         self.employeeGraphs.setSizePolicy(sizePolicy)
         self.employeeGraphs.setObjectName("employeeGraphs")
         self.gridLayout_2.addWidget(self.employeeGraphs, 3, 1, 1, 1)
-        self.groupBox_2 = QtWidgets.QGroupBox(managerForm)
+        self.groupBox_2 = QtWidgets.QGroupBox(reviewForm)
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
 "    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
 "    border: 1px solid black;\n"
@@ -303,7 +304,7 @@ class Ui_managerForm(object):
         self.label_21.setObjectName("label_21")
         self.gridLayout_4.addWidget(self.label_21, 0, 1, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_2, 0, 1, 1, 1)
-        self.groupBox_3 = QtWidgets.QGroupBox(managerForm)
+        self.groupBox_3 = QtWidgets.QGroupBox(reviewForm)
         self.groupBox_3.setObjectName("groupBox_3")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.groupBox_3)
         self.gridLayout_3.setObjectName("gridLayout_3")
@@ -361,7 +362,7 @@ class Ui_managerForm(object):
         self.managerNotes.setObjectName("managerNotes")
         self.gridLayout_3.addWidget(self.managerNotes, 1, 0, 1, 3)
         self.gridLayout_2.addWidget(self.groupBox_3, 2, 1, 1, 2)
-        self.agentDetails = QtWidgets.QGroupBox(managerForm)
+        self.agentDetails = QtWidgets.QGroupBox(reviewForm)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -433,7 +434,7 @@ class Ui_managerForm(object):
         self.label_4.setObjectName("label_4")
         self.gridLayout.addWidget(self.label_4, 1, 3, 1, 1)
         self.gridLayout_2.addWidget(self.agentDetails, 0, 2, 1, 1)
-        self.frame = QtWidgets.QFrame(managerForm)
+        self.frame = QtWidgets.QFrame(reviewForm)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -459,52 +460,52 @@ class Ui_managerForm(object):
         self.horizontalLayout.addWidget(self.saveReview)
         self.gridLayout_2.addWidget(self.frame, 3, 2, 1, 1)
 
-        self.retranslateUi(managerForm)
-        QtCore.QMetaObject.connectSlotsByName(managerForm)
-        managerForm.setTabOrder(self.managerCombo, self.employeeSelect)
+        self.retranslateUi(reviewForm)
+        QtCore.QMetaObject.connectSlotsByName(reviewForm)
+        reviewForm.setTabOrder(self.managerCombo, self.employeeSelect)
 
-    def retranslateUi(self, managerForm):
+    def retranslateUi(self, reviewForm):
         _translate = QtCore.QCoreApplication.translate
-        managerForm.setWindowTitle(_translate("managerForm", "Manager Review Form"))
-        self.employeeGraphs.setText(_translate("managerForm", "Trending Graphs"))
-        self.managerCombo.setItemText(0, _translate("managerForm", "All"))
-        self.radioDisc.setText(_translate("managerForm", "Disciplinary"))
-        self.radio1on1.setText(_translate("managerForm", "One on One"))
-        self.radioCoach.setText(_translate("managerForm", "Coaching"))
-        self.radioSbS.setText(_translate("managerForm", "Side by Side"))
-        self.label_20.setText(_translate("managerForm", "Employee Select:"))
-        self.label_21.setText(_translate("managerForm", "Manager Filter:"))
-        self.groupBox_3.setTitle(_translate("managerForm", "Document Notes"))
-        self.tempType.setText(_translate("managerForm", "One on One Review"))
-        self.label_10.setText(_translate("managerForm", "Disciplinary Type:"))
-        self.disciplineType.setItemText(0, _translate("managerForm", "1. Verbal"))
-        self.disciplineType.setItemText(1, _translate("managerForm", "2. Written"))
-        self.disciplineType.setItemText(2, _translate("managerForm", "3. Final Written"))
-        self.disciplineType.setItemText(3, _translate("managerForm", "4. PIP"))
-        self.disciplineType.setItemText(4, _translate("managerForm", "5. Term"))
-        self.managerNotes.setPlaceholderText(_translate("managerForm", "Select employee to begin..."))
-        self.agentDetails.setTitle(_translate("managerForm", "Document Information"))
-        self.label.setText(_translate("managerForm", "User ID:"))
-        self.mainTopic.setPlaceholderText(_translate("managerForm", "-Required-"))
-        self.label_5.setText(_translate("managerForm", "Issue Date:"))
-        self.label_2.setText(_translate("managerForm", "Desk:"))
-        self.label_7.setText(_translate("managerForm", "Main Topic:"))
-        self.meetLocation.setPlaceholderText(_translate("managerForm", "-Required-"))
-        self.label_8.setText(_translate("managerForm", "Ext:"))
-        self.issuedBy.setPlaceholderText(_translate("managerForm", "-Required-"))
-        self.label_6.setText(_translate("managerForm", "Issued By:"))
-        self.label_3.setText(_translate("managerForm", "Group:"))
-        self.label_4.setText(_translate("managerForm", "Location:"))
-        self.closeButton.setText(_translate("managerForm", "Close"))
-        self.saveReview.setText(_translate("managerForm", "&Save Review"))
+        reviewForm.setWindowTitle(_translate("reviewForm", "Employee Review Form"))
+        self.employeeGraphs.setText(_translate("reviewForm", "Trending Graphs"))
+        self.managerCombo.setItemText(0, _translate("reviewForm", "All"))
+        self.radioDisc.setText(_translate("reviewForm", "Disciplinary"))
+        self.radio1on1.setText(_translate("reviewForm", "One on One"))
+        self.radioCoach.setText(_translate("reviewForm", "Coaching"))
+        self.radioSbS.setText(_translate("reviewForm", "Side by Side"))
+        self.label_20.setText(_translate("reviewForm", "Employee Select:"))
+        self.label_21.setText(_translate("reviewForm", "Manager Filter:"))
+        self.groupBox_3.setTitle(_translate("reviewForm", "Document Notes"))
+        self.tempType.setText(_translate("reviewForm", "One on One Review"))
+        self.label_10.setText(_translate("reviewForm", "Disciplinary Type:"))
+        self.disciplineType.setItemText(0, _translate("reviewForm", "1. Verbal"))
+        self.disciplineType.setItemText(1, _translate("reviewForm", "2. Written"))
+        self.disciplineType.setItemText(2, _translate("reviewForm", "3. Final Written"))
+        self.disciplineType.setItemText(3, _translate("reviewForm", "4. PIP"))
+        self.disciplineType.setItemText(4, _translate("reviewForm", "5. Term"))
+        self.managerNotes.setPlaceholderText(_translate("reviewForm", "Select employee to begin..."))
+        self.agentDetails.setTitle(_translate("reviewForm", "Document Information"))
+        self.label.setText(_translate("reviewForm", "User ID:"))
+        self.mainTopic.setPlaceholderText(_translate("reviewForm", "-Required-"))
+        self.label_5.setText(_translate("reviewForm", "Issue Date:"))
+        self.label_2.setText(_translate("reviewForm", "Desk:"))
+        self.label_7.setText(_translate("reviewForm", "Main Topic:"))
+        self.meetLocation.setPlaceholderText(_translate("reviewForm", "-Required-"))
+        self.label_8.setText(_translate("reviewForm", "Ext:"))
+        self.issuedBy.setPlaceholderText(_translate("reviewForm", "-Required-"))
+        self.label_6.setText(_translate("reviewForm", "Issued By:"))
+        self.label_3.setText(_translate("reviewForm", "Group:"))
+        self.label_4.setText(_translate("reviewForm", "Location:"))
+        self.closeButton.setText(_translate("reviewForm", "Close"))
+        self.saveReview.setText(_translate("reviewForm", "&Save Review"))
 import main_images_rc
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    managerForm = QtWidgets.QDialog()
-    ui = Ui_managerForm()
-    ui.setupUi(managerForm)
-    managerForm.show()
+    reviewForm = QtWidgets.QDialog()
+    ui = Ui_reviewForm()
+    ui.setupUi(reviewForm)
+    reviewForm.show()
     sys.exit(app.exec_())

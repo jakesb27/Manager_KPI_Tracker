@@ -5,19 +5,21 @@ import getpass
 from datetime import datetime, timedelta, date
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
-from PyQt5.QtCore import Qt, QObject, QThread, QDate, pyqtSignal
+from PyQt5.QtCore import Qt, QObject, QThread, QDate, QVariant, pyqtSignal
 
 import kpidb as cmredb
 import cds_sql as cds
 import msgbox
+import my_styles
 from manager_main import Ui_managerMain
-from manager_review_2 import Ui_managerForm
+from review_form import Ui_reviewForm
 from review_search import Ui_reviewSearch
+from review_reader import Ui_reviewReader
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
 headers = ['User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
-headers_rvw = ['Review ID', 'Review Type', 'Level', 'Issue Date', 'Issued By', 'Topic']
+headers_rvw = ['Collector', 'Issue Date', 'Topic', 'Review Type', 'Level', 'Issued By', 'Review ID']
 allowed_users = cmredb.users_with_access()
 
 
@@ -139,27 +141,41 @@ class Window(QMainWindow, Ui_managerMain):
             if len(agent_stats) > 0:
                 # Convert tuple to list
                 list_stats = list(agent_stats[0])
-                # Format RPC's
-                rpcs = '{:.2f}'.format(float(list_stats[4]))
-                # Update list with formatted RPC's
-                list_stats[4] = rpcs
-                # Format conversion rate
-                conv = '{0:.0%}'.format(float(list_stats[5]))
-                # Uodate list with formatted conversion rate
-                list_stats[5] = conv
                 # Remove DAY from index 2
                 list_stats.pop(3)
                 # Insert collectors name. (User ID, Name, Group, Start Time, RPC's, Conv, Last Update)
                 list_stats.insert(1, coll[1])
             else:
                 # Query returned no results which indicates user has not logged into Agent Tracker
-                list_stats = [coll[0], coll[1], '', 'Not Logged In', '0.0', '0.0%', 'N/A']
+                list_stats = [coll[0], coll[1], 'N/A', 'Not Logged In', '0', '0.0', 'N/A']
 
             # Converts items in list to a QStandardItem which is required for PyQt5
-            # All number and text formatting should be done PRIOR to converting
             for index, item in enumerate(list_stats):
-                # Creates the QStandardItem from string object
-                data_obj = QStandardItem(item)
+                if index == 4:
+                    # Format data as you want it displayed
+                    rpcs = '{:.2f}'.format(float(item))
+                    # Create Qt Object
+                    data_obj = QStandardItem(rpcs)
+                    # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
+                    data_obj.setData(float(item), Qt.UserRole)
+                elif index == 5:
+                    # Format data as you want it displayed
+                    conv = '{0:.0%}'.format(float(item))
+                    # Create Qt Object
+                    data_obj = QStandardItem(conv)
+                    # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
+                    data_obj.setData(QVariant(float(item)), Qt.UserRole)
+                else:
+                    if item == "N/A":
+                        # Create Qt Object
+                        data_obj = QStandardItem(item)
+                        # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
+                        data_obj.setData("Z", Qt.UserRole)
+                    else:
+                        # Create Qt Object
+                        data_obj = QStandardItem(item)
+                        # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
+                        data_obj.setData(item, Qt.UserRole)
 
                 # Set object attributes
                 if index > 1:
@@ -174,11 +190,8 @@ class Window(QMainWindow, Ui_managerMain):
             self.agentModel.appendRow(list_stats)
 
         # Sort QStandardItemModel based on defaults or users current settings
+        self.agentModel.setSortRole(Qt.UserRole)
         self.agentModel.sort(self.user_sort_col, self.user_sort_order)
-
-        # Sets column widths based on current table width
-        if self.agentTableView.width() == 541:
-            self.agentTableView.resizeColumnsToContents()
         self.agentTableView.resizeRowsToContents()
 
     def update_status(self, up_time, count_down):
@@ -245,7 +258,7 @@ class Window(QMainWindow, Ui_managerMain):
     def employee_review(self):
         """Function used to initialize the agent review window."""
         mgr = self.managerCombo.currentText()
-        agent_rvw = ManagerReview(mgr)
+        agent_rvw = ReviewForm(mgr)
         agent_rvw.exec_()
 
     def employee_review_search(self):
@@ -314,8 +327,9 @@ class Worker(QObject):
                     x -= 1
 
 
-class ManagerReview(QDialog, Ui_managerForm):
+class ReviewForm(QDialog, Ui_reviewForm):
     """Class that displays employee review form to be completed and saved."""
+    # TODO add combobox for issued by and potentially topic.
 
     def __init__(self, mgr):
         super().__init__()
@@ -341,7 +355,7 @@ class ManagerReview(QDialog, Ui_managerForm):
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
         self.closeButton.clicked.connect(self.close_without_save)
-        self.editReview.clicked.connect(self.next_screen)
+        # self.editReview.clicked.connect(self.next_screen)
         self.saveReview.clicked.connect(self.save_review)
         self.employeeGraphs.clicked.connect(self.employee_graphs)
         self.radio1on1.toggled.connect(self.template_sel)
@@ -355,9 +369,6 @@ class ManagerReview(QDialog, Ui_managerForm):
             self.update_combobox()
         else:
             self.managerCombo.setCurrentIndex(mgr_index)
-
-    def next_screen(self):
-        self.stackedWidget.setCurrentIndex((self.stackedWidget.currentIndex() + 1) % 2)
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
@@ -384,6 +395,10 @@ class ManagerReview(QDialog, Ui_managerForm):
         self.agentDesk.clear()
         self.agentExt.clear()
         self.agentGroup.clear()
+        self.managerNotes.clear()
+        self.meetLocation.clear()
+        self.issuedBy.clear()
+        self.mainTopic.clear()
         self.radio1on1.setChecked(True)
         self.managerNotes.setReadOnly(True)
         self.managerNotes.setPlaceholderText("Select employee to begin...")
@@ -462,9 +477,9 @@ class ManagerReview(QDialog, Ui_managerForm):
                     break
 
             if rvw_type == "Disciplinary":
-                disc_type = f"-{self.disciplineType.currentText()}-"
+                disc_type = f"{self.disciplineType.currentText()}"
             else:
-                disc_type = "-"
+                disc_type = ""
 
             rvw_id = f"{self.emp_id}-{self.issueDate.date().toPyDate()}-{rvw_type[:3]}"
 
@@ -491,13 +506,10 @@ class ManagerReview(QDialog, Ui_managerForm):
             selection = save_msg.exec_()
             if selection == QMessageBox.Save:
                 cmredb.add_review(gather_data())
-                self.next_screen()
+                self.update_combobox()
         else:
             error_msg = msgbox.add_data_error()
             error_msg.exec_()
-
-    def load_edit_screen(self):
-        self.stackedWidget.setCurrentIndex(1)
 
     def employee_graphs(self):
         """Function used to initialize the agent graphs window."""
@@ -508,16 +520,22 @@ class ManagerReview(QDialog, Ui_managerForm):
 
 
 class ReviewSearch(QDialog, Ui_reviewSearch):
-
+    """Class that displays search form to locate employee reviews."""
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.all_users = window.all_users
         self.managers_agents = []
+        self.check_boxes = [
+                self.check1on1,
+                self.checkSbS,
+                self.checkCoach,
+                self.checkDisc
+            ]
         self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
         self.update_combobox()
 
-        self.issueStrtDate.setDate(QDate(2021, 9, 1))
+        self.issueStrtDate.setDate(QDate(datetime.today() - timedelta(days=30)))
         self.issueEndDate.setDate(QDate(datetime.today()))
         self.reviewModel = QStandardItemModel(self)
         self.reviewModel.setHorizontalHeaderLabels(headers_rvw)
@@ -526,9 +544,27 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
         self.empReviewTable.verticalHeader().setVisible(False)
         # Last column will stretch to end of the table view
         self.empReviewTable.horizontalHeader().setStretchLastSection(True)
+        self.search_reviews()
 
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.searchButton.clicked.connect(self.search_reviews)
+        self.clearButton.clicked.connect(self.clear_search)
+        self.empReviewTable.doubleClicked.connect(self.look_up_review)
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        """Method used for handling column width when the user resizes the main UI"""
+        super().resizeEvent(event)
+        table_width = self.empReviewTable.width()
+        set_width = 750
+        # Takes table width * column's min possible width / table's min possible width
+        # If a column is added, add the min column width to the total table width
+        self.empReviewTable.setColumnWidth(0, int(table_width * 120 / set_width))
+        self.empReviewTable.setColumnWidth(1, int(table_width * 90 / set_width))
+        self.empReviewTable.setColumnWidth(2, int(table_width * 160 / set_width))
+        self.empReviewTable.setColumnWidth(3, int(table_width * 100 / set_width))
+        self.empReviewTable.setColumnWidth(4, int(table_width * 80 / set_width))
+        self.empReviewTable.setColumnWidth(5, int(table_width * 90 / set_width))
+        self.empReviewTable.setColumnWidth(6, int(table_width * 90 / set_width))
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
@@ -536,11 +572,13 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
         self.employeeSelect.clear()
         # If manager is 'All' then all employees are added
         if self.managerCombo.currentIndex() == 0:
+            self.employeeSelect.addItem("All")
             self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
         else:
             # Adds only the employees for the selected manager
             mgr = self.managerCombo.currentText()
             self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItem("All")
             self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
 
         self.employeeSelect.setCurrentIndex(0)
@@ -548,12 +586,6 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
     def search_reviews(self):
 
         def generate_sql():
-            check_boxes = [
-                self.check1on1,
-                self.checkSbS,
-                self.checkCoach,
-                self.checkDisc
-            ]
             srch_1 = ""
             srch_2 = ""
             srch_3 = ""
@@ -567,15 +599,29 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
             emon = edate[0].zfill(2)
             eday = edate[1].zfill(2)
 
+            select_fields = """
+                SELECT
+                    (COLL.FIRST_NAME || " " || COLL.LAST_NAME) EMP_NAME,
+                    RVW.ISSUE_DATE,
+                    RVW.TOPIC,
+                    RVW.RVW_TYPE,
+                    RVW.DISC_TYPE,
+                    RVW.ISSUED_BY,
+                    RVW.REVIEW_ID
+                FROM
+                    REVIEWS RVW
+                JOIN COLL ON RVW.EMP_USERID=COLL.USER_ID
+                WHERE
+                """
             date_sql = f"ISSUE_DATE BETWEEN '{syear}-{smon}-{sday}' AND '{eyear}-{emon}-{eday}'"
 
             if self.managerCombo.currentIndex() > 0:
                 srch_1 = f"ISSUED_BY='{self.managerCombo.currentText()}'"
-            if self.employeeSelect.currentIndex() > -1:
+            if self.employeeSelect.currentIndex() > 0:
                 srch_2 = f"EMP_USERID='{self.employeeSelect.currentText()[:3]}'"
 
             xcount = 0
-            for item in check_boxes:
+            for item in self.check_boxes:
                 if item.isChecked():
                     if xcount == 0:
                         srch_3 += f"'{item.text()}'"
@@ -588,42 +634,109 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
                 if len(srch_2) > 0:
                     criteria_2 = f"AND {srch_2}"
                     if xcount > 0:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} {criteria_2} " \
+                        final_sql = f"{select_fields} {criteria_1} {criteria_2} " \
                                     f"AND RVW_TYPE IN ({srch_3}) " \
                                     f"AND {date_sql}"
                     else:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} {criteria_2} " \
+                        final_sql = f"{select_fields} {criteria_1} {criteria_2} " \
                                     f"AND {date_sql}"
                 else:
                     if xcount > 0:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                        final_sql = f"{select_fields} {criteria_1} " \
                                     f"AND RVW_TYPE IN ({srch_3}) " \
                                     f"AND {date_sql}"
                     else:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                        final_sql = f"{select_fields} {criteria_1} " \
                                     f"AND {date_sql}"
             else:
                 if len(srch_2) > 0:
                     criteria_1 = f"{srch_2}"
                     if xcount > 0:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                        final_sql = f"{select_fields} {criteria_1} " \
                                     f"AND RVW_TYPE IN ({srch_3}) " \
                                     f"AND {date_sql}"
                     else:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {criteria_1} " \
+                        final_sql = f"{select_fields} {criteria_1} " \
                                     f"AND {date_sql}"
                 else:
                     if xcount > 0:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE RVW_TYPE IN ({srch_3}) " \
+                        final_sql = f"{select_fields} RVW_TYPE IN ({srch_3}) " \
                                     f"AND {date_sql}"
                     else:
-                        final_sql = f"SELECT * FROM REVIEWS WHERE {date_sql}"
+                        final_sql = f"{select_fields} {date_sql}"
             return final_sql
 
+        self.reviewModel.setRowCount(0)
         search_sql = generate_sql()
         results = cmredb.agent_reviews(search_sql)
 
-        print(results)
+        for result in results:
+            list_result = list(result)
+            for index, item in enumerate(list_result):
+                data_obj = QStandardItem(item)
+                if index > 1:
+                    data_obj.setTextAlignment(Qt.AlignCenter)
+                data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                list_result[index] = data_obj
+
+            self.reviewModel.appendRow(list_result)
+
+        self.reviewModel.sort(0, Qt.DescendingOrder)
+
+    def look_up_review(self, model):
+        """Function used to initialize the agent review window."""
+        rvw_id = self.reviewModel.item(model.row(), 6).text()
+        reader = ReviewReader(rvw_id)
+        reader.exec_()
+
+    def clear_search(self):
+        for item in self.check_boxes:
+            item.setChecked(False)
+        self.managerCombo.setCurrentIndex(0)
+        self.issueStrtDate.setDate(QDate(datetime.today() - timedelta(days=30)))
+        self.issueEndDate.setDate(QDate(datetime.today()))
+        self.search_reviews()
+
+
+class ReviewReader(QDialog, Ui_reviewReader):
+    """Class that displays an employee's review."""
+    # TODO add delete function.
+    # TODO need to track changes made.
+
+    def __init__(self, rvw_id):
+        super().__init__()
+        self.setupUi(self)
+        self.rvw_id = rvw_id
+
+        self.editReview.clicked.connect(self.edit_review)
+        self.closeButton.clicked.connect(self.close)
+        self.saveButton.clicked.connect(self.save_and_close)
+        self.exitEdit.clicked.connect(self.close_editor)
+
+    def edit_review(self):
+        self.managerNotes.setReadOnly(False)
+        self.mainTopic.setReadOnly(False)
+        self.buttonStack.setCurrentIndex(1)
+        self.setStyleSheet(my_styles.active_style)
+
+    def save_and_close(self):
+        save_msg = msgbox.confirm_save()
+        response = save_msg.exec_()
+        if response == QMessageBox.Save:
+            self.managerNotes.setReadOnly(True)
+            self.mainTopic.setReadOnly(True)
+            self.buttonStack.setCurrentIndex(0)
+            self.setStyleSheet(my_styles.active_style)
+
+    def close_editor(self):
+        warn_msg = msgbox.confirm_change_unsaved()
+        response = warn_msg.exec_()
+        if response == QMessageBox.Yes:
+            self.managerNotes.setReadOnly(True)
+            self.mainTopic.setReadOnly(True)
+            self.buttonStack.setCurrentIndex(0)
+            self.setStyleSheet(my_styles.active_style)
+
 
 if __name__ == "__main__":
     if getpass.getuser().lower() in allowed_users:

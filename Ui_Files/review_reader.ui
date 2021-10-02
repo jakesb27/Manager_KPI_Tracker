@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>reviewReader</class>
+ <widget class="QDialog" name="reviewReader">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>788</width>
+    <height>502</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Employee Review Reader</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../main_images.qrc">
+    <normaloff>:/logos/Images/Meduit_logo.ico</normaloff>:/logos/Images/Meduit_logo.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QDialog{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(255, 218, 144, 200), stop:1 rgba(129, 213, 255, 126));
+}
+QWidget{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPlainTextEdit{
+	border: 1px solid black;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QPlainTextEdit[readOnly=&quot;true&quot;]{
+	background-color: rgb(225, 225, 225);
+	font: 12pt &quot;Corbel&quot;;
+	color: rgb(80, 80, 80);
+}
+QDateEdit{
+	background-color: rgb(223, 223, 223);
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	padding-left: 3px;
+	padding-right: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QDateEdit::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 18px;
+}
+QDateEdit::down-arrow{
+	image: url(:/arrows/Images/arrow-dwn.png);
+	width: 14 px;
+	height:14 px;
+}
+QGroupBox{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	border: 1px solid black;
+	border-radius: 3px;
+	margin-top: 1ex;
+	padding-top: 18;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QGroupBox::title{
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 2 10px;
+	subcontrol-origin: margin;
+	subcontrol-position: top;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QLineEdit{
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QLineEdit[readOnly=&quot;true&quot;]{
+	background-color: rgb(200, 200, 200);
+	border: 1px solid rgb(95, 158, 195);
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QTextEdit{
+	font: 12pt &quot;Corbel&quot;;
+}
+QStatusBar{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
+}
+QPushButton{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::hover{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 13px;
+	padding-right: 13px;
+	background-color: rgb(215, 215, 215);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QPushButton::pressed{
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 4px;
+	padding: 2px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 80px;
+	background-color: rgb(225, 225, 225);
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QComboBox{
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(75, 124, 154);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(75, 124, 154);
+	border-radius: 3px;
+	background-color: rgb(225, 225, 225);
+}
+QComboBox::drop-down{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::hover{
+	background-color: rgb(205, 205, 205);
+	border-bottom: 2px solid rgb(75, 124, 154);
+	border-top: 1px solid rgb(95, 158, 195);
+	border-right: 2px solid rgb(75, 124, 154);
+	border-left: 1px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::drop-down::pressed{
+	background-color: rgb(215, 215, 215);
+	border-bottom: 1px solid rgb(75, 124, 154);
+	border-top: 2px solid rgb(95, 158, 195);
+	border-right: 1px solid rgb(75, 124, 154);
+	border-left: 2px solid rgb(95, 158, 195);
+	border-radius: 3px;
+	subcontrol-origin: margin;
+	width: 16px;
+}
+QComboBox::down-arrow{
+	image: url(:/arrows/Images/arrow-dwn.png);
+	width: 14 px;
+	height:14 px;
+}
+QCalendarWidget QWidget#qt_calendar_navigationbar{
+	background-color: qlineargradient(spread:pad, x1:0.50035, y1:1, x2:0.5, y2:0, stop:0 rgba(151, 151, 151, 255), stop:1 rgba(255, 255, 255, 255));
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QToolButton{
+	color: rgb(0, 0, 0);
+  	icon-size: 20px, 20px;
+}
+QCalendarWidget QWidget#qt_calendar_prevmonth{
+	qproperty-icon: url(:/arrows/Images/arrow-left.png);
+}
+
+QCalendarWidget QWidget#qt_calendar_nextmonth{
+	qproperty-icon: url(:/arrows/Images/arrow-right.png);
+}
+QCalendarWidget QSpinBox{ 
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QMenu{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}
+QCalendarWidget QWidget{
+	alternate-background-color: rgb(234, 234, 234);
+}
+QCalendarWidget QAbstractItemView:enabled{
+	font: 12pt &quot;Corbel&quot;;
+	font-weight: bold;
+	background-color: rgb(214, 214, 214);
+  	selection-background-color: rgb(64, 64, 64);
+	selection-color: rgb(255, 255, 255);
+	border: 1px solid black;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+QCalendarWidget QAbstractItemView:disabled{
+	color: rgb(64, 64, 64); 
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Document Notes</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_11">
+      <item row="0" column="0">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0" colspan="3">
+       <widget class="QPlainTextEdit" name="managerNotes">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="plainText">
+         <string/>
+        </property>
+        <property name="tabStopWidth">
+         <number>40</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QFrame" name="discFrame_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_19">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Disciplinary Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="discTypeEdit">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="tempTypeEdit">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	color: rgb(43, 87, 130);
+	font: 16pt &quot;Corbel&quot;;
+	font-weight: bold;
+	text-decoration: underline;
+}</string>
+        </property>
+        <property name="text">
+         <string>One on One Review</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QStackedWidget" name="buttonStack">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="editReview">
+         <property name="minimumSize">
+          <size>
+           <width>119</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>119</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>&amp;Edit Review</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="closeButton">
+         <property name="minimumSize">
+          <size>
+           <width>119</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>119</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="saveButton">
+         <property name="minimumSize">
+          <size>
+           <width>119</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>119</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Save Changes</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="exitEdit">
+         <property name="minimumSize">
+          <size>
+           <width>119</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>119</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Exit Editor</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="agentDetailsEdit">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Document Information</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_7">
+      <item row="0" column="9">
+       <widget class="QFrame" name="frame_3">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Issue Date:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="issueDate">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Location:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Issued By:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLineEdit" name="meetLocation">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Main Topic:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1" colspan="3">
+          <widget class="QLineEdit" name="mainTopic">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1" colspan="2">
+          <widget class="QLineEdit" name="issuedBy">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QFrame" name="frame_4">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_9">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="text">
+            <string>Employee:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Desk:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="agentDesk">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_16">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>User ID:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="agentUserID">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_17">
+           <property name="text">
+            <string>Ext:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLineEdit" name="agentExt">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Group:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QLineEdit" name="agentGroup">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QLineEdit" name="employee">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../main_images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
