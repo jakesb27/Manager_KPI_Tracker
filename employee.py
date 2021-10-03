@@ -184,10 +184,11 @@ class AddEmployee(QDialog, Ui_agentInput):
 class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     """Employee Maintenance screen used to update and change employee information."""
 
-    def __init__(self):
+    def __init__(self, employee):
         super().__init__()
         self.setupUi(self)
         self.current_bd_managers = current_managers
+        self.employee = employee
         # Obtains all users from the CMRE database
         self.users = cmredb.all_collectors()
         # Set default flags
@@ -209,6 +210,10 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.cancelButton.clicked.connect(self.cancel_update)
         self.saveButton.clicked.connect(self.save_window)
         self.undoButton.clicked.connect(self.undo_changes)
+
+        if len(self.employee) > 0:
+            index = self.employeeSelect.findText(self.employee)
+            self.employeeSelect.setCurrentIndex(index)
 
         # Connects signals to slots for all metadata objects
         self.agentFirstName.textChanged.connect(self.save_enabled)
@@ -453,12 +458,13 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
 
 class EmployeeDetails(QDialog, Ui_agentDetailsMain):
     """Class that displays an agents details not shown in the MainWindow."""
-    # TODO Add button to add employee review.
 
     def __init__(self, all_users, coll, mgr):
         super().__init__()
         # Initialize class attributes
         self.setupUi(self)
+        self.employee = ""
+        self.return_code = 0
         self.user_id = ""
         self.all_users = all_users
         self.current_bd_managers = current_managers
@@ -487,6 +493,9 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
         self.employeeGraphs.clicked.connect(self.employee_graphs)
+        self.addReview.clicked.connect(self.add_review)
+        self.employeeReviews.clicked.connect(self.review_lookup)
+        self.agentEdit.clicked.connect(self.edit_employee)
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
@@ -579,6 +588,21 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
 
         agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
+
+    def review_lookup(self):
+        self.return_code = 1
+        self.employee = self.employeeSelect.currentText()
+        self.accept()
+
+    def add_review(self):
+        self.return_code = 2
+        self.employee = self.employeeSelect.currentText()
+        self.accept()
+
+    def edit_employee(self):
+        self.employee = self.employeeSelect.currentText()
+        edit_emp = EmployeeMaintenance(self.employee)
+        edit_emp.exec_()
 
 
 class EmployeeGraphs(QDialog, Ui_agentGraphsMain):

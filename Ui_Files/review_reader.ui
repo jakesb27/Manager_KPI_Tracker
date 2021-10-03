@@ -34,7 +34,7 @@ QPlainTextEdit{
 }
 QPlainTextEdit[readOnly=&quot;true&quot;]{
 	background-color: rgb(225, 225, 225);
-	font: 12pt &quot;Corbel&quot;;
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
 	color: rgb(80, 80, 80);
 }
 QDateEdit{
@@ -424,16 +424,35 @@ QCalendarWidget QAbstractItemView:disabled{
         <number>0</number>
        </property>
        <item>
-        <widget class="QPushButton" name="saveButton">
+        <widget class="QPushButton" name="deleteReview">
          <property name="minimumSize">
           <size>
-           <width>119</width>
+           <width>125</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>119</width>
+           <width>125</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Delete Review</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="saveButton">
+         <property name="minimumSize">
+          <size>
+           <width>125</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>125</width>
            <height>16777215</height>
           </size>
          </property>
@@ -446,13 +465,13 @@ QCalendarWidget QAbstractItemView:disabled{
         <widget class="QPushButton" name="exitEdit">
          <property name="minimumSize">
           <size>
-           <width>119</width>
+           <width>125</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>119</width>
+           <width>125</width>
            <height>16777215</height>
           </size>
          </property>

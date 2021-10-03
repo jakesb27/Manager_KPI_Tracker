@@ -15,7 +15,7 @@ QPlainTextEdit{
 }
 QPlainTextEdit[readOnly="true"]{
 	background-color: rgb(225, 225, 225);
-	font: 12pt "Corbel";
+	font: 10pt "MS Shell Dlg 2";
 	color: rgb(80, 80, 80);
 }
 QDateEdit{

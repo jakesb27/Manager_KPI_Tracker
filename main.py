@@ -217,7 +217,11 @@ class Window(QMainWindow, Ui_managerMain):
 
         # Creates the agent details window
         agent_window = EmployeeDetails(self.all_users, collector, manager)
-        agent_window.exec_()
+        if agent_window.exec_():
+            if agent_window.return_code == 1:
+                self.employee_review_search(agent_window.employee)
+            elif agent_window.return_code == 2:
+                self.employee_review(agent_window.employee)
 
     def update_desks(self):
         """Function used to update the desk and goals for all employees in the CMRE db."""
@@ -235,7 +239,15 @@ class Window(QMainWindow, Ui_managerMain):
 
     def employee_maintenance(self):
         """Function used to initialize the employee maintenance window."""
-        emp_main = EmployeeMaintenance()
+        selection = self.agentTableView.selectionModel().selectedRows()
+
+        if selection:
+            user_id = self.agentModel.item(selection[0].row(), 0).text()
+            coll_name = self.agentModel.item(selection[0].row(), 1).text()
+            employee = f'{user_id} - {coll_name}'
+        else:
+            employee = ""
+        emp_main = EmployeeMaintenance(employee)
         emp_main.exec_()
         self.update_users()
 
@@ -255,15 +267,15 @@ class Window(QMainWindow, Ui_managerMain):
         agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
 
-    def employee_review(self):
+    def employee_review(self, coll):
         """Function used to initialize the agent review window."""
         mgr = self.managerCombo.currentText()
-        agent_rvw = ReviewForm(mgr)
+        agent_rvw = ReviewForm(mgr, coll)
         agent_rvw.exec_()
 
-    def employee_review_search(self):
+    def employee_review_search(self, coll):
         """Function used to review employee reviews window."""
-        employee_search = ReviewSearch()
+        employee_search = ReviewSearch(coll)
         employee_search.exec_()
 
     def user_settings(self):
@@ -329,9 +341,8 @@ class Worker(QObject):
 
 class ReviewForm(QDialog, Ui_reviewForm):
     """Class that displays employee review form to be completed and saved."""
-    # TODO add combobox for issued by and potentially topic.
 
-    def __init__(self, mgr):
+    def __init__(self, mgr, coll):
         super().__init__()
         self.setupUi(self)
         self.emp_id = ""
@@ -350,6 +361,8 @@ class ReviewForm(QDialog, Ui_reviewForm):
         self.all_users = window.all_users
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
+        self.issuedBy.addItems([mgr for mgr in sorted(window.current_bd_managers)])
+        self.issuedBy.setCurrentIndex(-1)
 
         # Connect signals to slots
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
@@ -369,6 +382,10 @@ class ReviewForm(QDialog, Ui_reviewForm):
             self.update_combobox()
         else:
             self.managerCombo.setCurrentIndex(mgr_index)
+
+        if coll:
+            index = self.employeeSelect.findText(coll)
+            self.employeeSelect.setCurrentIndex(index)
 
     def update_combobox(self):
         """Function used to update employee combobox based on the manager selected."""
@@ -397,7 +414,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
         self.agentGroup.clear()
         self.managerNotes.clear()
         self.meetLocation.clear()
-        self.issuedBy.clear()
+        self.issuedBy.setCurrentIndex(-1)
         self.mainTopic.clear()
         self.radio1on1.setChecked(True)
         self.managerNotes.setReadOnly(True)
@@ -408,7 +425,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
 
         self.managerNotes.clear()
         self.meetLocation.clear()
-        self.issuedBy.clear()
+        self.issuedBy.setCurrentIndex(-1)
         self.mainTopic.clear()
         self.radio1on1.setChecked(True)
         coll = self.employeeSelect.currentText().split(' - ')
@@ -449,18 +466,18 @@ class ReviewForm(QDialog, Ui_reviewForm):
 
         def field_check():
             passed = True
-            check_fields = [
-                self.meetLocation,
-                self.issuedBy,
-                self.mainTopic
-            ]
+            check_fields = [self.meetLocation, self.mainTopic]
+            print(self.issuedBy.currentIndex())
 
             if self.employeeSelect.currentIndex() > -1:
                 if len(self.managerNotes.toPlainText()) != 0:
-                    for field in check_fields:
-                        if len(field.text()) == 0:
-                            passed = False
-                            break
+                    if self.issuedBy.currentIndex() > -1:
+                        for field in check_fields:
+                            if len(field.text()) == 0:
+                                passed = False
+                                break
+                    else:
+                        passed = False
                 else:
                     passed = False
             else:
@@ -491,7 +508,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
                 self.agentExt.text(),
                 self.agentGroup.text(),
                 self.meetLocation.text().title(),
-                self.issuedBy.text().title(),
+                self.issuedBy.currentText(),
                 str(self.issueDate.date().toPyDate()),
                 self.mainTopic.text().title(),
                 rvw_type,
@@ -521,7 +538,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
 
 class ReviewSearch(QDialog, Ui_reviewSearch):
     """Class that displays search form to locate employee reviews."""
-    def __init__(self):
+    def __init__(self, coll):
         super().__init__()
         self.setupUi(self)
         self.all_users = window.all_users
@@ -534,6 +551,10 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
             ]
         self.managerCombo.addItems([mgr for mgr in sorted(window.current_bd_managers)])
         self.update_combobox()
+
+        if coll:
+            index = self.employeeSelect.findText(coll)
+            self.employeeSelect.setCurrentIndex(index)
 
         self.issueStrtDate.setDate(QDate(datetime.today() - timedelta(days=30)))
         self.issueEndDate.setDate(QDate(datetime.today()))
@@ -580,8 +601,6 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
             self.managers_agents = cmredb.my_collectors(mgr)
             self.employeeSelect.addItem("All")
             self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
-
-        self.employeeSelect.setCurrentIndex(0)
 
     def search_reviews(self):
 
@@ -688,11 +707,13 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
         rvw_id = self.reviewModel.item(model.row(), 6).text()
         reader = ReviewReader(rvw_id)
         reader.exec_()
+        self.search_reviews()
 
     def clear_search(self):
         for item in self.check_boxes:
             item.setChecked(False)
         self.managerCombo.setCurrentIndex(0)
+        self.update_combobox()
         self.issueStrtDate.setDate(QDate(datetime.today() - timedelta(days=30)))
         self.issueEndDate.setDate(QDate(datetime.today()))
         self.search_reviews()
@@ -700,20 +721,40 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
 
 class ReviewReader(QDialog, Ui_reviewReader):
     """Class that displays an employee's review."""
-    # TODO add delete function.
-    # TODO need to track changes made.
 
     def __init__(self, rvw_id):
         super().__init__()
         self.setupUi(self)
         self.rvw_id = rvw_id
+        self.temp_topic = ""
+        self.temp_notes = ""
 
-        self.editReview.clicked.connect(self.edit_review)
         self.closeButton.clicked.connect(self.close)
+        self.editReview.clicked.connect(self.edit_review)
         self.saveButton.clicked.connect(self.save_and_close)
         self.exitEdit.clicked.connect(self.close_editor)
+        self.deleteReview.clicked.connect(self.delete_review)
+
+        self.load_review()
+
+    def load_review(self):
+        review = cmredb.read_review(self.rvw_id)[0]
+        self.employee.setText(review[0])
+        self.agentUserID.setText(review[1])
+        self.agentDesk.setText(review[2])
+        self.agentExt.setText(str(review[3]))
+        self.agentGroup.setText(review[4])
+        self.issueDate.setText(date.fromisoformat(review[5]).strftime('%m/%d/%Y'))
+        self.meetLocation.setText(review[6])
+        self.issuedBy.setText(review[7])
+        self.mainTopic.setText(review[8])
+        self.tempTypeEdit.setText(review[9] + " Review")
+        self.discTypeEdit.setText(review[10])
+        self.managerNotes.setPlainText(review[11])
 
     def edit_review(self):
+        self.temp_topic = self.mainTopic.text()
+        self.temp_notes = self.managerNotes.toPlainText()
         self.managerNotes.setReadOnly(False)
         self.mainTopic.setReadOnly(False)
         self.buttonStack.setCurrentIndex(1)
@@ -723,19 +764,42 @@ class ReviewReader(QDialog, Ui_reviewReader):
         save_msg = msgbox.confirm_save()
         response = save_msg.exec_()
         if response == QMessageBox.Save:
+            data = [
+                self.mainTopic.text(),
+                self.managerNotes.toPlainText(),
+                self.rvw_id
+            ]
+            cmredb.edit_review(data)
             self.managerNotes.setReadOnly(True)
             self.mainTopic.setReadOnly(True)
             self.buttonStack.setCurrentIndex(0)
             self.setStyleSheet(my_styles.active_style)
 
     def close_editor(self):
-        warn_msg = msgbox.confirm_change_unsaved()
-        response = warn_msg.exec_()
-        if response == QMessageBox.Yes:
+        if self.temp_topic != self.mainTopic.text() or self.temp_notes != self.managerNotes.toPlainText():
+            warn_msg = msgbox.confirm_change_unsaved()
+            response = warn_msg.exec_()
+            if response == QMessageBox.Yes:
+                self.mainTopic.setText(self.temp_topic)
+                self.managerNotes.setPlainText(self.temp_notes)
+                self.managerNotes.setReadOnly(True)
+                self.mainTopic.setReadOnly(True)
+                self.buttonStack.setCurrentIndex(0)
+                self.setStyleSheet(my_styles.active_style)
+        else:
+            self.mainTopic.setText(self.temp_topic)
+            self.managerNotes.setPlainText(self.temp_notes)
             self.managerNotes.setReadOnly(True)
             self.mainTopic.setReadOnly(True)
             self.buttonStack.setCurrentIndex(0)
             self.setStyleSheet(my_styles.active_style)
+
+    def delete_review(self):
+        del_msg = msgbox.permanently_delete()
+        selection = del_msg.exec_()
+        if selection == QMessageBox.Yes:
+            cmredb.delete_review(self.rvw_id)
+            self.close()
 
 
 if __name__ == "__main__":

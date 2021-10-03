@@ -34,7 +34,7 @@ class Ui_reviewReader(object):
 "}\n"
 "QPlainTextEdit[readOnly=\"true\"]{\n"
 "    background-color: rgb(225, 225, 225);\n"
-"    font: 12pt \"Corbel\";\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
 "    color: rgb(80, 80, 80);\n"
 "}\n"
 "QDateEdit{\n"
@@ -314,14 +314,19 @@ class Ui_reviewReader(object):
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.page_2)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.deleteReview = QtWidgets.QPushButton(self.page_2)
+        self.deleteReview.setMinimumSize(QtCore.QSize(125, 0))
+        self.deleteReview.setMaximumSize(QtCore.QSize(125, 16777215))
+        self.deleteReview.setObjectName("deleteReview")
+        self.horizontalLayout_2.addWidget(self.deleteReview)
         self.saveButton = QtWidgets.QPushButton(self.page_2)
-        self.saveButton.setMinimumSize(QtCore.QSize(119, 0))
-        self.saveButton.setMaximumSize(QtCore.QSize(119, 16777215))
+        self.saveButton.setMinimumSize(QtCore.QSize(125, 0))
+        self.saveButton.setMaximumSize(QtCore.QSize(125, 16777215))
         self.saveButton.setObjectName("saveButton")
         self.horizontalLayout_2.addWidget(self.saveButton)
         self.exitEdit = QtWidgets.QPushButton(self.page_2)
-        self.exitEdit.setMinimumSize(QtCore.QSize(119, 0))
-        self.exitEdit.setMaximumSize(QtCore.QSize(119, 16777215))
+        self.exitEdit.setMinimumSize(QtCore.QSize(125, 0))
+        self.exitEdit.setMaximumSize(QtCore.QSize(125, 16777215))
         self.exitEdit.setObjectName("exitEdit")
         self.horizontalLayout_2.addWidget(self.exitEdit)
         self.buttonStack.addWidget(self.page_2)
@@ -435,6 +440,7 @@ class Ui_reviewReader(object):
         self.tempTypeEdit.setText(_translate("reviewReader", "One on One Review"))
         self.editReview.setText(_translate("reviewReader", "&Edit Review"))
         self.closeButton.setText(_translate("reviewReader", "Close"))
+        self.deleteReview.setText(_translate("reviewReader", "Delete Review"))
         self.saveButton.setText(_translate("reviewReader", "Save Changes"))
         self.exitEdit.setText(_translate("reviewReader", "Exit Editor"))
         self.agentDetailsEdit.setTitle(_translate("reviewReader", "Document Information"))

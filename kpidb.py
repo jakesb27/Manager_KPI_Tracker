@@ -418,6 +418,44 @@ VALUES (
     )
 """
 
+read_review_sql = """
+SELECT
+    (COLL.FIRST_NAME || " " || COLL.LAST_NAME) EMP_NAME,
+    RVW.EMP_USERID,
+    RVW.DESK,
+    RVW.EXT,
+    RVW.EMP_GROUP,
+    RVW.ISSUE_DATE,
+    RVW.RVW_LOC,
+    RVW.ISSUED_BY,
+    RVW.TOPIC,
+    RVW.RVW_TYPE,
+    RVW.DISC_TYPE,
+    RVW.RVW_NOTES
+FROM
+    REVIEWS RVW
+JOIN COLL ON RVW.EMP_USERID=COLL.USER_ID
+WHERE
+    REVIEW_ID=:rvw_id
+"""
+
+edit_review_sql = """
+UPDATE
+    REVIEWS
+SET
+    TOPIC=:topic,
+    RVW_NOTES=:notes
+WHERE
+    REVIEW_ID=:rvw_id
+"""
+
+delete_review_sql = """
+DELETE FROM
+    REVIEWS
+WHERE
+    REVIEW_ID=:rvw_id
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -681,3 +719,31 @@ def agent_reviews(search_sql):
     rows = cur.fetchall()
     conn.close()
     return rows
+
+
+def read_review(rvw_id):
+    """Simple function used to query SQLite database for a single employee review."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(read_review_sql, (rvw_id, ))
+    rows = cur.fetchall()
+    conn.close()
+    return rows
+
+
+def edit_review(data):
+    """Simple function used to update SQLite database for a single employee review."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(edit_review_sql, data)
+    conn.commit()
+    conn.close()
+
+
+def delete_review(rvw_id):
+    """Simple function used to delete employee review from SQLite database."""
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(delete_review_sql, (rvw_id, ))
+    conn.commit()
+    conn.close()

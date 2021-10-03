@@ -149,3 +149,18 @@ def employee_add_dupe():
     msg.setWindowTitle("Failed")
     msg.setStandardButtons(QMessageBox.Ok)
     return msg
+
+
+def permanently_delete():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Warning)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("Selecting 'Yes' will permanently delete this review. Please\n"
+                "confirm that you want to delete this review.")
+    msg.setWindowTitle("Delete Review")
+    msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+    return msg
