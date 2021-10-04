@@ -12,6 +12,7 @@ import cds_sql as cds
 import msgbox
 import my_styles
 from manager_main import Ui_managerMain
+from email_distribution import Ui_distributionLists
 from review_form import Ui_reviewForm
 from review_search import Ui_reviewSearch
 from review_reader import Ui_reviewReader
@@ -28,6 +29,7 @@ class Window(QMainWindow, Ui_managerMain):
 
     def __init__(self):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         # Creates the main window UI and initialize class attributes
         self.setupUi(self)
         self.current_bd_managers = cmredb.current_managers()
@@ -36,7 +38,6 @@ class Window(QMainWindow, Ui_managerMain):
         self.all_users = cmredb.all_act_collectors()
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
-        # TODO Add link to email ALL users. Add function to change users based on manger selected.
 
         # Default sort is set to RPC's
         self.user_sort_col = 4
@@ -63,6 +64,7 @@ class Window(QMainWindow, Ui_managerMain):
         # Options under "File" in menu bar
         self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
         self.actionSettings.triggered.connect(self.user_settings)
+        self.actionDistribution_Lists.triggered.connect(self.distribution_lists)
         # Options under "Employees" in menu bar
         self.actionAdd_Employee.triggered.connect(self.add_employee)
         self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
@@ -283,6 +285,10 @@ class Window(QMainWindow, Ui_managerMain):
         msg = msgbox.unavailable()
         msg.exec_()
 
+    def distribution_lists(self):
+        dist_win = DistributionLists()
+        dist_win.exec_()
+
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
         also force close the app if left open overnight."""
@@ -344,6 +350,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
 
     def __init__(self, mgr, coll):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         self.setupUi(self)
         self.emp_id = ""
         self.discFrame.hide()
@@ -440,6 +447,7 @@ class ReviewForm(QDialog, Ui_reviewForm):
         self.agentExt.setText(str(coll_details[5]))
         self.agentGroup.setText(coll_details[8])
         self.managerNotes.setReadOnly(False)
+        self.setStyleSheet(my_styles.active_style)
         self.managerNotes.setPlaceholderText("-Required-")
 
     def template_sel(self):
@@ -540,6 +548,7 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
     """Class that displays search form to locate employee reviews."""
     def __init__(self, coll):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         self.setupUi(self)
         self.all_users = window.all_users
         self.managers_agents = []
@@ -724,6 +733,7 @@ class ReviewReader(QDialog, Ui_reviewReader):
 
     def __init__(self, rvw_id):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         self.setupUi(self)
         self.rvw_id = rvw_id
         self.temp_topic = ""
@@ -800,6 +810,59 @@ class ReviewReader(QDialog, Ui_reviewReader):
         if selection == QMessageBox.Yes:
             cmredb.delete_review(self.rvw_id)
             self.close()
+
+
+class DistributionLists(QDialog, Ui_distributionLists):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setStyleSheet(my_styles.active_style)
+        self.all_users = cmredb.all_act_collectors()
+        self.managers = cmredb.current_managers()
+        self.all_email_list = "mailto:"
+
+        for employee in self.all_users:
+            self.all_email_list += f'{employee[3]}'
+        self.listBrowser.append(f"<a href='{self.all_email_list}'>All Collectors</a>")
+        self.listBrowser.append("")
+
+        self.create_group_lists()
+        self.create_manager_lists()
+
+    def create_group_lists(self):
+        dist_lists = {}
+        for employee in self.all_users:
+            if employee[4] not in dist_lists.keys():
+                dist_lists[employee[4]] = [employee[3]]
+            else:
+                for key, value in dist_lists.items():
+                    if key == employee[4]:
+                        value.append(employee[3])
+
+        for key, value in dist_lists.items():
+            email_list = "mailto:"
+            for item in value:
+                email_list += f'{item};'
+            self.listBrowser.append(f"<a href='{email_list}'>{key} Collectors</a>")
+            self.listBrowser.append("")
+
+    def create_manager_lists(self):
+        dist_lists = {}
+        for manager in self.managers:
+            dist_lists[manager] = []
+
+        for employee in self.all_users:
+            for key, value in dist_lists.items():
+                if key == employee[2]:
+                    value.append(employee[3])
+
+        for key, value in dist_lists.items():
+            email_list = "mailto:"
+            for item in value:
+                email_list += f'{item};'
+            self.listBrowser.append(f"<a href='{email_list}'>{key}'s Collectors</a>")
+            self.listBrowser.append("")
 
 
 if __name__ == "__main__":

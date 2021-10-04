@@ -25,7 +25,10 @@ WHERE
 all_act_collectors_sql = """
 SELECT
     USER_ID,
-    FIRST_NAME || " " || LAST_NAME
+    FIRST_NAME || " " || LAST_NAME,
+    MANAGER,
+    EMAIL,
+    USER_GROUP
 FROM
     COLL
 WHERE

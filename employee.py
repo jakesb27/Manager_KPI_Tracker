@@ -23,6 +23,7 @@ class AddEmployee(QDialog, Ui_agentInput):
 
     def __init__(self):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         self.setupUi(self)
         self.current_bd_managers = current_managers
         self.all_req_fields = False
@@ -187,6 +188,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     def __init__(self, employee):
         super().__init__()
         self.setupUi(self)
+        self.setStyleSheet(my_styles.active_style)
         self.current_bd_managers = current_managers
         self.employee = employee
         # Obtains all users from the CMRE database
@@ -461,6 +463,7 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
 
     def __init__(self, all_users, coll, mgr):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         # Initialize class attributes
         self.setupUi(self)
         self.employee = ""
@@ -610,6 +613,7 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
 
     def __init__(self, coll, mgr):
         super().__init__()
+        self.setStyleSheet(my_styles.active_style)
         # Initialize class attributes
         self.setupUi(self)
         self.user_id = ""
