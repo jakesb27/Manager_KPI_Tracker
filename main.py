@@ -219,11 +219,9 @@ class Window(QMainWindow, Ui_managerMain):
 
         # Creates the agent details window
         agent_window = EmployeeDetails(self.all_users, collector, manager)
-        if agent_window.exec_():
-            if agent_window.return_code == 1:
-                self.employee_review_search(agent_window.employee)
-            elif agent_window.return_code == 2:
-                self.employee_review(agent_window.employee)
+        agent_window.addReview.clicked.connect(lambda: self.employee_review_search(collector))
+        agent_window.employeeReviews.clicked.connect(lambda: self.employee_review(collector))
+        agent_window.exec_()
 
     def update_desks(self):
         """Function used to update the desk and goals for all employees in the CMRE db."""
@@ -320,7 +318,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() < self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -530,8 +528,12 @@ class ReviewForm(QDialog, Ui_reviewForm):
             save_msg = msgbox.confirm_save()
             selection = save_msg.exec_()
             if selection == QMessageBox.Save:
-                cmredb.add_review(gather_data())
-                self.update_combobox()
+                success = cmredb.add_review(gather_data())
+                if success:
+                    self.update_combobox()
+                else:
+                    err_msg = msgbox.action_error()
+                    err_msg.exec_()
         else:
             error_msg = msgbox.add_data_error()
             error_msg.exec_()
@@ -779,11 +781,15 @@ class ReviewReader(QDialog, Ui_reviewReader):
                 self.managerNotes.toPlainText(),
                 self.rvw_id
             ]
-            cmredb.edit_review(data)
-            self.managerNotes.setReadOnly(True)
-            self.mainTopic.setReadOnly(True)
-            self.buttonStack.setCurrentIndex(0)
-            self.setStyleSheet(my_styles.active_style)
+            success = cmredb.edit_review(data)
+            if success:
+                self.managerNotes.setReadOnly(True)
+                self.mainTopic.setReadOnly(True)
+                self.buttonStack.setCurrentIndex(0)
+                self.setStyleSheet(my_styles.active_style)
+            else:
+                err_msg = msgbox.action_error()
+                err_msg.exec_()
 
     def close_editor(self):
         if self.temp_topic != self.mainTopic.text() or self.temp_notes != self.managerNotes.toPlainText():
@@ -823,7 +829,7 @@ class DistributionLists(QDialog, Ui_distributionLists):
         self.all_email_list = "mailto:"
 
         for employee in self.all_users:
-            self.all_email_list += f'{employee[3]}'
+            self.all_email_list += f'{employee[3]};'
         self.listBrowser.append(f"<a href='{self.all_email_list}'>All Collectors</a>")
         self.listBrowser.append("")
 

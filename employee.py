@@ -116,7 +116,7 @@ class AddEmployee(QDialog, Ui_agentInput):
                     "Y",
                 ]
 
-                # SQL function returns boolean and error
+                # SQL function returns boolean
                 add_emp_succeeded = cmredb.add_coll(emp_info)
                 if add_emp_succeeded:
                     msg_emp_added = msgbox.employee_added()
@@ -246,6 +246,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         """Updates the window with the employees current data."""
 
         if self.employeeSelect.currentIndex() != 0:
+            self.user_changed = False
             # Obtains employee data from CMRE database
             user_id = self.employeeSelect.currentText().split(' - ')[0]
             coll_details = cmredb.coll_details(user_id)
@@ -449,10 +450,14 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                         active,
                         self.primary_key
                     ]
-                    cmredb.update_coll(updated_details)
-                    self.save_enabled()
-                    self.clear_window()
-                    self.employeeSelect.setCurrentIndex(index)
+                    success = cmredb.update_coll(updated_details)
+                    if success:
+                        self.save_enabled()
+                        self.clear_window()
+                        self.employeeSelect.setCurrentIndex(index)
+                    else:
+                        err_msg = msgbox.action_error()
+                        err_msg.exec_()
 
     def cancel_update(self):
         self.close()
@@ -496,8 +501,6 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.employeeSelect.currentIndexChanged.connect(self.update_info)
         self.employeeGraphs.clicked.connect(self.employee_graphs)
-        self.addReview.clicked.connect(self.add_review)
-        self.employeeReviews.clicked.connect(self.review_lookup)
         self.agentEdit.clicked.connect(self.edit_employee)
 
     def update_combobox(self):
@@ -591,16 +594,6 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
 
         agent_graphs = EmployeeGraphs(coll, mgr)
         agent_graphs.exec_()
-
-    def review_lookup(self):
-        self.return_code = 1
-        self.employee = self.employeeSelect.currentText()
-        self.accept()
-
-    def add_review(self):
-        self.return_code = 2
-        self.employee = self.employeeSelect.currentText()
-        self.accept()
 
     def edit_employee(self):
         self.employee = self.employeeSelect.currentText()

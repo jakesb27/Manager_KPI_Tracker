@@ -1,4 +1,5 @@
 import sqlite3
+import time
 from sqlite3 import Error
 
 db_file = r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\CMRE.db"
@@ -539,9 +540,28 @@ def update_coll(data):
     """Simple function used to update the COLL table of the SQLite database."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(update_coll_sql, data)
-    conn.commit()
-    conn.close()
+    try:
+        cur.execute(update_coll_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        time.sleep(2)
+        try:
+            cur.execute(update_coll_sql, data)
+            conn.commit()
+            conn.close()
+            return True
+        except Error:
+            time.sleep(2)
+            try:
+                cur.execute(update_coll_sql, data)
+                conn.commit()
+                conn.close()
+                return True
+            except Error:
+                conn.close()
+                return False
 
 
 def users_with_access():
@@ -709,9 +729,28 @@ def add_review(data):
     """Simple function used to add an employee review to the CMRE database."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(add_review_sql, data)
-    conn.commit()
-    conn.close()
+    try:
+        cur.execute(add_review_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        time.sleep(2)
+        try:
+            cur.execute(add_review_sql, data)
+            conn.commit()
+            conn.close()
+            return True
+        except Error:
+            time.sleep(2)
+            try:
+                cur.execute(add_review_sql, data)
+                conn.commit()
+                conn.close()
+                return True
+            except Error:
+                conn.close()
+                return False
 
 
 def agent_reviews(search_sql):
@@ -738,9 +777,28 @@ def edit_review(data):
     """Simple function used to update SQLite database for a single employee review."""
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute(edit_review_sql, data)
-    conn.commit()
-    conn.close()
+    try:
+        cur.execute(edit_review_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        time.sleep(2)
+        try:
+            cur.execute(edit_review_sql, data)
+            conn.commit()
+            conn.close()
+            return True
+        except Error:
+            time.sleep(2)
+            try:
+                cur.execute(edit_review_sql, data)
+                conn.commit()
+                conn.close()
+                return True
+            except Error:
+                conn.close()
+                return False
 
 
 def delete_review(rvw_id):

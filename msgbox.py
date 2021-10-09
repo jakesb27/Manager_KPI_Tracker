@@ -151,6 +151,20 @@ def employee_add_dupe():
     return msg
 
 
+def action_error():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("An unexpected error has occurred. Please wait and try again.")
+    msg.setWindowTitle("Action Failed")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
 def permanently_delete():
     msg = QMessageBox()
     msg.setIcon(QMessageBox.Warning)
