@@ -145,6 +145,7 @@
     </property>
     <addaction name="actionTrending_Graphs"/>
     <addaction name="actionEmployee_Review"/>
+    <addaction name="actionOne_On_One_Tracker"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEmployees"/>
@@ -194,6 +195,11 @@
   <action name="actionDistribution_Lists">
    <property name="text">
     <string>Distribution Lists</string>
+   </property>
+  </action>
+  <action name="actionOne_On_One_Tracker">
+   <property name="text">
+    <string>One On One Tracker</string>
    </property>
   </action>
  </widget>
