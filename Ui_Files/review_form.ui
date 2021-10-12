@@ -392,19 +392,23 @@ QGroupBox::title{
           <number>0</number>
          </property>
          <item row="1" column="1">
+          <widget class="QRadioButton" name="radioSbS">
+           <property name="text">
+            <string>Side by Side</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
           <widget class="QRadioButton" name="radioDisc">
            <property name="text">
             <string>Disciplinary</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
+         <item row="2" column="0">
           <widget class="QRadioButton" name="radio1on1">
            <property name="text">
             <string>One on One</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -413,12 +417,8 @@ QGroupBox::title{
            <property name="text">
             <string>Coaching</string>
            </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QRadioButton" name="radioSbS">
-           <property name="text">
-            <string>Side by Side</string>
+           <property name="checked">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
