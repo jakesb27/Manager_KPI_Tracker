@@ -221,8 +221,8 @@ class Window(QMainWindow, Ui_managerMain):
 
         # Creates the agent details window
         agent_window = EmployeeDetails(self.all_users, collector, manager)
-        agent_window.addReview.clicked.connect(lambda: self.employee_review_search(collector))
-        agent_window.employeeReviews.clicked.connect(lambda: self.employee_review(collector))
+        agent_window.addReview.clicked.connect(lambda: self.employee_review(collector))
+        agent_window.employeeReviews.clicked.connect(lambda: self.employee_review_search(collector))
         agent_window.exec_()
 
     def update_desks(self):
