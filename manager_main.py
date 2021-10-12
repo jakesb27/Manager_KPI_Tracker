@@ -16,7 +16,7 @@ class Ui_managerMain(object):
         managerMain.setObjectName("managerMain")
         managerMain.resize(788, 423)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         managerMain.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(managerMain)
         self.centralwidget.setObjectName("centralwidget")
@@ -90,6 +90,8 @@ class Ui_managerMain(object):
         self.actionEmployee_Review.setObjectName("actionEmployee_Review")
         self.actionDistribution_Lists = QtWidgets.QAction(managerMain)
         self.actionDistribution_Lists.setObjectName("actionDistribution_Lists")
+        self.actionOne_On_One_Tracker = QtWidgets.QAction(managerMain)
+        self.actionOne_On_One_Tracker.setObjectName("actionOne_On_One_Tracker")
         self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
         self.menuFile.addAction(self.actionSettings)
         self.menuFile.addAction(self.actionDistribution_Lists)
@@ -98,6 +100,7 @@ class Ui_managerMain(object):
         self.menuEmployees.addAction(self.actionManager_Review)
         self.menuView.addAction(self.actionTrending_Graphs)
         self.menuView.addAction(self.actionEmployee_Review)
+        self.menuView.addAction(self.actionOne_On_One_Tracker)
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEmployees.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -124,6 +127,7 @@ class Ui_managerMain(object):
         self.actionManager_Review.setText(_translate("managerMain", "Add Review"))
         self.actionEmployee_Review.setText(_translate("managerMain", "Employee Reviews"))
         self.actionDistribution_Lists.setText(_translate("managerMain", "Distribution Lists"))
+        self.actionOne_On_One_Tracker.setText(_translate("managerMain", "One On One Tracker"))
 import main_images_rc
 
 

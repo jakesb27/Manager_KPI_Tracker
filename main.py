@@ -16,6 +16,7 @@ from email_distribution import Ui_distributionLists
 from review_form import Ui_reviewForm
 from review_search import Ui_reviewSearch
 from review_reader import Ui_reviewReader
+from one_on_one_main import Ui_oneOnOneMain
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
@@ -72,6 +73,7 @@ class Window(QMainWindow, Ui_managerMain):
         # Options under "View" in menu bar
         self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
         self.actionEmployee_Review.triggered.connect(self.employee_review_search)
+        self.actionOne_On_One_Tracker.triggered.connect(self.one_one_tracker)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
@@ -287,6 +289,10 @@ class Window(QMainWindow, Ui_managerMain):
         dist_win = DistributionLists()
         dist_win.exec_()
 
+    def one_one_tracker(self):
+        one_one = OneOnOneTracker()
+        one_one.exec_()
+
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
         also force close the app if left open overnight."""
@@ -318,7 +324,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() < self.stop_time:
+            if datetime.now() > self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -528,8 +534,8 @@ class ReviewForm(QDialog, Ui_reviewForm):
             save_msg = msgbox.confirm_save()
             selection = save_msg.exec_()
             if selection == QMessageBox.Save:
-                success = cmredb.add_review(gather_data())
-                if success:
+                add_success = cmredb.add_review(gather_data())
+                if add_success:
                     self.update_combobox()
                 else:
                     err_msg = msgbox.action_error()
@@ -869,6 +875,41 @@ class DistributionLists(QDialog, Ui_distributionLists):
                 email_list += f'{item};'
             self.listBrowser.append(f"<a href='{email_list}'>{key}'s Collectors</a>")
             self.listBrowser.append("")
+
+
+class OneOnOneTracker(QDialog, Ui_oneOnOneMain):
+
+    def __init__(self):
+        super().__init__()
+        self.setStyleSheet(my_styles.active_style)
+        # Creates the main window UI and initialize class attributes
+        self.setupUi(self)
+        self.current_bd_managers = cmredb.current_managers()
+
+        # Get all users and add current managers to combobox
+        self.all_users = cmredb.all_act_collectors()
+        self.managers_agents = []
+        self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
+
+        # Build QStandardItemModel used to hold agent reviews
+        self.reviewModel = QStandardItemModel(self)
+        self.reviewModel.setHorizontalHeaderLabels(self.hor_headers())
+        self.reviewModel.setVerticalHeaderLabels([user[1] for user in self.all_users])
+        self.reviewTableView.setModel(self.reviewModel)
+        # Clear vertical headers
+        # self.reviewTableView.verticalHeader().setVisible(False)
+        # Last column will stretch to end of the table view
+        self.reviewTableView.horizontalHeader().setStretchLastSection(True)
+
+    def hor_headers(self):
+        print(len(self.all_users))
+        new_list = []
+        day_count = 0
+        while day_count < 120:
+            start_date = date.today().replace(day=1) - timedelta(days=day_count)
+            new_list.append((start_date.strftime('%Y-%m')))
+            day_count += 30
+        return new_list
 
 
 if __name__ == "__main__":
