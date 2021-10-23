@@ -16,7 +16,7 @@ class Ui_agentDetailsMain(object):
         agentDetailsMain.setObjectName("agentDetailsMain")
         agentDetailsMain.resize(710, 492)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         agentDetailsMain.setWindowIcon(icon)
         self.gridLayout_2 = QtWidgets.QGridLayout(agentDetailsMain)
         self.gridLayout_2.setObjectName("gridLayout_2")

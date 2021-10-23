@@ -16,7 +16,7 @@ class Ui_managerMain(object):
         managerMain.setObjectName("managerMain")
         managerMain.resize(788, 423)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         managerMain.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(managerMain)
         self.centralwidget.setObjectName("centralwidget")
