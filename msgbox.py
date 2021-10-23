@@ -178,3 +178,17 @@ def permanently_delete():
     msg.setWindowTitle("Delete Review")
     msg.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
     return msg
+
+
+def ask_jake():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("An unexpected internal error has occurred. Please call or email Jake.")
+    msg.setWindowTitle("One on One Update Failed")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg

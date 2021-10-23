@@ -14,37 +14,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_oneOnOneMain(object):
     def setupUi(self, oneOnOneMain):
         oneOnOneMain.setObjectName("oneOnOneMain")
-        oneOnOneMain.resize(789, 423)
+        oneOnOneMain.resize(698, 423)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/logos/Images/Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         oneOnOneMain.setWindowIcon(icon)
         self.gridLayout = QtWidgets.QGridLayout(oneOnOneMain)
         self.gridLayout.setObjectName("gridLayout")
-        self.label_2 = QtWidgets.QLabel(oneOnOneMain)
-        self.label_2.setMinimumSize(QtCore.QSize(200, 93))
-        self.label_2.setMaximumSize(QtCore.QSize(200, 93))
-        self.label_2.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);")
-        self.label_2.setText("")
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 0, 4, 1, 1)
-        self.label_3 = QtWidgets.QLabel(oneOnOneMain)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 2, 0, 1, 5)
-        self.label = QtWidgets.QLabel(oneOnOneMain)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-        self.reviewTableView = QtWidgets.QTableView(oneOnOneMain)
-        self.reviewTableView.setMinimumSize(QtCore.QSize(770, 0))
-        self.reviewTableView.setStyleSheet("QTableView{\n"
-"    font: 10pt \"MS Shell Dlg 2\";\n"
-"}")
-        self.reviewTableView.setAlternatingRowColors(True)
-        self.reviewTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        self.reviewTableView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
-        self.reviewTableView.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
-        self.reviewTableView.setSortingEnabled(True)
-        self.reviewTableView.setObjectName("reviewTableView")
-        self.gridLayout.addWidget(self.reviewTableView, 3, 0, 1, 5)
         self.managerCombo = QtWidgets.QComboBox(oneOnOneMain)
         self.managerCombo.setMinimumSize(QtCore.QSize(150, 0))
         self.managerCombo.setStyleSheet("QFrame{\n"
@@ -53,6 +28,30 @@ class Ui_oneOnOneMain(object):
         self.managerCombo.setObjectName("managerCombo")
         self.managerCombo.addItem("")
         self.gridLayout.addWidget(self.managerCombo, 0, 1, 1, 1)
+        self.label_2 = QtWidgets.QLabel(oneOnOneMain)
+        self.label_2.setMinimumSize(QtCore.QSize(200, 93))
+        self.label_2.setMaximumSize(QtCore.QSize(200, 93))
+        self.label_2.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);")
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 0, 3, 1, 1)
+        self.oneXoneView = QtWidgets.QTableView(oneOnOneMain)
+        self.oneXoneView.setStyleSheet("QTableView{\n"
+"    font: 10pt \"MS Shell Dlg 2\";\n"
+"}")
+        self.oneXoneView.setAlternatingRowColors(True)
+        self.oneXoneView.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.oneXoneView.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.oneXoneView.setSortingEnabled(True)
+        self.oneXoneView.setObjectName("oneXoneView")
+        self.gridLayout.addWidget(self.oneXoneView, 2, 0, 1, 4)
+        self.label = QtWidgets.QLabel(oneOnOneMain)
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+        self.label_3 = QtWidgets.QLabel(oneOnOneMain)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout.addWidget(self.label_3, 1, 0, 1, 4)
 
         self.retranslateUi(oneOnOneMain)
         QtCore.QMetaObject.connectSlotsByName(oneOnOneMain)
@@ -60,9 +59,9 @@ class Ui_oneOnOneMain(object):
     def retranslateUi(self, oneOnOneMain):
         _translate = QtCore.QCoreApplication.translate
         oneOnOneMain.setWindowTitle(_translate("oneOnOneMain", "One On One Tracker"))
-        self.label_3.setText(_translate("oneOnOneMain", "Double Click user to see additional details."))
-        self.label.setText(_translate("oneOnOneMain", "Manager Select"))
         self.managerCombo.setItemText(0, _translate("oneOnOneMain", "All"))
+        self.label.setText(_translate("oneOnOneMain", "Manager Select"))
+        self.label_3.setText(_translate("oneOnOneMain", "Double Click completion date to view details."))
 import main_images_rc
 
 

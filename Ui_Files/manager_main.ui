@@ -19,47 +19,30 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="3" column="0" colspan="3">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Double Click user to see additional details.</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="0" colspan="6">
-     <widget class="QTableView" name="agentTableView">
+    <item row="2" column="1">
+     <widget class="QComboBox" name="managerCombo">
       <property name="minimumSize">
        <size>
-        <width>770</width>
+        <width>150</width>
         <height>0</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">QTableView{
-	font: 10pt &quot;MS Shell Dlg 2&quot;;
+       <string notr="true">QFrame{
+	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
 }</string>
       </property>
-      <property name="alternatingRowColors">
-       <bool>true</bool>
-      </property>
-      <property name="selectionBehavior">
-       <enum>QAbstractItemView::SelectRows</enum>
-      </property>
-      <property name="verticalScrollMode">
-       <enum>QAbstractItemView::ScrollPerPixel</enum>
-      </property>
-      <property name="horizontalScrollMode">
-       <enum>QAbstractItemView::ScrollPerPixel</enum>
-      </property>
-      <property name="sortingEnabled">
-       <bool>true</bool>
-      </property>
+      <item>
+       <property name="text">
+        <string>All</string>
+       </property>
+      </item>
      </widget>
     </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
+    <item row="3" column="0" colspan="3">
+     <widget class="QLabel" name="label_3">
       <property name="text">
-       <string>Manager Select</string>
+       <string>Double Click user to see additional details.</string>
       </property>
      </widget>
     </item>
@@ -92,25 +75,68 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QComboBox" name="managerCombo">
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Manager Select</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="6">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="5" column="0" colspan="7">
+     <widget class="QTableView" name="agentTableView">
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>770</width>
         <height>0</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">QFrame{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+       <string notr="true">QTableView{
+	font: 10pt &quot;MS Shell Dlg 2&quot;;
 }</string>
       </property>
-      <item>
-       <property name="text">
-        <string>All</string>
-       </property>
-      </item>
+      <property name="alternatingRowColors">
+       <bool>true</bool>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+      <property name="verticalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="horizontalScrollMode">
+       <enum>QAbstractItemView::ScrollPerPixel</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
      </widget>
+    </item>
+    <item row="2" column="4">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
