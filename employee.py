@@ -554,6 +554,9 @@ class EmployeeDetails(QDialog, Ui_agentDetailsMain):
         self.agentInt.setText('${:,.2f}'.format(desk_totals[0][2]))
         self.agentTotal.setText('${:,.2f}'.format(desk_totals[0][3]))
         self.agentComm.setText('${:,.2f}'.format(desk_totals[0][4]))
+        self.agentManager.setText(coll_details[7])
+        if coll_details[20] is not None:
+            self.agent1on1.setText(datetime.strptime(coll_details[20], '%Y-%m-%d').strftime('%m/%d/%Y'))
         self.agentGroup.setText(coll_details[8])
 
         try:

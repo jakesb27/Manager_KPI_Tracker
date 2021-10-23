@@ -15,7 +15,8 @@ WHERE
 my_collectors_sql = """
 SELECT
     USER_ID,
-    FIRST_NAME || " " || LAST_NAME
+    FIRST_NAME || " " || LAST_NAME,
+    MANAGER
 FROM
     COLL
 WHERE
@@ -34,6 +35,8 @@ FROM
     COLL
 WHERE
     ACTIVE='Y'
+ORDER BY
+    LAST_NAME
 """
 
 all_collectors_sql = """
@@ -422,6 +425,15 @@ VALUES (
     )
 """
 
+o1o_coll_update_sql = """
+UPDATE
+    COLL
+SET
+    ONE_ON_ONE=:rvw_date
+WHERE
+    ULTIPRO_ID=:ultipro_id
+"""
+
 read_review_sql = """
 SELECT
     (COLL.FIRST_NAME || " " || COLL.LAST_NAME) EMP_NAME,
@@ -458,6 +470,33 @@ DELETE FROM
     REVIEWS
 WHERE
     REVIEW_ID=:rvw_id
+"""
+
+hor_headers_sql = """
+SELECT
+    ISSUE_DATE
+FROM
+    REVIEWS
+WHERE
+    RVW_TYPE='One on One' AND
+    ISSUE_DATE BETWEEN date('now','start of month','-5 month') AND date('now')
+ORDER BY
+    ISSUE_DATE
+"""
+
+get_1on1_sql = """
+SELECT
+    COLL.USER_ID || " - " || COLL.FIRST_NAME || " " || COLL.LAST_NAME AGENT,
+    REVIEWS.ISSUE_DATE,
+    REVIEWS.REVIEW_ID
+FROM
+    REVIEWS JOIN COLL ON COLL.ULTIPRO_ID=REVIEWS.EMP_ID
+WHERE
+    RVW_TYPE='One on One' AND
+    ISSUE_DATE BETWEEN date('now','start of month','-5 month') AND date('now')
+ORDER BY
+    EMP_USERID,
+    ISSUE_DATE
 """
 
 
@@ -753,6 +792,33 @@ def add_review(data):
                 return False
 
 
+def o1o_coll_update(data):
+    conn = create_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(o1o_coll_update_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        time.sleep(2)
+        try:
+            cur.execute(o1o_coll_update_sql, data)
+            conn.commit()
+            conn.close()
+            return True
+        except Error:
+            time.sleep(2)
+            try:
+                cur.execute(o1o_coll_update_sql, data)
+                conn.commit()
+                conn.close()
+                return True
+            except Error:
+                conn.close()
+                return False
+
+
 def agent_reviews(search_sql):
     """Simple function used to query SQLite database for employee reviews."""
     conn = create_connection()
@@ -808,3 +874,21 @@ def delete_review(rvw_id):
     cur.execute(delete_review_sql, (rvw_id, ))
     conn.commit()
     conn.close()
+
+
+def horizontal_headers():
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(hor_headers_sql)
+    data = cur.fetchall()
+    conn.close()
+    return data
+
+
+def get_1on1_reviews():
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(get_1on1_sql)
+    data = cur.fetchall()
+    conn.close()
+    return data

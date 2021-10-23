@@ -426,6 +426,9 @@ class ReviewForm(QDialog, Ui_reviewForm):
         self.managerNotes.clear()
         self.meetLocation.clear()
         self.issuedBy.setCurrentIndex(-1)
+        today_date = date.today()
+        sdate = QDate(today_date)
+        self.issueDate.setDate(sdate)
         self.mainTopic.clear()
         self.radio1on1.setChecked(True)
         self.managerNotes.setReadOnly(True)
@@ -536,7 +539,12 @@ class ReviewForm(QDialog, Ui_reviewForm):
             if selection == QMessageBox.Save:
                 add_success = cmredb.add_review(gather_data())
                 if add_success:
-                    self.update_combobox()
+                    update_success = cmredb.o1o_coll_update([str(self.issueDate.date().toPyDate()), self.emp_id])
+                    if update_success:
+                        self.update_combobox()
+                    else:
+                        err_msg = msgbox.ask_jake()
+                        err_msg.exec_()
                 else:
                     err_msg = msgbox.action_error()
                     err_msg.exec_()
@@ -717,7 +725,7 @@ class ReviewSearch(QDialog, Ui_reviewSearch):
 
             self.reviewModel.appendRow(list_result)
 
-        self.reviewModel.sort(0, Qt.DescendingOrder)
+        self.reviewModel.sort(0, Qt.AscendingOrder)
 
     def look_up_review(self, model):
         """Function used to initialize the agent review window."""
@@ -884,32 +892,134 @@ class OneOnOneTracker(QDialog, Ui_oneOnOneMain):
         self.setStyleSheet(my_styles.active_style)
         # Creates the main window UI and initialize class attributes
         self.setupUi(self)
-        self.current_bd_managers = cmredb.current_managers()
 
         # Get all users and add current managers to combobox
         self.all_users = cmredb.all_act_collectors()
+        self.current_bd_managers = cmredb.current_managers()
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
 
-        # Build QStandardItemModel used to hold agent reviews
-        self.reviewModel = QStandardItemModel(self)
-        self.reviewModel.setHorizontalHeaderLabels(self.hor_headers())
-        self.reviewModel.setVerticalHeaderLabels([user[1] for user in self.all_users])
-        self.reviewTableView.setModel(self.reviewModel)
-        # Clear vertical headers
-        # self.reviewTableView.verticalHeader().setVisible(False)
-        # Last column will stretch to end of the table view
-        self.reviewTableView.horizontalHeader().setStretchLastSection(True)
+        self.vert_headers = []
+        self.hor_headers = []
+        self.oneXoneModel = QStandardItemModel()
+        self.oneXoneView.setModel(self.oneXoneModel)
+        self.oneXoneView.verticalHeader().setVisible(False)
 
-    def hor_headers(self):
-        print(len(self.all_users))
-        new_list = []
-        day_count = 0
-        while day_count < 120:
-            start_date = date.today().replace(day=1) - timedelta(days=day_count)
-            new_list.append((start_date.strftime('%Y-%m')))
-            day_count += 30
-        return new_list
+        self.oneXoneView.doubleClicked.connect(self.view_details)
+        self.managerCombo.currentIndexChanged.connect(self.combobox_changed)
+
+        self.generate_headers(self.all_users)
+        self.build_model()
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        """Method used for handling column width when the user resizes the main UI"""
+        super().resizeEvent(event)
+        table_width = self.oneXoneView.width()
+        set_width = 680
+        col_count = self.oneXoneModel.columnCount()
+        # Takes table width * column's min possible width / table's min possible width
+        # If a column is added, add the min column width to the total table width
+        self.oneXoneView.setColumnWidth(0, int(table_width * 200 / set_width))
+        for i in range(col_count):
+            if i == 0:
+                pass
+            else:
+                self.oneXoneView.setColumnWidth(i, int(table_width * 77 / set_width))
+
+    def combobox_changed(self):
+        self.oneXoneModel.clear()
+        self.vert_headers.clear()
+        self.hor_headers.clear()
+        # Updates GUI based on the manager selected
+        if self.managerCombo.currentIndex() == 0:
+            self.generate_headers(self.all_users)
+            self.build_model()
+        else:
+            sel_mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(sel_mgr)
+            self.generate_headers(self.managers_agents)
+            self.build_model()
+
+    def generate_headers(self, users):
+        for agent in users:
+            self.vert_headers.append(f'{agent[0]} - {agent[1]}')
+        for item in cmredb.horizontal_headers():
+            issue_month = datetime.strptime(item[0], '%Y-%m-%d').strftime("%b-%Y")
+            if issue_month not in self.hor_headers:
+                self.hor_headers.append(issue_month)
+
+    def build_model(self):
+        reviews = cmredb.get_1on1_reviews()
+        xcount = len(reviews)
+        row = 0
+        for agent in self.vert_headers:
+            data_obj = QStandardItem(agent)
+            data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            sort_data = agent.split("-")
+            data_obj.setData(sort_data[0], Qt.UserRole + 1)
+
+            new_row = [data_obj]
+            for rvw_month in self.hor_headers:
+                i = 0
+                for item in reviews:
+                    i += 1
+                    if agent == item[0] and datetime.strptime(item[1], '%Y-%m-%d').strftime('%b-%Y') == rvw_month:
+                        data_obj = QStandardItem(datetime.strptime(item[1], '%Y-%m-%d').strftime('%m/%d/%Y'))
+                        data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                        data_obj.setTextAlignment(Qt.AlignCenter)
+                        data_obj.setData(item[2], Qt.UserRole)
+                        data_obj.setData(item[1], Qt.UserRole + 1)
+
+                        new_row.append(data_obj)
+                        break
+                    else:
+                        if i == xcount:
+                            data_obj = QStandardItem(" - ")
+                            data_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                            data_obj.setTextAlignment(Qt.AlignCenter)
+                            new_row.append(data_obj)
+
+            self.oneXoneModel.insertRow(row, new_row)
+            row += 1
+        self.hor_headers.insert(0, "Collector")
+        self.oneXoneModel.setHorizontalHeaderLabels(self.hor_headers)
+        self.oneXoneModel.setSortRole(Qt.UserRole + 1)
+        self.oneXoneModel.sort(len(self.hor_headers) - 1, Qt.AscendingOrder)
+        if self.oneXoneModel.columnCount() == 7:
+            self.oneXoneView.horizontalHeader().setStretchLastSection(True)
+        self.oneXoneView.resizeColumnsToContents()
+        self.oneXoneView.resizeRowsToContents()
+
+    def view_details(self, model):
+        collector = self.oneXoneModel.item(model.row(), 0).text()
+        if model.column() == 0:
+            manager = self.managerCombo.currentText()
+            # Creates the agent details window
+            agent_window = EmployeeDetails(self.all_users, collector, manager)
+            agent_window.addReview.clicked.connect(lambda: self.employee_review(collector))
+            agent_window.employeeReviews.clicked.connect(lambda: self.employee_review_search(collector))
+            agent_window.exec_()
+            self.combobox_changed()
+        else:
+            rvw_id = model.data(Qt.UserRole)
+            if rvw_id:
+                rvw_reader = ReviewReader(rvw_id)
+                rvw_reader.exec_()
+                self.combobox_changed()
+            else:
+                self.employee_review(collector)
+                self.combobox_changed()
+
+    def employee_review(self, coll):
+        """Function used to initialize the agent review window."""
+        mgr = self.managerCombo.currentText()
+        agent_rvw = ReviewForm(mgr, coll)
+        agent_rvw.exec_()
+
+    def employee_review_search(self, coll):
+        """Function used to review employee reviews window."""
+        employee_search = ReviewSearch(coll)
+        employee_search.exec_()
 
 
 if __name__ == "__main__":
