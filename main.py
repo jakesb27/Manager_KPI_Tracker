@@ -4,7 +4,7 @@ import getpass
 
 from datetime import datetime, timedelta, date
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QLabel
 from PyQt5.QtCore import Qt, QObject, QThread, QDate, QVariant, pyqtSignal
 
 import kpidb as cmredb
@@ -34,6 +34,13 @@ class Window(QMainWindow, Ui_managerMain):
         # Creates the main window UI and initialize class attributes
         self.setupUi(self)
         self.current_bd_managers = cmredb.current_managers()
+        self.myMessage = QLabel()
+        self.myMessage.setStyleSheet("""
+            QLabel{
+                font: 10pt "MS Shell Dlg 2";
+            }
+            """)
+        self.statusbar.addWidget(self.myMessage)
 
         # Get all users and add current managers to combobox
         self.all_users = cmredb.all_act_collectors()
@@ -200,7 +207,7 @@ class Window(QMainWindow, Ui_managerMain):
 
     def update_status(self, up_time, count_down):
         """Simple function used to update status bar message."""
-        self.statusbar.showMessage(f'Last updated at {up_time}. Next update in {count_down}.')
+        self.myMessage.setText(f'Last updated at {up_time}. Next update in {count_down}.')
 
     def sort_order(self, col, order):
         """Simple function used to save the users sort column and sort order settings.

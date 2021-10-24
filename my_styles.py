@@ -4,6 +4,9 @@ QMainWindow{
 QDialog{
 	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));
 }
+QStatusBar::item{
+    border: 0px solid black;
+}
 QWidget{
 	font: 11pt "Corbel";
 	font-weight: bold;
