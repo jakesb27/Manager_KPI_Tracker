@@ -172,6 +172,7 @@
     <addaction name="actionTrending_Graphs"/>
     <addaction name="actionEmployee_Review"/>
     <addaction name="actionOne_On_One_Tracker"/>
+    <addaction name="actionTime_Off_Calendar"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEmployees"/>
@@ -226,6 +227,11 @@
   <action name="actionOne_On_One_Tracker">
    <property name="text">
     <string>One On One Tracker</string>
+   </property>
+  </action>
+  <action name="actionTime_Off_Calendar">
+   <property name="text">
+    <string>Time Off Calendar</string>
    </property>
   </action>
  </widget>

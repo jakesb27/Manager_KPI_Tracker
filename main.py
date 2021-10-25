@@ -17,6 +17,7 @@ from review_form import Ui_reviewForm
 from review_search import Ui_reviewSearch
 from review_reader import Ui_reviewReader
 from one_on_one_main import Ui_oneOnOneMain
+from agent_calendar import Ui_TimeOffCalendar
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
@@ -81,6 +82,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
         self.actionEmployee_Review.triggered.connect(self.employee_review_search)
         self.actionOne_On_One_Tracker.triggered.connect(self.one_one_tracker)
+        self.actionTime_Off_Calendar.triggered.connect(self.time_off_calendar)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
@@ -299,6 +301,10 @@ class Window(QMainWindow, Ui_managerMain):
     def one_one_tracker(self):
         one_one = OneOnOneTracker()
         one_one.exec_()
+
+    def time_off_calendar(self):
+        time_off = TimeOffCalendar()
+        time_off.exec_()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
@@ -1027,6 +1033,14 @@ class OneOnOneTracker(QDialog, Ui_oneOnOneMain):
         """Function used to review employee reviews window."""
         employee_search = ReviewSearch(coll)
         employee_search.exec_()
+
+
+class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setStyleSheet(my_styles.active_style)
 
 
 if __name__ == "__main__":
