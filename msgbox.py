@@ -116,7 +116,7 @@ def employee_added():
         QIcon.Normal, QIcon.Off)
     msg.setWindowIcon(icon)
     msg.setText("Employee has been added successfully!")
-    msg.setWindowTitle("Success")
+    msg.setWindowTitle("Success!")
     msg.setStandardButtons(QMessageBox.Ok)
     return msg
 
@@ -161,6 +161,20 @@ def action_error():
     msg.setWindowIcon(icon)
     msg.setText("An unexpected error has occurred. Please wait and try again.")
     msg.setWindowTitle("Action Failed")
+    msg.setStandardButtons(QMessageBox.Ok)
+    return msg
+
+
+def action_success():
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Information)
+    icon = QIcon(icon_path)
+    icon.addPixmap(
+        QPixmap(),
+        QIcon.Normal, QIcon.Off)
+    msg.setWindowIcon(icon)
+    msg.setText("Changes have been saved successfully!.")
+    msg.setWindowTitle("Success!")
     msg.setStandardButtons(QMessageBox.Ok)
     return msg
 

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>scheduleViewer</class>
+ <widget class="QDialog" name="scheduleViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>308</width>
+    <height>243</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Schedule Viewer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../Meduit_logo.ico</normaloff>../Meduit_logo.ico</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Employee Schedule</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="empSchWed">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox[enabled=&quot;false&quot;]{
+	color: rgb(0, 0, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string>Wednesday</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QTimeEdit" name="schStartWed">
+        <property name="dateTime">
+         <datetime>
+          <hour>7</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2000</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="maximumTime">
+         <time>
+          <hour>9</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="minimumTime">
+         <time>
+          <hour>6</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QTimeEdit" name="schStartThur">
+        <property name="dateTime">
+         <datetime>
+          <hour>7</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2000</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="maximumTime">
+         <time>
+          <hour>9</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="minimumTime">
+         <time>
+          <hour>6</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="empSchTue">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox[enabled=&quot;false&quot;]{
+	color: rgb(0, 0, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string>Tuesday</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QTimeEdit" name="schStartTue">
+        <property name="dateTime">
+         <datetime>
+          <hour>7</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2000</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="maximumTime">
+         <time>
+          <hour>9</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="minimumTime">
+         <time>
+          <hour>6</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="empSchThur">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox[enabled=&quot;false&quot;]{
+	color: rgb(0, 0, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string>Thursday</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="empSchMon">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox[enabled=&quot;false&quot;]{
+	color: rgb(0, 0, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string>Monday</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QTimeEdit" name="schStartMon">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="dateTime">
+         <datetime>
+          <hour>7</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2000</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="maximumTime">
+         <time>
+          <hour>9</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="minimumTime">
+         <time>
+          <hour>6</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" rowspan="7">
+       <widget class="QFrame" name="frame_6">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>9</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Quick Edit</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="quickEdit">
+           <item>
+            <property name="text">
+             <string>7:00</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>7:30</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>8:00</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>8:30</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>9:00</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="empSchFri">
+        <property name="styleSheet">
+         <string notr="true">QCheckBox[enabled=&quot;false&quot;]{
+	color: rgb(0, 0, 0);
+}</string>
+        </property>
+        <property name="text">
+         <string>Friday</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QTimeEdit" name="schStartFri">
+        <property name="dateTime">
+         <datetime>
+          <hour>7</hour>
+          <minute>0</minute>
+          <second>0</second>
+          <year>2000</year>
+          <month>1</month>
+          <day>1</day>
+         </datetime>
+        </property>
+        <property name="maximumTime">
+         <time>
+          <hour>9</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+        <property name="minimumTime">
+         <time>
+          <hour>6</hour>
+          <minute>0</minute>
+          <second>0</second>
+         </time>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>5</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="rightMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="saveButton">
+        <property name="text">
+         <string>Save</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelButton">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../main_images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

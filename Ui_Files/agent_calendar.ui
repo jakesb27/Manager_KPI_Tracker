@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>836</width>
-    <height>695</height>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -227,6 +227,20 @@ QGroupBox::title{
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="maximumTime">
+               <time>
+                <hour>17</hour>
+                <minute>30</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="minimumTime">
+               <time>
+                <hour>7</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
              </widget>
             </item>
             <item>
@@ -243,6 +257,27 @@ QGroupBox::title{
              <widget class="QTimeEdit" name="empEndTime">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="maximumTime">
+               <time>
+                <hour>17</hour>
+                <minute>30</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="minimumTime">
+               <time>
+                <hour>7</hour>
+                <minute>0</minute>
+                <second>0</second>
+               </time>
+              </property>
+              <property name="time">
+               <time>
+                <hour>17</hour>
+                <minute>30</minute>
+                <second>0</second>
+               </time>
               </property>
              </widget>
             </item>
@@ -291,7 +326,11 @@ QGroupBox::title{
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="totalOcc"/>
+             <widget class="QLineEdit" name="totalOcc">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
             <item row="1" column="0">
              <widget class="QLabel" name="label_14">
@@ -445,6 +484,9 @@ QGroupBox::title{
              <widget class="QSpinBox" name="daysReq">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="minimum">
+               <number>2</number>
               </property>
              </widget>
             </item>
@@ -667,16 +709,12 @@ QGroupBox::title{
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Schedule: </string>
+          <widget class="QPushButton" name="viewButton">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="agentSchedule">
-           <property name="readOnly">
-            <bool>true</bool>
+           <property name="text">
+            <string>View Collector's Schedule</string>
            </property>
           </widget>
          </item>

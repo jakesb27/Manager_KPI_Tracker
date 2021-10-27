@@ -83,7 +83,13 @@ INSERT INTO COLL (
     GOAL3_DESC,
     GOAL3_BASE,
     GOAL3_GOAL,
-    ACTIVE
+    ACTIVE,
+    MON_START,
+    TUE_START,
+    WED_START,
+    THUR_START,
+    FRI_START,
+    SCH_ACTIVE
     )
 VALUES (
     :ultipro_id,
@@ -103,7 +109,13 @@ VALUES (
     :desc3,
     :base3,
     :goal3,
-    :active
+    :active,
+    :mon_start,
+    :tue_start,
+    :wed_start,
+    :thur_start,
+    :fri_start,
+    :sch_active
     )
 """
 
@@ -126,7 +138,21 @@ SET
     GOAL3_DESC=:desc3,
     GOAL3_BASE=:base3,
     GOAL3_GOAL=:goal3,
+    SCH_ACTIVE=:act_sch,
     ACTIVE=:active
+WHERE
+    ULTIPRO_ID=:primary_key
+"""
+
+update_sch_sql = """
+UPDATE
+    COLL
+SET
+    MON_START=:mon_start,
+    TUE_START=:tue_start,
+    WED_START=:wed_start,
+    THUR_START=:thur_start,
+    FRI_START=:fri_start
 WHERE
     ULTIPRO_ID=:primary_key
 """
@@ -499,6 +525,20 @@ ORDER BY
     ISSUE_DATE
 """
 
+calendar_info_sql = """
+SELECT
+    USER_GROUP,
+    MON_START,
+    TUE_START,
+    WED_START,
+    THUR_START,
+    FRI_START
+FROM
+    COLL
+WHERE
+    USER_ID=:user_id
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -601,6 +641,19 @@ def update_coll(data):
             except Error:
                 conn.close()
                 return False
+
+
+def update_sch(data):
+    conn = create_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(update_sch_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        conn.close()
+        return False
 
 
 def users_with_access():
@@ -892,3 +945,12 @@ def get_1on1_reviews():
     data = cur.fetchall()
     conn.close()
     return data
+
+
+def calendar_info(user_id):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(calendar_info_sql, (user_id,))
+    data = cur.fetchall()
+    conn.close()
+    return data[0]

@@ -4,10 +4,13 @@ from datetime import datetime
 from PyQt5.QtGui import QKeyEvent
 from PyQt5.QtWidgets import QDialog, QMessageBox, QHBoxLayout
 from PyQt5.QtChart import QChart, QChartView, QBarSet, QBarSeries, QValueAxis, QBarCategoryAxis
+from PyQt5.QtCore import QTime
 
+import kpidb
 from agent_input import Ui_agentInput
 from agent_maintenance import Ui_agentMaintenance
 from agent_details import Ui_agentDetailsMain
+from schedule_viewer import Ui_scheduleViewer
 from agent_graphs import Ui_agentGraphsMain
 
 import msgbox
@@ -47,8 +50,51 @@ class AddEmployee(QDialog, Ui_agentInput):
         self.goal2 = ""
         self.goal3 = ""
 
+        self.quickEdit.currentIndexChanged.connect(self.quick_edit)
         self.addButton.clicked.connect(self.add_employee)
         self.clearButton.clicked.connect(self.clear_form)
+
+        self.empSchMon.stateChanged.connect(lambda: self.day_checked(self.empSchMon, self.schStartMon))
+        self.empSchTue.stateChanged.connect(lambda: self.day_checked(self.empSchTue, self.schStartTue))
+        self.empSchWed.stateChanged.connect(lambda: self.day_checked(self.empSchWed, self.schStartWed))
+        self.empSchThur.stateChanged.connect(lambda: self.day_checked(self.empSchThur, self.schStartThur))
+        self.empSchFri.stateChanged.connect(lambda: self.day_checked(self.empSchFri, self.schStartFri))
+
+    def day_checked(self, day_obj, time_obj):
+        if day_obj.isChecked():
+            time_obj.setEnabled(True)
+        else:
+            time_obj.setEnabled(False)
+
+    def quick_edit(self):
+
+        def update_times(time_obj):
+            if self.empSchMon.isChecked():
+                self.schStartMon.setTime(time_obj)
+            if self.empSchTue.isChecked():
+                self.schStartTue.setTime(time_obj)
+            if self.empSchWed.isChecked():
+                self.schStartWed.setTime(time_obj)
+            if self.empSchThur.isChecked():
+                self.schStartThur.setTime(time_obj)
+            if self.empSchFri.isChecked():
+                self.schStartFri.setTime(time_obj)
+
+        index = self.quickEdit.currentIndex()
+        time_obj = None
+
+        if index == 0:
+            time_obj = QTime(7, 0)
+        elif index == 1:
+            time_obj = QTime(7, 30)
+        elif index == 2:
+            time_obj = QTime(8, 0)
+        elif index == 3:
+            time_obj = QTime(8, 30)
+        elif index == 4:
+            time_obj = QTime(9, 0)
+
+        update_times(time_obj)
 
     def add_employee(self):
         """Function used to add new employee to CMREDB database."""
@@ -65,6 +111,13 @@ class AddEmployee(QDialog, Ui_agentInput):
                 except ValueError:
                     new_value = None
             return new_value
+
+        def verify_sch(check_box, start_time):
+            if check_box.isChecked():
+                return str(start_time.time().toPyTime())
+            else:
+                start_time.setEnabled(False)
+                return '00:00:00'
 
         # Update class attributes with current values
         self.ultipro_id = self.agentUltiPro.text()
@@ -95,7 +148,7 @@ class AddEmployee(QDialog, Ui_agentInput):
 
             # If "Save" was clicked
             if selection == QMessageBox.Save:
-                emp_info = [
+                first_info = [
                     self.ultipro_id,
                     self.last_name,
                     self.first_name,
@@ -113,9 +166,17 @@ class AddEmployee(QDialog, Ui_agentInput):
                     self.desc3,
                     check_value(self.base3),
                     check_value(self.goal3),
-                    "Y",
+                    "Y"
                 ]
-
+                sec_info = [
+                    verify_sch(self.empSchMon, self.schStartMon),
+                    verify_sch(self.empSchTue, self.schStartTue),
+                    verify_sch(self.empSchWed, self.schStartWed),
+                    verify_sch(self.empSchThur, self.schStartThur),
+                    verify_sch(self.empSchFri, self.schStartFri),
+                    "Y"
+                ]
+                emp_info = first_info + sec_info
                 # SQL function returns boolean
                 add_emp_succeeded = cmredb.add_coll(emp_info)
                 if add_emp_succeeded:
@@ -161,6 +222,7 @@ class AddEmployee(QDialog, Ui_agentInput):
         self.agentGoal1.clear()
         self.agentGoal2.clear()
         self.agentGoal3.clear()
+        self.quickEdit.setCurrentIndex(0)
 
         # Clear class attributes
         self.ultipro_id = ""
@@ -206,10 +268,13 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         for item in sorted(self.users):
             self.employeeSelect.addItem(f'{item[0]} - {item[1]}')
 
+        self.clear_window()
+
         # Connectes signals to slots for push buttons
         self.employeeSelect.currentIndexChanged.connect(self.update_window)
+        self.viewEditSch.clicked.connect(self.sch_viewer)
         self.clearButton.clicked.connect(self.clear_window)
-        self.cancelButton.clicked.connect(self.cancel_update)
+        self.cancelButton.clicked.connect(self.close)
         self.saveButton.clicked.connect(self.save_window)
         self.undoButton.clicked.connect(self.undo_changes)
 
@@ -225,6 +290,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.agentGroup.textChanged.connect(self.save_enabled)
         self.agentEmail.textChanged.connect(self.save_enabled)
         self.activeEmpBox.clicked.connect(self.active_changed)
+        self.activeSch.clicked.connect(self.save_enabled)
         self.agentDesc1.currentIndexChanged.connect(self.save_enabled)
         self.agentDesc2.currentIndexChanged.connect(self.save_enabled)
         self.agentDesc3.currentIndexChanged.connect(self.save_enabled)
@@ -241,6 +307,12 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             widget = QApplication.focusWidget()
             if isinstance(widget, QComboBox):
                 widget.showPopup()
+
+    def sch_viewer(self):
+        user_id = self.employeeSelect.currentText().split(" - ")[0]
+        if self.primary_key != '':
+            sch_view = ScheduleViewer(self.primary_key, user_id)
+            sch_view.exec_()
 
     def update_window(self):
         """Updates the window with the employees current data."""
@@ -265,6 +337,11 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             self.agentManager.setCurrentText(coll_details[7])
             self.agentGroup.setText(coll_details[8])
             self.agentEmail.setText(coll_details[4])
+
+            if coll_details[26] == "Y":
+                self.activeSch.setChecked(True)
+            else:
+                self.activeSch.setChecked(False)
 
             self.agentDesc1.setCurrentText(coll_details[9])
             self.agentDesc2.setCurrentText(coll_details[12])
@@ -345,12 +422,14 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
             # If user cancels change to make employee inactive
             if selection != QMessageBox.Ok:
                 self.activeEmpBox.setChecked(True)
-                # self.active_emp_check()
             else:
                 self.active_emp_check()
+                self.activeSch.setChecked(False)
                 self.save_enabled()
         else:
             self.active_emp_check()
+            self.activeSch.setChecked(True)
+            self.sch_viewer()
             self.save_enabled()
 
     def undo_changes(self):
@@ -362,6 +441,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
     def clear_window(self):
         """Clears entire screen including the previously selected employee."""
         self.user_changed = False
+        self.primary_key = ''
         self.employeeSelect.setCurrentIndex(0)
         self.agentFirstName.clear()
         self.agentLastName.clear()
@@ -371,7 +451,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
         self.agentManager.setCurrentIndex(0)
         self.agentGroup.clear()
         self.agentEmail.clear()
-        self.activeEmpBox.setChecked(True)
+        self.activeEmpBox.setChecked(False)
 
         self.agentDesc1.setCurrentIndex(0)
         self.agentDesc2.setCurrentIndex(0)
@@ -430,6 +510,10 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                     else:
                         active = "N"
                     clear_goals()
+                    if self.activeSch.isChecked():
+                        act_sch = "Y"
+                    else:
+                        act_sch = "N"
                     # Creates list of employee data to be saved to CMRE db
                     updated_details = [
                         self.agentLastName.text().title(),
@@ -448,6 +532,7 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                         check_value(self.agentBase3.text()),
                         check_value(self.agentGoal3.text()),
                         active,
+                        act_sch,
                         self.primary_key
                     ]
                     success = cmredb.update_coll(updated_details)
@@ -459,8 +544,131 @@ class EmployeeMaintenance(QDialog, Ui_agentMaintenance):
                         err_msg = msgbox.action_error()
                         err_msg.exec_()
 
-    def cancel_update(self):
-        self.close()
+
+class ScheduleViewer(QDialog, Ui_scheduleViewer):
+
+    def __init__(self, prime_key, user_id):
+        super().__init__()
+        self.setupUi(self)
+        self.setStyleSheet(my_styles.active_style)
+        self.prime_key = prime_key
+        self.user_id = user_id
+        self.time_objs = self.get_time_objs()
+        self.day_check_boxes = [
+            self.empSchMon,
+            self.empSchTue,
+            self.empSchWed,
+            self.empSchThur,
+            self.empSchFri
+        ]
+        self.start_time_obj = [
+            self.schStartMon,
+            self.schStartTue,
+            self.schStartWed,
+            self.schStartThur,
+            self.schStartFri
+        ]
+
+        self.quickEdit.currentIndexChanged.connect(self.quick_edit)
+
+        self.empSchMon.stateChanged.connect(lambda: self.day_checked(self.empSchMon, self.schStartMon))
+        self.empSchTue.stateChanged.connect(lambda: self.day_checked(self.empSchTue, self.schStartTue))
+        self.empSchWed.stateChanged.connect(lambda: self.day_checked(self.empSchWed, self.schStartWed))
+        self.empSchThur.stateChanged.connect(lambda: self.day_checked(self.empSchThur, self.schStartThur))
+        self.empSchFri.stateChanged.connect(lambda: self.day_checked(self.empSchFri, self.schStartFri))
+
+        self.saveButton.clicked.connect(self.save_sch)
+        self.cancelButton.clicked.connect(self.close)
+
+        self.update_times()
+
+    def get_time_objs(self):
+        schedule = list(kpidb.calendar_info(self.user_id))
+        schedule.pop(0)
+        list_obj = []
+        for stime in schedule:
+            if stime:
+                start_list = stime.split(":")
+                start_hour = int(start_list[0])
+                start_min = int(start_list[1])
+                time_obj = QTime(start_hour, start_min)
+            else:
+                time_obj = QTime(0, 0)
+            list_obj.append(time_obj)
+        return list_obj
+
+    def quick_edit(self):
+
+        def update_times(time_obj):
+            if self.empSchMon.isChecked():
+                self.schStartMon.setTime(time_obj)
+            if self.empSchTue.isChecked():
+                self.schStartTue.setTime(time_obj)
+            if self.empSchWed.isChecked():
+                self.schStartWed.setTime(time_obj)
+            if self.empSchThur.isChecked():
+                self.schStartThur.setTime(time_obj)
+            if self.empSchFri.isChecked():
+                self.schStartFri.setTime(time_obj)
+
+        index = self.quickEdit.currentIndex()
+        time_obj = None
+
+        if index == 0:
+            time_obj = QTime(7, 0)
+        elif index == 1:
+            time_obj = QTime(7, 30)
+        elif index == 2:
+            time_obj = QTime(8, 0)
+        elif index == 3:
+            time_obj = QTime(8, 30)
+        elif index == 4:
+            time_obj = QTime(9, 0)
+
+        update_times(time_obj)
+
+    def day_checked(self, day_obj, time_obj):
+        if day_obj.isChecked():
+            time_obj.setEnabled(True)
+        else:
+            time_obj.setEnabled(False)
+
+    def update_times(self):
+        xcount = 0
+        for time_obj in self.time_objs:
+            if time_obj.hour() == 0:
+                self.start_time_obj[xcount].setTime(time_obj)
+                self.day_check_boxes[xcount].setChecked(False)
+                xcount += 1
+            else:
+                self.start_time_obj[xcount].setTime(time_obj)
+                xcount += 1
+
+    def save_sch(self):
+
+        def verify_sch(check_box, start_time):
+            if check_box.isChecked():
+                return str(start_time.time().toPyTime())
+            else:
+                return '00:00:00'
+
+        sch_info = [
+            verify_sch(self.empSchMon, self.schStartMon),
+            verify_sch(self.empSchTue, self.schStartTue),
+            verify_sch(self.empSchWed, self.schStartWed),
+            verify_sch(self.empSchThur, self.schStartThur),
+            verify_sch(self.empSchFri, self.schStartFri),
+            self.prime_key
+        ]
+
+        success = cmredb.update_sch(sch_info)
+        if success:
+            ok_msg = msgbox.action_success()
+            ok_msg.exec_()
+            self.close()
+        else:
+            err_msg = msgbox.action_error()
+            err_msg.exec_()
 
 
 class EmployeeDetails(QDialog, Ui_agentDetailsMain):
