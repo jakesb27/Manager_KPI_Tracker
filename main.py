@@ -1090,7 +1090,10 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
 
         # If manager is 'All' then all employees are added
         if self.managerCombo.currentIndex() == 0:
-            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+            # self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+            for agent in self.all_users:
+                user_info = f'{agent[0]} - {agent[1]}'
+
         else:
             # Adds only the employees for the selected manager
             mgr = self.managerCombo.currentText()
