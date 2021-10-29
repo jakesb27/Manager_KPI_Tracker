@@ -3,7 +3,7 @@ import time
 import getpass
 
 from datetime import datetime, timedelta, date
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QBrush, QColor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QLabel
 from PyQt5.QtCore import Qt, QObject, QThread, QDate, QVariant, pyqtSignal
 
@@ -20,7 +20,9 @@ from one_on_one_main import Ui_oneOnOneMain
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
-headers = ['User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
+headers = [
+    'User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Base Conversion', 'Conversion Rate', 'Last Update'
+]
 headers_rvw = ['Collector', 'Issue Date', 'Topic', 'Review Type', 'Level', 'Issued By', 'Review ID']
 allowed_users = cmredb.users_with_access()
 
@@ -86,7 +88,7 @@ class Window(QMainWindow, Ui_managerMain):
         """Method used for handling column width when the user resizes the main UI"""
         super().resizeEvent(event)
         table_width = self.agentTableView.width()
-        set_width = 770
+        set_width = 900
         # Takes table width * column's min possible width / table's min possible width
         # If a column is added, add the min column width to the total table width
         self.agentTableView.setColumnWidth(0, int(table_width * 70 / set_width))
@@ -95,7 +97,8 @@ class Window(QMainWindow, Ui_managerMain):
         self.agentTableView.setColumnWidth(3, int(table_width * 115 / set_width))
         self.agentTableView.setColumnWidth(4, int(table_width * 120 / set_width))
         self.agentTableView.setColumnWidth(5, int(table_width * 130 / set_width))
-        self.agentTableView.setColumnWidth(6, int(table_width * 100 / set_width))
+        self.agentTableView.setColumnWidth(6, int(table_width * 130 / set_width))
+        self.agentTableView.setColumnWidth(7, int(table_width * 100 / set_width))
 
     def start_thread(self):
         """Function that creates a worker thread that is used to refresh KPI's every 5 minuets on a loop."""
@@ -148,6 +151,7 @@ class Window(QMainWindow, Ui_managerMain):
         for coll in collectors:
             # Get user specific stats calling function from kpidb.py passing the User ID
             agent_stats = cmredb.daily_kpis(coll[0])
+            base_conv = cmredb.cont_base_data(coll[0])
             # Check if result is null
             if len(agent_stats) > 0:
                 # Convert tuple to list
@@ -156,9 +160,12 @@ class Window(QMainWindow, Ui_managerMain):
                 list_stats.pop(3)
                 # Insert collectors name. (User ID, Name, Group, Start Time, RPC's, Conv, Last Update)
                 list_stats.insert(1, coll[1])
+                list_stats.insert(5, base_conv[0])
             else:
                 # Query returned no results which indicates user has not logged into Agent Tracker
-                list_stats = [coll[0], coll[1], 'N/A', 'Not Logged In', '0', '0.0', 'N/A']
+                list_stats = [coll[0], coll[1], 'N/A', 'Not Logged In', '0', '0.0', '0.0', 'N/A']
+
+            goal = float(list_stats[6]) - float(list_stats[5])
 
             # Converts items in list to a QStandardItem which is required for PyQt5
             for index, item in enumerate(list_stats):
@@ -175,7 +182,21 @@ class Window(QMainWindow, Ui_managerMain):
                     # Create Qt Object
                     data_obj = QStandardItem(conv)
                     # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
-                    data_obj.setData(QVariant(float(item)), Qt.UserRole)
+                    data_obj.setData(float(item), Qt.UserRole)
+                elif index == 6:
+                    # Format data as you want it displayed
+                    conv = '{0:.0%}'.format(float(item))
+                    # Create Qt Object
+                    data_obj = QStandardItem(conv)
+                    # Sets the sort on 'value' of the object and assigns 'UserRole' as the sorting method
+                    data_obj.setData(float(item), Qt.UserRole)
+                    if goal > 0:
+                        my_color = QColor(0, 170, 0, 50)
+                        my_brush = QBrush(my_color)
+                    else:
+                        my_color = QColor(170, 0, 0, 50)
+                        my_brush = QBrush(my_color)
+                    data_obj.setData(my_brush, Qt.BackgroundRole)
                 else:
                     if item == "N/A":
                         # Create Qt Object

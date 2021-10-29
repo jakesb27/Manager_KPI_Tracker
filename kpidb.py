@@ -499,6 +499,15 @@ ORDER BY
     ISSUE_DATE
 """
 
+cont_base_sql = """
+SELECT
+    CONV_BASE
+FROM
+    YCONT
+WHERE
+    USER_ID=:user_id
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -892,3 +901,15 @@ def get_1on1_reviews():
     data = cur.fetchall()
     conn.close()
     return data
+
+
+def cont_base_data(user_id):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(cont_base_sql, (user_id, ))
+    data = cur.fetchall()
+    conn.close()
+    if data:
+        return data[0]
+    else:
+        return [0]
