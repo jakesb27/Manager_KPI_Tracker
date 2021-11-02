@@ -89,7 +89,8 @@ INSERT INTO COLL (
     WED_START,
     THUR_START,
     FRI_START,
-    SCH_ACTIVE
+    SCH_ACTIVE,
+    OCCUR_PTS
     )
 VALUES (
     :ultipro_id,
@@ -115,7 +116,8 @@ VALUES (
     :wed_start,
     :thur_start,
     :fri_start,
-    :sch_active
+    :sch_active,
+    :occur_pts
     )
 """
 
@@ -532,11 +534,50 @@ SELECT
     TUE_START,
     WED_START,
     THUR_START,
-    FRI_START
+    FRI_START,
+    ULTIPRO_ID,
+    OCCUR_PTS
 FROM
     COLL
 WHERE
     USER_ID=:user_id
+"""
+
+add_time_off_sql = """
+INSERT INTO TIME_OFF (
+    REQ_ID,
+    REQ_DATE,
+    ULTIPRO_ID,
+    USERNAME,
+    USER_GROUP,
+    SCH_REQ,
+    REQ_TYPE,
+    MULTI_DAY,
+    NUM_DAYS,
+    START_TIME,
+    END_TIME,
+    TIME_POLICY,
+    POL_HOURS,
+    OCCUR_PTS,
+    NOTES
+    )
+VALUES (
+    :req_id,
+    :req_date,
+    :ultipro_id,
+    :username,
+    :user_group,
+    :sch_req,
+    :req_type,
+    :multi_day,
+    :num_days,
+    :start_time,
+    :end_time,
+    :time_policy,
+    :pol_hours,
+    :occur_pts,
+    :notes
+    )
 """
 
 
@@ -954,3 +995,30 @@ def calendar_info(user_id):
     data = cur.fetchall()
     conn.close()
     return data[0]
+
+
+def add_time_off(data):
+    conn = create_connection()
+    cur = conn.cursor()
+    try:
+        cur.execute(add_time_off_sql, data)
+        conn.commit()
+        conn.close()
+        return True
+    except Error:
+        print(Error)
+        try:
+            cur.execute(add_time_off_sql, data)
+            conn.commit()
+            conn.close()
+            return True
+        except Error:
+            try:
+                cur.execute(add_time_off_sql, data)
+                conn.commit()
+                conn.close()
+                return True
+            except Error:
+                conn.close()
+                return False
+

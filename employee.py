@@ -114,10 +114,10 @@ class AddEmployee(QDialog, Ui_agentInput):
 
         def verify_sch(check_box, start_time):
             if check_box.isChecked():
-                return str(start_time.time().toPyTime())
+                return start_time.time().toPyTime().strftime('%I:%M')
             else:
                 start_time.setEnabled(False)
-                return '00:00:00'
+                return '00:00'
 
         # Update class attributes with current values
         self.ultipro_id = self.agentUltiPro.text()
@@ -174,7 +174,8 @@ class AddEmployee(QDialog, Ui_agentInput):
                     verify_sch(self.empSchWed, self.schStartWed),
                     verify_sch(self.empSchThur, self.schStartThur),
                     verify_sch(self.empSchFri, self.schStartFri),
-                    "Y"
+                    "Y",
+                    0
                 ]
                 emp_info = first_info + sec_info
                 # SQL function returns boolean
@@ -584,13 +585,15 @@ class ScheduleViewer(QDialog, Ui_scheduleViewer):
 
     def get_time_objs(self):
         schedule = list(kpidb.calendar_info(self.user_id))
+        schedule.pop(7)
+        schedule.pop(6)
         schedule.pop(0)
         list_obj = []
         for stime in schedule:
             if stime:
-                start_list = stime.split(":")
-                start_hour = int(start_list[0])
-                start_min = int(start_list[1])
+                stime_obj = datetime.strptime(stime, '%I:%M')
+                start_hour = stime_obj.hour
+                start_min = stime_obj.minute
                 time_obj = QTime(start_hour, start_min)
             else:
                 time_obj = QTime(0, 0)
@@ -648,9 +651,9 @@ class ScheduleViewer(QDialog, Ui_scheduleViewer):
 
         def verify_sch(check_box, start_time):
             if check_box.isChecked():
-                return str(start_time.time().toPyTime())
+                return start_time.time().toPyTime().strftime('%I:%M')
             else:
-                return '00:00:00'
+                return '00:00'
 
         sch_info = [
             verify_sch(self.empSchMon, self.schStartMon),

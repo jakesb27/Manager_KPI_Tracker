@@ -339,7 +339,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() < self.stop_time:
+            if datetime.now() > self.stop_time:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -1043,7 +1043,12 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         super().__init__()
         self.setupUi(self)
         self.setStyleSheet(my_styles.active_style)
+        self.username = ''
+        self.emp_id = ''
+        self.occur_pts = 0
         self.cal_info = None
+        self.stime_obj = None
+        self.etime_obj = None
         self.timeOffCalendar.setSelectedDate(QDate(date.today()))
         self.current_bd_managers = cmredb.current_managers()
         self.all_users = cmredb.all_act_collectors()
@@ -1055,6 +1060,11 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
         self.multipleDays.clicked.connect(self.multiple_days)
         self.employeeSelect.currentIndexChanged.connect(self.get_coll_info)
+        self.timeOffCalendar.selectionChanged.connect(self.get_times)
+        self.requestType.currentIndexChanged.connect(self.req_type)
+        self.policyHours.valueChanged.connect(self.hours_used)
+        self.occIncurred.valueChanged.connect(self.occurrence_points)
+        self.saveButton.clicked.connect(self.add_request)
 
         # Sets manager to selected manager from main
         mgr_index = self.managerCombo.findText(mgr)
@@ -1062,6 +1072,44 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
             self.update_combobox()
         else:
             self.managerCombo.setCurrentIndex(mgr_index)
+
+    def update_combobox(self):
+        """Function used to update employee combobox based on the manager selected."""
+
+        # Block signal temporarily
+        self.employeeSelect.blockSignals(True)
+        self.employeeSelect.clear()
+
+        # If manager is 'All' then all employees are added
+        if self.managerCombo.currentIndex() == 0:
+            # self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
+            for agent in sorted(self.all_users):
+                user_info = f'{agent[0]} - {agent[1]}'
+                self.employeeSelect.addItem(user_info)
+        else:
+            # Adds only the employees for the selected manager
+            mgr = self.managerCombo.currentText()
+            self.managers_agents = cmredb.my_collectors(mgr)
+            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+
+        self.employeeSelect.setCurrentIndex(-1)
+        # Unblock the signal and update employee info
+        self.employeeSelect.blockSignals(False)
+
+    def get_coll_info(self):
+        self.viewButton.setEnabled(True)
+        agent_data = self.employeeSelect.currentText().split(" - ")
+        self.username = agent_data[1]
+        result = cmredb.calendar_info(agent_data[0])
+        self.agentGroup.setText(result[0])
+        self.occur_pts = result[7]
+        self.totalOcc.setText(str(self.occur_pts))
+        self.emp_id = result[6]
+        self.cal_info = list(result)
+        self.cal_info.pop(7)
+        self.cal_info.pop(6)
+        self.cal_info.pop(0)
+        self.get_times()
 
     def view_schedule(self):
         agent_data = self.employeeSelect.currentText().split(" - ")
@@ -1081,28 +1129,53 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         emp_sch.schStartFri.setReadOnly(True)
         emp_sch.exec_()
 
-    def update_combobox(self):
-        """Function used to update employee combobox based on the manager selected."""
+    def get_times(self):
+        if self.emp_id != '':
+            sdate = self.timeOffCalendar.selectedDate().toPyDate()
+            week_day = sdate.weekday()
+            if week_day < 5:
+                stime = self.cal_info[week_day]
+                if stime:
+                    self.groupBox_4.setEnabled(True)
+                    self.stime_obj = datetime.strptime(stime, '%I:%M')
+                    self.etime_obj = self.stime_obj + timedelta(hours=8.5)
+                else:
+                    self.groupBox_4.setEnabled(False)
+                    self.stime_obj = datetime.strptime('00:00', '%H:%M')
+                    self.etime_obj = datetime.strptime('23:59', '%H:%M')
+                self.update_coll_times(self.stime_obj, self.etime_obj)
 
-        # Block signal temporarily
-        self.employeeSelect.blockSignals(True)
-        self.employeeSelect.clear()
+    def update_coll_times(self, start_time, end_time):
+        self.empStartTime.setTime(QTime(start_time.hour, start_time.minute))
+        self.empEndTime.setTime(QTime(end_time.hour, end_time.minute))
 
-        # If manager is 'All' then all employees are added
-        if self.managerCombo.currentIndex() == 0:
-            # self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.all_users)])
-            for agent in self.all_users:
-                user_info = f'{agent[0]} - {agent[1]}'
+    def req_type(self):
+        self.policyHours.setValue(8)
+        index = self.requestType.currentIndex()
+        if index == 1 or index == 2:
+            self.policyHours.setValue(4)
 
+    def hours_used(self):
+        pol_hour = self.policyHours.value()
+        index = self.requestType.currentIndex()
+        if index == 1:
+            if pol_hour < 3.5:
+                stime = self.stime_obj + timedelta(hours=pol_hour)
+            else:
+                stime = self.stime_obj + timedelta(hours=pol_hour + .5)
+            self.update_coll_times(stime, self.etime_obj)
+        elif index == 2:
+            if pol_hour < 3.5:
+                etime = self.etime_obj - timedelta(hours=pol_hour)
+            else:
+                etime = self.etime_obj - timedelta(hours=pol_hour + .5)
+            self.update_coll_times(self.stime_obj, etime)
         else:
-            # Adds only the employees for the selected manager
-            mgr = self.managerCombo.currentText()
-            self.managers_agents = cmredb.my_collectors(mgr)
-            self.employeeSelect.addItems([f'{agent[0]} - {agent[1]}' for agent in sorted(self.managers_agents)])
+            self.update_coll_times(self.stime_obj, self.etime_obj)
 
-        self.employeeSelect.setCurrentIndex(-1)
-        # Unblock the signal and update employee info
-        self.employeeSelect.blockSignals(False)
+    def occurrence_points(self):
+        points = self.occur_pts + self.occIncurred.value()
+        self.totalOcc.setText(str(points))
 
     def multiple_days(self):
         if self.multipleDays.isChecked():
@@ -1111,30 +1184,40 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
             self.daysReq.setValue(2)
             self.daysReq.setEnabled(False)
 
-    def get_coll_info(self):
-        self.viewButton.setEnabled(True)
-        agent_data = self.employeeSelect.currentText().split(" - ")
-        result = cmredb.calendar_info(agent_data[0])
-        self.agentGroup.setText(result[0])
-        self.cal_info = list(result)
-        self.cal_info.pop(0)
-        self.set_start_time()
-
-    def set_start_time(self):
-        sdate = self.timeOffCalendar.selectedDate().toPyDate()
-        week_day = sdate.weekday()
-        stime = self.cal_info[week_day]
-        if stime != '00:00:00':
-            self.empStartTime.setEnabled(True)
-            self.empEndTime.setEnabled(True)
-        start_list = stime.split(":")
-        start_hour = int(start_list[0])
-        start_min = int(start_list[1])
-        time_obj = QTime(start_hour, start_min)
-        self.empStartTime.setTime(time_obj)
-
-    def set_end_time(self):
-        pass
+    def add_request(self):
+        if self.schReq.isChecked():
+            sch_req = 'Y'
+        else:
+            sch_req = 'N'
+        if self.multipleDays.isChecked():
+            multi_day = 'Y'
+            num_days = int(self.daysReq.text())
+        else:
+            multi_day = 'N'
+            num_days = 1
+        req_data = [
+            None,
+            self.timeOffCalendar.selectedDate().toPyDate().strftime('%Y-%m-%d'),
+            self.emp_id,
+            self.username,
+            self.agentGroup.text(),
+            sch_req,
+            self.requestType.currentText(),
+            multi_day,
+            num_days,
+            self.empStartTime.time().toPyTime().strftime('%I:%M'),
+            self.empEndTime.time().toPyTime().strftime('%I:%M'),
+            self.timePolicy.currentText(),
+            float(self.policyHours.text()),
+            float(self.occIncurred.text()),
+            self.addNotes.toPlainText()
+        ]
+        print(req_data)
+        if cmredb.add_time_off(req_data):
+            my_msg = msgbox.action_success()
+        else:
+            my_msg = msgbox.action_error()
+        my_msg.exec_()
 
 
 if __name__ == "__main__":
