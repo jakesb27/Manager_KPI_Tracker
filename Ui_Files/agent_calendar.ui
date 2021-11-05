@@ -226,21 +226,30 @@ QGroupBox::title{
              </widget>
             </item>
             <item>
-             <widget class="QTimeEdit" name="empStartTime">
-              <property name="maximumTime">
-               <time>
-                <hour>17</hour>
-                <minute>30</minute>
-                <second>0</second>
-               </time>
+             <widget class="QFrame" name="frameStart">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="minimumTime">
-               <time>
-                <hour>7</hour>
-                <minute>0</minute>
-                <second>0</second>
-               </time>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+              </layout>
              </widget>
             </item>
             <item>
@@ -254,28 +263,30 @@ QGroupBox::title{
              </widget>
             </item>
             <item>
-             <widget class="QTimeEdit" name="empEndTime">
-              <property name="maximumTime">
-               <time>
-                <hour>17</hour>
-                <minute>30</minute>
-                <second>0</second>
-               </time>
+             <widget class="QFrame" name="frameEnd">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="minimumTime">
-               <time>
-                <hour>7</hour>
-                <minute>0</minute>
-                <second>0</second>
-               </time>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
-              <property name="time">
-               <time>
-                <hour>17</hour>
-                <minute>30</minute>
-                <second>0</second>
-               </time>
-              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+              </layout>
              </widget>
             </item>
            </layout>

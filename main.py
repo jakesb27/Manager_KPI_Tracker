@@ -4,7 +4,7 @@ import getpass
 
 from datetime import datetime, timedelta, date
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QLabel
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QLabel, QTimeEdit
 from PyQt5.QtCore import Qt, QObject, QThread, QDate, QTime, QVariant, pyqtSignal
 
 import employee
@@ -1055,6 +1055,22 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
 
+        self.empStartTime = MyTimeEdit(self.frameStart)
+        self.empStartTime.setEnabled(False)
+        # self.empStartTime.setWrapping(True)
+        self.empStartTime.setMaximumTime(QTime(18, 00, 0))
+        self.empStartTime.setMinimumTime(QTime(6, 30, 0))
+        self.empStartTime.setObjectName("empStartTime")
+        self.horizontalLayout_7.addWidget(self.empStartTime)
+
+        self.empEndTime = MyTimeEdit(self.frameEnd)
+        self.empEndTime.setEnabled(False)
+        # self.empEndTime.setWrapping(True)
+        self.empEndTime.setMaximumTime(QTime(18, 00, 0))
+        self.empEndTime.setMinimumTime(QTime(6, 30, 0))
+        self.empEndTime.setObjectName("empEndTime")
+        self.horizontalLayout_8.addWidget(self.empEndTime)
+
         # Connect signals to slots
         self.viewButton.clicked.connect(self.view_schedule)
         self.managerCombo.currentIndexChanged.connect(self.update_combobox)
@@ -1062,6 +1078,8 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         self.employeeSelect.currentIndexChanged.connect(self.get_coll_info)
         self.timeOffCalendar.selectionChanged.connect(self.get_times)
         self.requestType.currentIndexChanged.connect(self.req_type)
+        self.empStartTime.timeChanged.connect(self.start_time_change)
+        self.empEndTime.timeChanged.connect(self.end_time_change)
         self.policyHours.valueChanged.connect(self.hours_used)
         self.occIncurred.valueChanged.connect(self.occurrence_points)
         self.saveButton.clicked.connect(self.add_request)
@@ -1146,14 +1164,61 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
                 self.update_coll_times(self.stime_obj, self.etime_obj)
 
     def update_coll_times(self, start_time, end_time):
+        self.empStartTime.blockSignals(True)
+        self.empEndTime.blockSignals(True)
         self.empStartTime.setTime(QTime(start_time.hour, start_time.minute))
         self.empEndTime.setTime(QTime(end_time.hour, end_time.minute))
+        self.empStartTime.blockSignals(False)
+        self.empEndTime.blockSignals(False)
 
     def req_type(self):
-        self.policyHours.setValue(8)
         index = self.requestType.currentIndex()
-        if index == 1 or index == 2:
+        if index == 0:
+            self.policyHours.setValue(8)
+            self.timePolicy.setCurrentIndex(0)
+            self.policyHours.setEnabled(True)
+            self.timePolicy.setEnabled(True)
+            self.empStartTime.setEnabled(False)
+            self.empEndTime.setEnabled(False)
+        elif index == 1 or index == 2:
+            self.policyHours.setValue(0)
             self.policyHours.setValue(4)
+            self.timePolicy.setCurrentIndex(0)
+            self.policyHours.setEnabled(True)
+            self.timePolicy.setEnabled(True)
+            self.empStartTime.setEnabled(True)
+            self.empEndTime.setEnabled(True)
+        elif index == 3:
+            self.policyHours.setValue(0)
+            self.timePolicy.setCurrentIndex(4)
+            self.policyHours.setEnabled(False)
+            self.timePolicy.setEnabled(False)
+            self.empStartTime.setEnabled(True)
+            self.empEndTime.setEnabled(True)
+
+    def start_time_change(self):
+        self.policyHours.blockSignals(True)
+        p = self.policyHours.value()
+        if self.empStartTime.last_step == 1:
+            p += 0.5
+            if p == 3:
+                self.empStartTime.stepBy(1)  # TODO Determine the correct value to pass this function
+            self.policyHours.setValue(p)
+        elif self.empStartTime.last_step == -1:
+            p -= 0.5
+            if p == 3:
+                self.empStartTime.stepBy(-1)  # TODO Determine the correct value to pass this function
+            self.policyHours.setValue(p)
+        self.policyHours.blockSignals(False)
+
+    def end_time_change(self):
+        self.policyHours.blockSignals(True)
+        p = self.policyHours.value()
+        if self.empStartTime.last_step == 1:
+            self.policyHours.setValue(p - 0.5)
+        elif self.empStartTime.last_step == -1:
+            self.policyHours.setValue(p + 0.5)
+        self.policyHours.blockSignals(False)
 
     def hours_used(self):
         pol_hour = self.policyHours.value()
@@ -1218,6 +1283,29 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         else:
             my_msg = msgbox.action_error()
         my_msg.exec_()
+
+
+class MyTimeEdit(QTimeEdit):
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.setStyleSheet(my_styles.active_style)
+        self.last_step = 0
+
+    def stepBy(self, steps: int) -> None:
+        m = self.time().minute()
+        h = self.time().hour()
+        if steps == 1:
+            self.last_step = 1
+            if m == 0:
+                self.setTime(QTime(h, m + 30))
+            else:
+                self.setTime(QTime(h + 1, m - 30))
+        if steps == -1:
+            self.last_step = -1
+            if m == 0:
+                self.setTime(QTime(h - 1, m + 30))
+            else:
+                self.setTime(QTime(h, m - 30))
 
 
 if __name__ == "__main__":
