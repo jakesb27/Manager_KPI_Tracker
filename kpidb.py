@@ -580,6 +580,16 @@ VALUES (
     )
 """
 
+all_requests_sql = """
+SELECT
+    USERNAME,
+    REQ_TYPE
+FROM
+    TIME_OFF
+WHERE
+    REQ_DATE=:req_date
+"""
+
 
 def create_connection():
     """Create a database connection to a SQLite database."""
@@ -1022,3 +1032,11 @@ def add_time_off(data):
                 conn.close()
                 return False
 
+
+def all_reqeusts(req_date):
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(all_requests_sql, (req_date, ))
+    data = cur.fetchall()
+    conn.close()
+    return data

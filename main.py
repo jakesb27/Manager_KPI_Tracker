@@ -25,6 +25,7 @@ from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, Employee
 headers = ['User ID', 'Collector', 'Group', 'Start Time', "RPC's Per Hour", 'Conversion Rate', 'Last Update']
 headers_rvw = ['Collector', 'Issue Date', 'Topic', 'Review Type', 'Level', 'Issued By', 'Review ID']
 allowed_users = cmredb.users_with_access()
+jsb_testing = True
 
 
 class Window(QMainWindow, Ui_managerMain):
@@ -85,7 +86,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.actionOne_On_One_Tracker.triggered.connect(self.one_one_tracker)
         self.actionTime_Off_Calendar.triggered.connect(self.time_off_calendar)
 
-    def resizeEvent(self, event: QResizeEvent) -> None:
+    def resizeEvent(self, event):
         """Method used for handling column width when the user resizes the main UI"""
         super().resizeEvent(event)
         table_width = self.agentTableView.width()
@@ -339,7 +340,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() > self.stop_time and not jsb_testing:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
@@ -1055,19 +1056,37 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         self.managers_agents = []
         self.managerCombo.addItems([mgr for mgr in sorted(self.current_bd_managers)])
 
+        self.schOffModel = QStandardItemModel()
+        self.empSchOffView.setModel(self.schOffModel)
+        self.empSchOffView.horizontalHeader().setVisible(False)
+        self.empSchOffView.verticalHeader().setVisible(False)
+        self.leaveEarlyModel = QStandardItemModel()
+        self.empLeaveEarView.setModel(self.leaveEarlyModel)
+        self.empLeaveEarView.horizontalHeader().setVisible(False)
+        self.empLeaveEarView.verticalHeader().setVisible(False)
+        self.startLateModel = QStandardItemModel()
+        self.empStartLateView.setModel(self.startLateModel)
+        self.empStartLateView.horizontalHeader().setVisible(False)
+        self.empStartLateView.verticalHeader().setVisible(False)
+        self.sftChngModel = QStandardItemModel()
+        self.empSftChngView.setModel(self.sftChngModel)
+        self.empSftChngView.horizontalHeader().setVisible(False)
+        self.empSftChngView.verticalHeader().setVisible(False)
+        self.all_requests(datetime.today().strftime('%Y-%m-%d'))
+
         self.empStartTime = MyTimeEdit(self.frameStart)
         self.empStartTime.setEnabled(False)
-        # self.empStartTime.setWrapping(True)
-        self.empStartTime.setMaximumTime(QTime(18, 00, 0))
+        self.empStartTime.setMaximumTime(QTime(18, 0, 0))
         self.empStartTime.setMinimumTime(QTime(6, 30, 0))
+        self.empStartTime.setTime(QTime(7, 0))
         self.empStartTime.setObjectName("empStartTime")
         self.horizontalLayout_7.addWidget(self.empStartTime)
 
         self.empEndTime = MyTimeEdit(self.frameEnd)
         self.empEndTime.setEnabled(False)
-        # self.empEndTime.setWrapping(True)
-        self.empEndTime.setMaximumTime(QTime(18, 00, 0))
+        self.empEndTime.setMaximumTime(QTime(18, 0, 0))
         self.empEndTime.setMinimumTime(QTime(6, 30, 0))
+        self.empEndTime.setTime(QTime(5, 30))
         self.empEndTime.setObjectName("empEndTime")
         self.horizontalLayout_8.addWidget(self.empEndTime)
 
@@ -1083,6 +1102,7 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         self.policyHours.valueChanged.connect(self.hours_used)
         self.occIncurred.valueChanged.connect(self.occurrence_points)
         self.saveButton.clicked.connect(self.add_request)
+        self.clearButton.clicked.connect(self.clear_req)
 
         # Sets manager to selected manager from main
         mgr_index = self.managerCombo.findText(mgr)
@@ -1148,6 +1168,8 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         emp_sch.exec_()
 
     def get_times(self):
+        req_date = self.timeOffCalendar.selectedDate().toString('yyyy-MM-dd')
+        self.all_requests(req_date)
         if self.emp_id != '':
             sdate = self.timeOffCalendar.selectedDate().toPyDate()
             week_day = sdate.weekday()
@@ -1161,7 +1183,13 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
                     self.groupBox_4.setEnabled(False)
                     self.stime_obj = datetime.strptime('00:00', '%H:%M')
                     self.etime_obj = datetime.strptime('23:59', '%H:%M')
-                self.update_coll_times(self.stime_obj, self.etime_obj)
+
+                if self.policyHours.isEnabled():
+                    self.hours_used()
+                else:
+                    self.update_coll_times(self.stime_obj, self.etime_obj)
+            else:
+                self.groupBox_4.setEnabled(False)
 
     def update_coll_times(self, start_time, end_time):
         self.empStartTime.blockSignals(True)
@@ -1197,28 +1225,28 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
             self.empEndTime.setEnabled(True)
 
     def start_time_change(self):
-        self.policyHours.blockSignals(True)
-        p = self.policyHours.value()
-        if self.empStartTime.last_step == 1:
-            p += 0.5
-            if p == 3:
-                self.empStartTime.stepBy(1)  # TODO Determine the correct value to pass this function
-            self.policyHours.setValue(p)
-        elif self.empStartTime.last_step == -1:
-            p -= 0.5
-            if p == 3:
-                self.empStartTime.stepBy(-1)  # TODO Determine the correct value to pass this function
-            self.policyHours.setValue(p)
-        self.policyHours.blockSignals(False)
+        self.empEndTime.blockSignals(True)
+        etime = self.empEndTime.time().toString('Hmm')
+        if etime == '1730' and self.empStartTime.last_step == 1:
+            self.empStartTime.blockSignals(True)
+            self.empStartTime.stepBy(-1)
+            self.empStartTime.last_step = 1
+            self.empStartTime.blockSignals(False)
+        else:
+            self.empEndTime.stepBy(self.empStartTime.last_step)
+        self.empEndTime.blockSignals(False)
 
     def end_time_change(self):
-        self.policyHours.blockSignals(True)
-        p = self.policyHours.value()
-        if self.empStartTime.last_step == 1:
-            self.policyHours.setValue(p - 0.5)
-        elif self.empStartTime.last_step == -1:
-            self.policyHours.setValue(p + 0.5)
-        self.policyHours.blockSignals(False)
+        self.empStartTime.blockSignals(True)
+        stime = self.empStartTime.time().toString('Hmm')
+        if stime == '700' and self.empEndTime.last_step == -1:
+            self.empEndTime.blockSignals(True)
+            self.empEndTime.stepBy(1)
+            self.empEndTime.last_step = -1
+            self.empEndTime.blockSignals(False)
+        else:
+            self.empStartTime.stepBy(self.empEndTime.last_step)
+        self.empStartTime.blockSignals(False)
 
     def hours_used(self):
         pol_hour = self.policyHours.value()
@@ -1280,18 +1308,108 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
         print(req_data)
         if cmredb.add_time_off(req_data):
             my_msg = msgbox.action_success()
+            self.clear_req()
         else:
             my_msg = msgbox.action_error()
         my_msg.exec_()
 
+    def clear_req(self):
+        self.managerCombo.blockSignals(True)
+        self.multipleDays.blockSignals(True)
+        self.employeeSelect.blockSignals(True)
+        self.timeOffCalendar.blockSignals(True)
+        self.requestType.blockSignals(True)
+        self.empStartTime.blockSignals(True)
+        self.empEndTime.blockSignals(True)
+        self.policyHours.blockSignals(True)
+        self.occIncurred.blockSignals(True)
+
+        self.employeeSelect.clear()
+        self.username = ''
+        self.emp_id = ''
+        self.occur_pts = 0
+        self.cal_info = None
+        self.stime_obj = None
+        self.etime_obj = None
+        self.timeOffCalendar.setSelectedDate(QDate(date.today()))
+        self.managers_agents = []
+
+        self.agentGroup.clear()
+        self.schReq.setChecked(True)
+        self.requestType.setCurrentIndex(0)
+        self.multipleDays.setChecked(False)
+        self.daysReq.setValue(2)
+        self.daysReq.setEnabled(False)
+        self.timePolicy.setCurrentIndex(0)
+        self.policyHours.setValue(8)
+        self.empStartTime.setTime(QTime(7, 0))
+        self.empStartTime.setEnabled(False)
+        self.empEndTime.setTime(QTime(5, 30))
+        self.empEndTime.setEnabled(False)
+        self.occIncurred.setValue(0)
+        self.totalOcc.setText('0.0')
+        self.addNotes.clear()
+        self.groupBox_4.setEnabled(False)
+
+        self.managerCombo.blockSignals(False)
+        self.multipleDays.blockSignals(False)
+        self.employeeSelect.blockSignals(False)
+        self.timeOffCalendar.blockSignals(False)
+        self.requestType.blockSignals(False)
+        self.empStartTime.blockSignals(False)
+        self.empEndTime.blockSignals(False)
+        self.policyHours.blockSignals(False)
+        self.occIncurred.blockSignals(False)
+
+        self.managerCombo.setCurrentIndex(0)
+
+    def all_requests(self, req_date):
+        day_off = []
+        leave_early = []
+        start_late = []
+        shift_change = []
+        all_req = cmredb.all_reqeusts(req_date)
+        for req in all_req:
+            req_type = req[1]
+            if req_type == 'Day Off':
+                day_off.append(req[0])
+            elif req_type == 'Leave Early':
+                leave_early.append(req[0])
+            elif req_type == 'Start Late':
+                start_late.append(req[0])
+            elif req_type == 'Shift Change':
+                shift_change.append(req[0])
+
+        self.build_req_models(self.schOffModel, day_off)
+        self.empSchOffView.resizeColumnsToContents()
+        self.empSchOffView.resizeRowsToContents()
+        self.build_req_models(self.leaveEarlyModel, leave_early)
+        self.empLeaveEarView.resizeColumnsToContents()
+        self.empLeaveEarView.resizeRowsToContents()
+        self.build_req_models(self.startLateModel, start_late)
+        self.empStartLateView.resizeColumnsToContents()
+        self.empStartLateView.resizeRowsToContents()
+        self.build_req_models(self.sftChngModel, shift_change)
+        self.empSftChngView.resizeColumnsToContents()
+        self.empSftChngView.resizeRowsToContents()
+
+    def build_req_models(self, model, data):
+        model.setRowCount(0)
+        for item in data:
+            item_obj = QStandardItem(item)
+            item_obj.setTextAlignment(Qt.AlignCenter)
+            item_obj.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            model.appendRow(item_obj)
+
 
 class MyTimeEdit(QTimeEdit):
+
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.setStyleSheet(my_styles.active_style)
         self.last_step = 0
 
-    def stepBy(self, steps: int) -> None:
+    def stepBy(self, steps):
         m = self.time().minute()
         h = self.time().hour()
         if steps == 1:
