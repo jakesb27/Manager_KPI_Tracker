@@ -527,6 +527,36 @@ ORDER BY
     ISSUE_DATE
 """
 
+top_five_rpc_sql = """
+SELECT
+    KPI.RPCS,
+    COL.FIRST_NAME || " " || COL.LAST_NAME AGENT
+FROM
+    DAILY_KPIS KPI
+        JOIN COLL COL
+            ON KPI.USER_ID=COL.USER_ID
+WHERE
+    DAY=strftime('%d', 'now', 'localtime')
+ORDER BY
+    CAST(RPCS AS NUMERIC) DESC
+LIMIT 5
+"""
+
+top_five_conv_sql = """
+SELECT
+    KPI.CONV,
+    COL.FIRST_NAME || " " || COL.LAST_NAME AGENT
+FROM
+    DAILY_KPIS KPI
+        JOIN COLL COL
+            ON KPI.USER_ID=COL.USER_ID
+WHERE
+    DAY=strftime('%d', 'now', 'localtime')
+ORDER BY
+    CONV DESC
+LIMIT 5
+"""
+
 calendar_info_sql = """
 SELECT
     USER_GROUP,
@@ -1037,6 +1067,24 @@ def all_reqeusts(req_date):
     conn = create_connection()
     cur = conn.cursor()
     cur.execute(all_requests_sql, (req_date, ))
+    data = cur.fetchall()
+    conn.close()
+    return data
+
+
+def top_five_rpc():
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(top_five_rpc_sql)
+    data = cur.fetchall()
+    conn.close()
+    return data
+
+
+def top_five_conv():
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute(top_five_conv_sql)
     data = cur.fetchall()
     conn.close()
     return data

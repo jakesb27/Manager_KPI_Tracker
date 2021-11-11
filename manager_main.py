@@ -96,11 +96,16 @@ class Ui_managerMain(object):
         self.actionDistribution_Lists.setObjectName("actionDistribution_Lists")
         self.actionOne_On_One_Tracker = QtWidgets.QAction(managerMain)
         self.actionOne_On_One_Tracker.setObjectName("actionOne_On_One_Tracker")
+        self.actionTop_Five = QtWidgets.QAction(managerMain)
+        self.actionTop_Five.setObjectName("actionTop_Five")
+        self.menuFile.addAction(self.actionTop_Five)
         self.actionTime_Off_Calendar = QtWidgets.QAction(managerMain)
         self.actionTime_Off_Calendar.setObjectName("actionTime_Off_Calendar")
         self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
         self.menuFile.addAction(self.actionSettings)
         self.menuFile.addAction(self.actionDistribution_Lists)
+        self.menuFile.addAction(self.actionSettings)
+        self.menuFile.addAction(self.actionRun_Desk_Goal_Update)
         self.menuEmployees.addAction(self.actionAdd_Employee)
         self.menuEmployees.addAction(self.actionUpdate_Employee)
         self.menuEmployees.addAction(self.actionManager_Review)
@@ -136,6 +141,7 @@ class Ui_managerMain(object):
         self.actionDistribution_Lists.setText(_translate("managerMain", "Distribution Lists"))
         self.actionOne_On_One_Tracker.setText(_translate("managerMain", "One On One Tracker"))
         self.actionTime_Off_Calendar.setText(_translate("managerMain", "Time Off Calendar"))
+        self.actionTop_Five.setText(_translate("managerMain", "View Top 5"))
 import main_images_rc
 
 
