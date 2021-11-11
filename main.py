@@ -1305,7 +1305,6 @@ class TimeOffCalendar(QDialog, Ui_TimeOffCalendar):
             float(self.occIncurred.text()),
             self.addNotes.toPlainText()
         ]
-        print(req_data)
         if cmredb.add_time_off(req_data):
             my_msg = msgbox.action_success()
             self.clear_req()
