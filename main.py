@@ -26,6 +26,7 @@ headers = [
 ]
 headers_rvw = ['Collector', 'Issue Date', 'Topic', 'Review Type', 'Level', 'Issued By', 'Review ID']
 allowed_users = cmredb.users_with_access()
+jake_testing = False
 
 
 class Window(QMainWindow, Ui_managerMain):
@@ -358,7 +359,7 @@ class Worker(QObject):
             count_down = str(next_update - curr_time)
 
             # Check if the current time is past 5:40 PM
-            if datetime.now() > self.stop_time:
+            if datetime.now() > self.stop_time and not jake_testing:
                 # Kills loop if the current time is past 5:40 PM
                 # Sends signal to main thread's slot connected to 'update_status' function
                 self.updt_main_stsbar.emit(datetime.strftime(curr_time, '%I:%M:%S %p'), '0:00 min')
