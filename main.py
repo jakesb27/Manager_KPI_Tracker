@@ -17,6 +17,7 @@ from review_form import Ui_reviewForm
 from review_search import Ui_reviewSearch
 from review_reader import Ui_reviewReader
 from one_on_one_main import Ui_oneOnOneMain
+from top_five import Ui_top5Agents
 from employee import AddEmployee, EmployeeMaintenance, EmployeeDetails, EmployeeGraphs
 
 # Column headers used to build QStandardItemModel
@@ -75,6 +76,7 @@ class Window(QMainWindow, Ui_managerMain):
         self.actionRun_Desk_Goal_Update.triggered.connect(self.update_desks)
         self.actionSettings.triggered.connect(self.user_settings)
         self.actionDistribution_Lists.triggered.connect(self.distribution_lists)
+        self.actionTop_Five.triggered.connect(self.view_top_5)
         # Options under "Employees" in menu bar
         self.actionAdd_Employee.triggered.connect(self.add_employee)
         self.actionUpdate_Employee.triggered.connect(self.employee_maintenance)
@@ -320,6 +322,10 @@ class Window(QMainWindow, Ui_managerMain):
     def one_one_tracker(self):
         one_one = OneOnOneTracker()
         one_one.exec_()
+
+    def view_top_5(self):
+        top_five = TopFive()
+        top_five.exec_()
 
     def closing_time(self):
         """Function is called when user tries to run app after 5:40 pm. Will
@@ -1048,6 +1054,37 @@ class OneOnOneTracker(QDialog, Ui_oneOnOneMain):
         """Function used to review employee reviews window."""
         employee_search = ReviewSearch(coll)
         employee_search.exec_()
+
+
+class TopFive(QDialog, Ui_top5Agents):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.top_rpcs = cmredb.top_five_rpc()
+        self.top_conv = cmredb.top_five_conv()
+
+        self.ModelRPC = QStandardItemModel()
+        self.listRPCView.setModel(self.ModelRPC)
+        self.ModelConv = QStandardItemModel()
+        self.listConvView.setModel(self.ModelConv)
+
+        self.build_models()
+
+    def build_models(self):
+        rank = 1
+        for item in self.top_rpcs:
+            rpcs = '{:.2f}'.format(float(item[0]))
+            data_obj = QStandardItem(f'{rank}.  {rpcs} - {item[1]}')
+            data_obj.setFlags(Qt.ItemIsEnabled)
+            self.ModelRPC.appendRow(data_obj)
+            rank += 1
+        rank = 1
+        for item in self.top_conv:
+            conv = '{0:.0%}'.format(float(item[0]))
+            data_obj = QStandardItem(f'{rank}.  {conv} - {item[1]}')
+            data_obj.setFlags(Qt.ItemIsEnabled)
+            self.ModelConv.appendRow(data_obj)
+            rank += 1
 
 
 if __name__ == "__main__":

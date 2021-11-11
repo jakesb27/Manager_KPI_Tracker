@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>top5Agents</class>
+ <widget class="QDialog" name="top5Agents">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>514</width>
+    <height>233</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Today's Top 5</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>Meduit_logo.ico</normaloff>Meduit_logo.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog{
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));
+}
+QWidget{
+	font: 11pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	font: 75 22pt &quot;Segoe Print&quot;;
+	text-decoration: underline;
+}</string>
+     </property>
+     <property name="text">
+      <string>Today's Top 5!</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	font: 14pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>RPC's Per Hour</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QListView" name="listRPCView">
+     <property name="styleSheet">
+      <string notr="true">QListView{
+	font: 12pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="label_3">
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+	font: 14pt &quot;Corbel&quot;;
+	font-weight: bold;
+}</string>
+     </property>
+     <property name="text">
+      <string>Conversion Rate</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QListView" name="listConvView">
+     <property name="styleSheet">
+      <string notr="true">QListView{
+	font: 12pt &quot;MS Shell Dlg 2&quot;;
+}</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -153,9 +153,10 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="actionRun_Desk_Goal_Update"/>
-    <addaction name="actionSettings"/>
+    <addaction name="actionTop_Five"/>
     <addaction name="actionDistribution_Lists"/>
+    <addaction name="actionSettings"/>
+    <addaction name="actionRun_Desk_Goal_Update"/>
    </widget>
    <widget class="QMenu" name="menuEmployees">
     <property name="title">
@@ -226,6 +227,11 @@
   <action name="actionOne_On_One_Tracker">
    <property name="text">
     <string>One On One Tracker</string>
+   </property>
+  </action>
+  <action name="actionTop_Five">
+   <property name="text">
+    <string>View Top 5</string>
    </property>
   </action>
  </widget>
