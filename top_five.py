@@ -14,55 +14,77 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_top5Agents(object):
     def setupUi(self, top5Agents):
         top5Agents.setObjectName("top5Agents")
-        top5Agents.resize(514, 233)
+        top5Agents.resize(522, 293)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(r"\\172.16.33.31\collectone\COLLECTOR RESOURCES\KPI Tracker\cmredb\Meduit_logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         top5Agents.setWindowIcon(icon)
-        top5Agents.setStyleSheet("QDialog{\n"
-"    background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));\n"
-"}\n"
-"QWidget{\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
         self.gridLayout = QtWidgets.QGridLayout(top5Agents)
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(top5Agents)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
         self.label.setStyleSheet("QLabel{\n"
 "    font: 75 22pt \"Segoe Print\";\n"
 "    text-decoration: underline;\n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
 "}")
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 2)
-        self.label_2 = QtWidgets.QLabel(top5Agents)
-        self.label_2.setStyleSheet("QLabel{\n"
-"    font: 14pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
-        self.listRPCView = QtWidgets.QListView(top5Agents)
-        self.listRPCView.setStyleSheet("QListView{\n"
-"    font: 12pt \"MS Shell Dlg 2\";\n"
-"}")
-        self.listRPCView.setObjectName("listRPCView")
-        self.gridLayout.addWidget(self.listRPCView, 2, 0, 1, 1)
-        self.label_3 = QtWidgets.QLabel(top5Agents)
-        self.label_3.setStyleSheet("QLabel{\n"
-"    font: 14pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 1, 1, 1, 1)
-        self.listConvView = QtWidgets.QListView(top5Agents)
+        self.gridLayout.addWidget(self.label, 0, 1, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem, 0, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 0, 2, 1, 1)
+        self.frame = QtWidgets.QFrame(top5Agents)
+        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame.setObjectName("frame")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame)
+        self.gridLayout_2.setObjectName("gridLayout_2")
+        self.listConvView = QtWidgets.QListView(self.frame)
         self.listConvView.setStyleSheet("QListView{\n"
 "    font: 12pt \"MS Shell Dlg 2\";\n"
 "}")
         self.listConvView.setObjectName("listConvView")
-        self.gridLayout.addWidget(self.listConvView, 2, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.listConvView, 1, 3, 1, 1)
+        self.label_3 = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
+        self.label_3.setStyleSheet("QLabel{\n"
+"    font: 14pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
+"}")
+        self.label_3.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_2.addWidget(self.label_3, 0, 3, 1, 1)
+        self.listRPCView = QtWidgets.QListView(self.frame)
+        self.listRPCView.setStyleSheet("QListView{\n"
+"    font: 12pt \"MS Shell Dlg 2\";\n"
+"}")
+        self.listRPCView.setObjectName("listRPCView")
+        self.gridLayout_2.addWidget(self.listRPCView, 1, 2, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.frame)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setStyleSheet("QLabel{\n"
+"    font: 14pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
+"}")
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout_2.addWidget(self.label_2, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.frame, 1, 0, 1, 3)
 
         self.retranslateUi(top5Agents)
         QtCore.QMetaObject.connectSlotsByName(top5Agents)
@@ -71,8 +93,8 @@ class Ui_top5Agents(object):
         _translate = QtCore.QCoreApplication.translate
         top5Agents.setWindowTitle(_translate("top5Agents", "Today\'s Top 5"))
         self.label.setText(_translate("top5Agents", "Today\'s Top 5!"))
-        self.label_2.setText(_translate("top5Agents", "RPC\'s Per Hour"))
         self.label_3.setText(_translate("top5Agents", "Conversion Rate"))
+        self.label_2.setText(_translate("top5Agents", "RPC\'s Per Hour"))
 
 
 if __name__ == "__main__":

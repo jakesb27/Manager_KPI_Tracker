@@ -1075,6 +1075,7 @@ class TopFive(QDialog, Ui_top5Agents):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.setStyleSheet(my_styles.active_style)
         self.top_rpcs = cmredb.top_five_rpc()
         self.top_conv = cmredb.top_five_conv()
 

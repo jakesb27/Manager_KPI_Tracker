@@ -53,7 +53,8 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">image: url(:/logos/Images/Meduit Email.png);</string>
+      <string notr="true">image: url(:/logos/Images/Meduit Email.png);
+background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));</string>
      </property>
      <property name="text">
       <string/>
@@ -83,6 +84,15 @@
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));</string>
+     </property>
      <property name="text">
       <string>Manager Select</string>
      </property>
@@ -93,6 +103,15 @@
    </item>
    <item row="1" column="0" colspan="4">
     <widget class="QLabel" name="label_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));</string>
+     </property>
      <property name="text">
       <string>Double Click completion date to view details.</string>
      </property>

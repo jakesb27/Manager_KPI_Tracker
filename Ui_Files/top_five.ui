@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>233</height>
+    <width>522</width>
+    <height>293</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,22 +17,20 @@
    <iconset>
     <normaloff>Meduit_logo.ico</normaloff>Meduit_logo.ico</iconset>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QDialog{
-	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));
-}
-QWidget{
-	font: 11pt &quot;Corbel&quot;;
-	font-weight: bold;
-}</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="0" column="1">
     <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="styleSheet">
       <string notr="true">QLabel{
 	font: 75 22pt &quot;Segoe Print&quot;;
 	text-decoration: underline;
+	background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));
 }</string>
      </property>
      <property name="text">
@@ -43,54 +41,106 @@ QWidget{
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-	font: 14pt &quot;Corbel&quot;;
-	font-weight: bold;
-}</string>
+   <item row="0" column="0">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="text">
-      <string>RPC's Per Hour</string>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
+    </spacer>
    </item>
-   <item row="2" column="0">
-    <widget class="QListView" name="listRPCView">
-     <property name="styleSheet">
-      <string notr="true">QListView{
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="3">
+    <widget class="QFrame" name="frame">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="3">
+       <widget class="QListView" name="listConvView">
+        <property name="styleSheet">
+         <string notr="true">QListView{
 	font: 12pt &quot;MS Shell Dlg 2&quot;;
 }</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="label_3">
-     <property name="styleSheet">
-      <string notr="true">QLabel{
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_3">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
 	font: 14pt &quot;Corbel&quot;;
 	font-weight: bold;
+	background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));
 }</string>
-     </property>
-     <property name="text">
-      <string>Conversion Rate</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QListView" name="listConvView">
-     <property name="styleSheet">
-      <string notr="true">QListView{
+        </property>
+        <property name="text">
+         <string>Conversion Rate</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QListView" name="listRPCView">
+        <property name="styleSheet">
+         <string notr="true">QListView{
 	font: 12pt &quot;MS Shell Dlg 2&quot;;
 }</string>
-     </property>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	font: 14pt &quot;Corbel&quot;;
+	font-weight: bold;
+	background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));
+}</string>
+        </property>
+        <property name="text">
+         <string>RPC's Per Hour</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

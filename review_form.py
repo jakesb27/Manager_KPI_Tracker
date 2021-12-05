@@ -160,7 +160,8 @@ class Ui_reviewForm(object):
         self.gridLayout_2.addWidget(self.groupBox_3, 2, 1, 1, 2)
         self.groupBox_2 = QtWidgets.QGroupBox(reviewForm)
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    \n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "    margin-top: 1ex;\n"
@@ -197,19 +198,19 @@ class Ui_reviewForm(object):
         self.gridLayout_5 = QtWidgets.QGridLayout(self.frame_2)
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.radioDisc = QtWidgets.QRadioButton(self.frame_2)
-        self.radioDisc.setObjectName("radioDisc")
-        self.gridLayout_5.addWidget(self.radioDisc, 1, 1, 1, 1)
-        self.radio1on1 = QtWidgets.QRadioButton(self.frame_2)
-        self.radio1on1.setChecked(True)
-        self.radio1on1.setObjectName("radio1on1")
-        self.gridLayout_5.addWidget(self.radio1on1, 0, 0, 1, 1)
-        self.radioCoach = QtWidgets.QRadioButton(self.frame_2)
-        self.radioCoach.setObjectName("radioCoach")
-        self.gridLayout_5.addWidget(self.radioCoach, 1, 0, 1, 1)
         self.radioSbS = QtWidgets.QRadioButton(self.frame_2)
         self.radioSbS.setObjectName("radioSbS")
-        self.gridLayout_5.addWidget(self.radioSbS, 0, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.radioSbS, 1, 1, 1, 1)
+        self.radioDisc = QtWidgets.QRadioButton(self.frame_2)
+        self.radioDisc.setObjectName("radioDisc")
+        self.gridLayout_5.addWidget(self.radioDisc, 2, 1, 1, 1)
+        self.radio1on1 = QtWidgets.QRadioButton(self.frame_2)
+        self.radio1on1.setObjectName("radio1on1")
+        self.gridLayout_5.addWidget(self.radio1on1, 2, 0, 1, 1)
+        self.radioCoach = QtWidgets.QRadioButton(self.frame_2)
+        self.radioCoach.setChecked(True)
+        self.radioCoach.setObjectName("radioCoach")
+        self.gridLayout_5.addWidget(self.radioCoach, 1, 0, 1, 1)
         self.gridLayout_4.addWidget(self.frame_2, 2, 1, 1, 2)
         self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
         self.employeeSelect.setMinimumSize(QtCore.QSize(200, 0))
@@ -290,10 +291,10 @@ class Ui_reviewForm(object):
         self.disciplineType.setItemText(4, _translate("reviewForm", "5. Term"))
         self.managerNotes.setPlaceholderText(_translate("reviewForm", "Select employee to begin..."))
         self.managerCombo.setItemText(0, _translate("reviewForm", "All"))
+        self.radioSbS.setText(_translate("reviewForm", "Side by Side"))
         self.radioDisc.setText(_translate("reviewForm", "Disciplinary"))
         self.radio1on1.setText(_translate("reviewForm", "One on One"))
         self.radioCoach.setText(_translate("reviewForm", "Coaching"))
-        self.radioSbS.setText(_translate("reviewForm", "Side by Side"))
         self.label_20.setText(_translate("reviewForm", "Employee Select:"))
         self.label_21.setText(_translate("reviewForm", "Manager Filter:"))
         self.employeeGraphs.setText(_translate("reviewForm", "Trending Graphs"))

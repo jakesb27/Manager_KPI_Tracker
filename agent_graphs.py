@@ -20,9 +20,74 @@ class Ui_agentGraphsMain(object):
         agentGraphsMain.setWindowIcon(icon)
         self.gridLayout_2 = QtWidgets.QGridLayout(agentGraphsMain)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem, 0, 3, 1, 1)
+        self.label = QtWidgets.QLabel(agentGraphsMain)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);\n"
+"background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));")
+        self.label.setText("")
+        self.label.setObjectName("label")
+        self.gridLayout_2.addWidget(self.label, 0, 2, 1, 1)
+        self.groupBox_2 = QtWidgets.QGroupBox(agentGraphsMain)
+        self.groupBox_2.setStyleSheet("QGroupBox{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    margin-top: 1ex;\n"
+"    padding-top: 0;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}\n"
+"QGroupBox::title{\n"
+"    background-color: rgb(195, 195, 195);\n"
+"    border: 1px solid black;\n"
+"    border-radius: 3px;\n"
+"    padding: 2 10px;\n"
+"    subcontrol-origin: margin;\n"
+"    subcontrol-position: top;\n"
+"    font: 11pt \"Corbel\";\n"
+"    font-weight: bold;\n"
+"}")
+        self.groupBox_2.setTitle("")
+        self.groupBox_2.setObjectName("groupBox_2")
+        self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_2)
+        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.label_6 = QtWidgets.QLabel(self.groupBox_2)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout_4.addWidget(self.label_6, 0, 1, 1, 1)
+        self.managerCombo = QtWidgets.QComboBox(self.groupBox_2)
+        self.managerCombo.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.managerCombo.setObjectName("managerCombo")
+        self.managerCombo.addItem("")
+        self.gridLayout_4.addWidget(self.managerCombo, 0, 2, 1, 2)
+        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
+        self.employeeSelect.setStyleSheet("QFrame{\n"
+"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"}")
+        self.employeeSelect.setObjectName("employeeSelect")
+        self.gridLayout_4.addWidget(self.employeeSelect, 1, 2, 1, 2)
+        self.label_20 = QtWidgets.QLabel(self.groupBox_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
+        self.label_20.setSizePolicy(sizePolicy)
+        self.label_20.setObjectName("label_20")
+        self.gridLayout_4.addWidget(self.label_20, 1, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem1, 0, 1, 1, 1)
         self.frame = QtWidgets.QFrame(agentGraphsMain)
         self.frame.setStyleSheet("QFrame{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    \n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "}")
@@ -165,61 +230,7 @@ class Ui_agentGraphsMain(object):
         self.graphBox4 = QtWidgets.QWidget(self.frame)
         self.graphBox4.setObjectName("graphBox4")
         self.gridLayout.addWidget(self.graphBox4, 4, 1, 1, 1)
-        self.gridLayout_2.addWidget(self.frame, 1, 0, 1, 2)
-        self.label = QtWidgets.QLabel(agentGraphsMain)
-        self.label.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);")
-        self.label.setText("")
-        self.label.setObjectName("label")
-        self.gridLayout_2.addWidget(self.label, 0, 1, 1, 1)
-        self.groupBox_2 = QtWidgets.QGroupBox(agentGraphsMain)
-        self.groupBox_2.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    margin-top: 1ex;\n"
-"    padding-top: 0;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}\n"
-"QGroupBox::title{\n"
-"    background-color: rgb(195, 195, 195);\n"
-"    border: 1px solid black;\n"
-"    border-radius: 3px;\n"
-"    padding: 2 10px;\n"
-"    subcontrol-origin: margin;\n"
-"    subcontrol-position: top;\n"
-"    font: 11pt \"Corbel\";\n"
-"    font-weight: bold;\n"
-"}")
-        self.groupBox_2.setTitle("")
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.gridLayout_4 = QtWidgets.QGridLayout(self.groupBox_2)
-        self.gridLayout_4.setObjectName("gridLayout_4")
-        self.label_6 = QtWidgets.QLabel(self.groupBox_2)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout_4.addWidget(self.label_6, 0, 1, 1, 1)
-        self.managerCombo = QtWidgets.QComboBox(self.groupBox_2)
-        self.managerCombo.setStyleSheet("QFrame{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"}")
-        self.managerCombo.setObjectName("managerCombo")
-        self.managerCombo.addItem("")
-        self.gridLayout_4.addWidget(self.managerCombo, 0, 2, 1, 2)
-        self.employeeSelect = QtWidgets.QComboBox(self.groupBox_2)
-        self.employeeSelect.setStyleSheet("QFrame{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
-"}")
-        self.employeeSelect.setObjectName("employeeSelect")
-        self.gridLayout_4.addWidget(self.employeeSelect, 1, 2, 1, 2)
-        self.label_20 = QtWidgets.QLabel(self.groupBox_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
-        self.label_20.setSizePolicy(sizePolicy)
-        self.label_20.setObjectName("label_20")
-        self.gridLayout_4.addWidget(self.label_20, 1, 1, 1, 1)
-        self.gridLayout_2.addWidget(self.groupBox_2, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.frame, 1, 0, 1, 4)
 
         self.retranslateUi(agentGraphsMain)
         self.graphData4.setCurrentIndex(-1)
@@ -236,6 +247,9 @@ class Ui_agentGraphsMain(object):
     def retranslateUi(self, agentGraphsMain):
         _translate = QtCore.QCoreApplication.translate
         agentGraphsMain.setWindowTitle(_translate("agentGraphsMain", "Agent Trending Graphs"))
+        self.label_6.setText(_translate("agentGraphsMain", "Manager Filter:"))
+        self.managerCombo.setItemText(0, _translate("agentGraphsMain", "All"))
+        self.label_20.setText(_translate("agentGraphsMain", "Employee Select:"))
         self.label_5.setText(_translate("agentGraphsMain", "Select Graph Data:  "))
         self.graphData4.setItemText(0, _translate("agentGraphsMain", "Monthly - RPC\'s"))
         self.graphData4.setItemText(1, _translate("agentGraphsMain", "Monthly - RPC\'s Per Hour"))
@@ -292,9 +306,6 @@ class Ui_agentGraphsMain(object):
         self.graphData3.setItemText(10, _translate("agentGraphsMain", "Weekly - Connects Per Hour"))
         self.graphData3.setItemText(11, _translate("agentGraphsMain", "Weekly - Conversions"))
         self.graphData3.setItemText(12, _translate("agentGraphsMain", "Weekly - Fees"))
-        self.label_6.setText(_translate("agentGraphsMain", "Manager Filter:"))
-        self.managerCombo.setItemText(0, _translate("agentGraphsMain", "All"))
-        self.label_20.setText(_translate("agentGraphsMain", "Employee Select:"))
 import main_images_rc
 
 
