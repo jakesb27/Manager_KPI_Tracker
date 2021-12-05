@@ -99,7 +99,7 @@ class Window(QMainWindow, Ui_managerMain):
         frame_rect.moveCenter(self.rect().center())
         if frame_rect.intersects(event.rect()):
             painter = QPainter(self)
-            painter.drawPixmap(frame_rect.left(), frame_rect.top(), current_frame)
+            painter.drawTiledPixmap(self.rect(), current_frame)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
