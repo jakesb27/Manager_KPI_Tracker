@@ -3,7 +3,7 @@ import time
 import getpass
 
 from datetime import datetime, timedelta, date
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QBrush, QColor
+from PyQt5.QtGui import QStandardItemModel, QStandardItem, QResizeEvent, QBrush, QColor, QMovie, QPainter
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QMessageBox, QLabel
 from PyQt5.QtCore import Qt, QObject, QThread, QDate, QVariant, pyqtSignal
 
@@ -37,10 +37,17 @@ class Window(QMainWindow, Ui_managerMain):
         # Creates the main window UI and initialize class attributes
         self.setupUi(self)
         self.current_bd_managers = cmredb.current_managers()
+
+        self.movie = QMovie("snow_fall.gif")
+        self.movie.frameChanged.connect(self.repaint)
+        self.movie.start()
+
         self.myMessage = QLabel()
         self.myMessage.setStyleSheet("""
             QLabel{
                 font: 10pt "MS Shell Dlg 2";
+                font-weight: bold;
+                color: rgb(255, 255, 255);
             }
             """)
         self.statusbar.addWidget(self.myMessage)
@@ -85,6 +92,14 @@ class Window(QMainWindow, Ui_managerMain):
         self.actionTrending_Graphs.triggered.connect(self.employee_graphs)
         self.actionEmployee_Review.triggered.connect(self.employee_review_search)
         self.actionOne_On_One_Tracker.triggered.connect(self.one_one_tracker)
+
+    def paintEvent(self, event):
+        current_frame = self.movie.currentPixmap()
+        frame_rect = current_frame.rect()
+        frame_rect.moveCenter(self.rect().center())
+        if frame_rect.intersects(event.rect()):
+            painter = QPainter(self)
+            painter.drawPixmap(frame_rect.left(), frame_rect.top(), current_frame)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         """Method used for handling column width when the user resizes the main UI"""
@@ -517,7 +532,6 @@ class ReviewForm(QDialog, Ui_reviewForm):
         def field_check():
             passed = True
             check_fields = [self.meetLocation, self.mainTopic]
-            print(self.issuedBy.currentIndex())
 
             if self.employeeSelect.currentIndex() > -1:
                 if len(self.managerNotes.toPlainText()) != 0:

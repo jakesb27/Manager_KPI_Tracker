@@ -1,6 +1,7 @@
 active_style = """
 QMainWindow{
-	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));}
+	border-image: url(:/images/holiday_3.jpg);
+}
 QDialog{
 	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.011, stop:0 rgba(223, 129, 33, 255), stop:0.25 rgba(255, 235, 193, 255), stop:0.5 rgba(255, 255, 255, 255), stop:0.725 rgba(211, 241, 255, 255), stop:1 rgba(34, 156, 230, 255));
 }
@@ -49,7 +50,7 @@ QDateEdit::down-arrow{
 	height:14 px;
 }
 QGroupBox{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));
 	border: 1px solid black;
 	border-radius: 3px;
 	margin-top: 1ex;
