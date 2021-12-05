@@ -364,7 +364,7 @@ class Ui_agentDetailsMain(object):
         sizePolicy.setHeightForWidth(self.groupBox_2.sizePolicy().hasHeightForWidth())
         self.groupBox_2.setSizePolicy(sizePolicy)
         self.groupBox_2.setStyleSheet("QGroupBox{\n"
-"    background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));\n"
+"    background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));\n"
 "    border: 1px solid black;\n"
 "    border-radius: 3px;\n"
 "    margin-top: 1ex;\n"
@@ -428,7 +428,8 @@ class Ui_agentDetailsMain(object):
         self.label_25 = QtWidgets.QLabel(self.frame_2)
         self.label_25.setMinimumSize(QtCore.QSize(200, 93))
         self.label_25.setMaximumSize(QtCore.QSize(200, 93))
-        self.label_25.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);")
+        self.label_25.setStyleSheet("image: url(:/logos/Images/Meduit Email.png);\n"
+"background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));")
         self.label_25.setText("")
         self.label_25.setObjectName("label_25")
         self.horizontalLayout_2.addWidget(self.label_25)

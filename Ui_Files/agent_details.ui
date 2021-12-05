@@ -637,7 +637,7 @@
         </property>
         <property name="styleSheet">
          <string notr="true">QGroupBox{
-	background-color: qlineargradient(spread:pad, x1:0.5, y1:0, x2:0.5, y2:1, stop:0 rgba(255, 255, 255, 209), stop:0.485876 rgba(181, 207, 220, 239), stop:1 rgba(85, 199, 255, 196));
+	background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));
 	border: 1px solid black;
 	border-radius: 3px;
 	margin-top: 1ex;
@@ -772,7 +772,8 @@ p, li { white-space: pre-wrap; }
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">image: url(:/logos/Images/Meduit Email.png);</string>
+         <string notr="true">image: url(:/logos/Images/Meduit Email.png);
+background-color: qlineargradient(spread:pad, x1:0.557, y1:0, x2:0.511, y2:1, stop:0.528409 rgba(255, 255, 255, 174));</string>
         </property>
         <property name="text">
          <string/>
