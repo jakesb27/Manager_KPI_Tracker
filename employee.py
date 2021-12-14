@@ -614,7 +614,7 @@ class EmployeeGraphs(QDialog, Ui_agentGraphsMain):
         self.setupUi(self)
         self.user_id = ""
         self.current_bd_managers = current_managers
-        self.all_users = cmredb.all_collectors()
+        self.all_users = cmredb.all_act_collectors()
         self.managers_agents = []
         # Holds index value of selected graph
         self.g1_combo_index = 0
