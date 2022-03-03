@@ -326,7 +326,7 @@ class Worker(QObject):
     close_app = pyqtSignal()
 
     # Stop time used to kill loop at 5:40 PM
-    stop_time = datetime.strptime(f'{date.today()} 17:40:00', '%Y-%m-%d %H:%M:%S')
+    stop_time = datetime.strptime(f'{date.today()} 21:00:00', '%Y-%m-%d %H:%M:%S')
 
     def start_worker_loop(self):
         """Function used to start loop to refresh app every 5 minutes"""

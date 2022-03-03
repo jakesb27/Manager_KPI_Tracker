@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\jboden\\Documents\\Manager_KPI_Tracker'],
+             pathex=['C:\\Users\\jboden\\Documents\\Python Projects\\Manager_KPI_Tracker'],
              binaries=[],
              datas=[],
              hiddenimports=[],
